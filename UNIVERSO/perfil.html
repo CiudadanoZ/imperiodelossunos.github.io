@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Perfil de Héroe - Imperio de los Sueños.">
+    <title>Aventurero (@noble_errante) | Imperio de los Sueños</title>
+    <!-- Enlazamos al CSS principal del estudio -->
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Base Social Media Layout recycled from index.html */
+        body {
+            background-color: #030305;
+        }
+
+        .social-layout {
+            display: grid;
+            grid-template-columns: 280px minmax(500px, 700px) 350px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        /* ----- SIDEBAR IZQUIERDA ----- */
+        .social-sidebar-left {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            padding: 20px 10px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+
+        .social-sidebar-left::-webkit-scrollbar { width: 0px; }
+
+        .social-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.2s ease;
+        }
+
+        .social-nav-item i {
+            font-size: 1.4rem;
+            width: 25px;
+            text-align: center;
+        }
+
+        .social-nav-item:hover, .social-nav-item.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent-gold);
+        }
+
+        .social-nav-item.active {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-post {
+            background: linear-gradient(45deg, var(--accent-gold), #b8860b);
+            color: #050505;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-post:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        .user-profile-widget {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .user-profile-widget:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-gold);
+            background-color: #1a1a24;
+        }
+
+
+        /* ----- FEED CENTRAL (PERFIL) ----- */
+        .social-feed {
+            border-left: 1px solid var(--glass-border);
+            border-right: 1px solid var(--glass-border);
+            min-height: 100vh;
+            background: rgba(10, 10, 15, 0.5);
+            backdrop-filter: blur(5px);
+            position: relative;
+        }
+
+        .feed-header {
+            position: sticky;
+            top: 75px; 
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-btn {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        .header-info h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--text-light);
+        }
+        
+        .header-info span {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        /* Profile Banner & Info */
+        .profile-banner {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #090514 0%, #2a0845 100%);
+            position: relative;
+        }
+
+        .profile-avatar-wrapper {
+            position: relative;
+            height: 70px; /* Space for the overlapping avatar */
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .profile-avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 4px solid #0a0a0f;
+            background-color: #1a1a24;
+            position: absolute;
+            bottom: 0px;
+        }
+
+        .btn-edit-profile {
+            border: 1px solid rgba(212, 175, 55, 0.7);
+            background: transparent;
+            color: var(--text-light);
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            transform: translateY(15px);
+        }
+
+        .btn-edit-profile:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .profile-details {
+            padding: 15px 20px 0;
+        }
+
+        .profile-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            margin: 0;
+        }
+
+        .profile-handle {
+            color: #777;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-bio {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .profile-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-meta i {
+            margin-right: 5px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-stats span {
+            color: #777;
+        }
+
+        .profile-stats strong {
+            color: #fff;
+        }
+
+        /* Profile Tabs */
+        .profile-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            color: #777;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .tab.active {
+            color: var(--text-light);
+            font-family: 'Cinzel', serif;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 4px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        /* Posts Recycled */
+        .post {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .post:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .post-content {
+            flex-grow: 1;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .post-author {
+            font-weight: bold;
+            color: var(--text-light);
+        }
+
+        .post-author:hover {
+            text-decoration: underline;
+        }
+
+        .post-handle {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .post-time {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .post-time::before {
+            content: "· ";
+        }
+
+        .post-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+
+        .post-interactions {
+            display: flex;
+            justify-content: space-between;
+            max-width: 400px;
+            color: #777;
+            font-size: 0.95rem;
+        }
+
+        .interaction {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+
+        .interaction:hover {
+            color: var(--accent-gold);
+        }
+
+        .interaction i {
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .interaction:hover i {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+
+        /* ----- SIDEBAR DERECHA ----- */
+        .social-sidebar-right {
+            padding: 20px 20px 20px 10px;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .social-sidebar-right::-webkit-scrollbar { width: 0px; }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid transparent;
+            padding: 12px 15px 12px 45px;
+            border-radius: 30px;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: transparent;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .widget {
+            background: rgba(15, 15, 22, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 15px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .widget h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: #fff;
+            padding: 0 20px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
+        }
+
+        .trend-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .trend-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .trend-category, .trend-volume {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .trend-title {
+            font-weight: bold;
+            color: var(--text-light);
+            margin: 2px 0;
+            font-family: 'Cinzel', serif;
+            font-size: 1.05rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .social-layout { grid-template-columns: 80px minmax(500px, 1fr) 300px; }
+            .social-nav-item span, .btn-post, .user-profile-widget div { display: none; }
+            .btn-post {
+                padding: 15px; border-radius: 50%; width: 50px; height: 50px;
+                display: flex; align-items: center; justify-content: center;
+            }
+            .btn-post::before {
+                content: "\f044"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            }
+            .user-profile-widget { justify-content: center; }
+        }
+
+        @media (max-width: 900px) {
+            .social-layout { grid-template-columns: 80px 1fr; }
+            .social-sidebar-right { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .social-layout { grid-template-columns: 1fr; padding-top: 60px; padding-bottom: 60px; }
+            .social-sidebar-left {
+                position: fixed; bottom: 0; top: auto; height: 60px; width: 100%;
+                flex-direction: row; justify-content: space-around;
+                background: rgba(10, 10, 15, 0.95); border-top: 1px solid var(--glass-border);
+                padding: 5px; z-index: 100;
+            }
+            .social-feed { border-left: none; border-right: none; }
+            .btn-post { position: fixed; bottom: 80px; right: 20px; z-index: 101; }
+            .user-profile-widget { display: none; }
+            .profile-avatar { width: 100px; height: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Principal -->
+    <header class="navbar">
+        <div class="logo-text">Imperio de los Sueños</div>
+        <nav>
+            <a href="../Index.html#home">Inicio</a>
+            <a href="../Index.html#games">Juegos</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="index.html">Universo</a>
+            <a href="../Index.html#about">Nosotros</a>
+        </nav>
+    </header>
+
+    <div class="social-layout">
+        
+        <!-- SIDEBAR IZQUIERDA -->
+        <aside class="social-sidebar-left">
+            <a href="../Index.html" class="social-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Inicio del Estudio</span>
+            </a>
+            <a href="index.html" class="social-nav-item">
+                <i class="fas fa-globe"></i>
+                <span>Universo</span>
+            </a>
+            <a href="#" class="social-nav-item">
+                <i class="fas fa-bell"></i>
+                <span>Proclamas</span>
+            </a>
+            <a href="#" class="social-nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Mensajeros</span>
+            </a>
+            <a href="#" class="social-nav-item">
+                <i class="fas fa-bookmark"></i>
+                <span>Leyendas Guardadas</span>
+            </a>
+            <a href="perfil.html" class="social-nav-item active">
+                <i class="fas fa-user-shield"></i>
+                <span>Perfil de Héroe</span>
+            </a>
+            
+            <button class="btn-post">Forjar Leyenda</button>
+
+            <!-- Perfil del usuario -->
+            <div class="user-profile-widget" onclick="window.location.href='perfil.html'">
+                <img src="https://via.placeholder.com/40/1a1a24/d4af37?text=A" alt="Avatar" class="avatar">
+                <div style="flex-grow: 1;">
+                    <div style="font-weight: bold; font-size: 0.9rem;">Aventurero</div>
+                    <div style="color: #777; font-size: 0.8rem;">@noble_errante</div>
+                </div>
+                <i class="fas fa-ellipsis-h" style="color: #777;"></i>
+            </div>
+        </aside>
+
+        <!-- FEED CENTRAL / PERFIL -->
+        <main class="social-feed">
+            <div class="feed-header">
+                <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+                <div class="header-info">
+                    <h2>Aventurero</h2>
+                    <span>1 Leyenda</span>
+                </div>
+            </div>
+
+            <div class="profile-banner">
+                <!-- Se puede meter una imagen aqui cubriendo todo -->
+            </div>
+
+            <div class="profile-avatar-wrapper">
+                <img src="https://via.placeholder.com/150/1a1a24/d4af37?text=A" alt="Avatar Usuario" class="profile-avatar">
+                <button class="btn-edit-profile">Editar Leyenda</button>
+            </div>
+
+            <div class="profile-details">
+                <h1 class="profile-name">Aventurero</h1>
+                <div class="profile-handle">@noble_errante</div>
+                
+                <div class="profile-bio">
+                    Explorador de las sombras. Buscando la redención en los Reinos de Athermoor. Un espadachín más tratando de no ser devorado por la oscuridad. ⚔️🌑
+                </div>
+                
+                <div class="profile-meta">
+                    <span><i class="fas fa-map-marker-alt"></i> Ciudad Esperanza</span>
+                    <span><i class="fas fa-calendar-alt"></i> Se unió en Marzo 2026</span>
+                </div>
+                
+                <div class="profile-stats">
+                    <span><strong>12</strong> Siguiendo</span>
+                    <span><strong>3</strong> Seguidores</span>
+                </div>
+            </div>
+
+            <div class="profile-tabs">
+                <div class="tab active">Leyendas</div>
+                <div class="tab">Tácticas</div>
+                <div class="tab">Pergaminos</div>
+                <div class="tab">Favoritos</div>
+            </div>
+
+            <!-- POST DEL USUARIO -->
+            <article class="post">
+                <img src="https://via.placeholder.com/40/1a1a24/d4af37?text=A" alt="Avatar" class="avatar">
+                <div class="post-content">
+                    <div class="post-header">
+                        <span class="post-author">Aventurero</span>
+                        <span class="post-handle">@noble_errante</span>
+                        <span class="post-time">1h</span>
+                    </div>
+                    <div class="post-text">
+                        He llegado a las puertas de Santuario. Los rumores eran ciertos, nada ha vuelto a ser igual desde que escapó el Rey Brujo. Preparen sus armas, la verdadera prueba comienza hoy.
+                    </div>
+                    <div class="post-interactions">
+                        <div class="interaction"><i class="far fa-comment"></i> 2</div>
+                        <div class="interaction retweet"><i class="fas fa-retweet"></i> 5</div>
+                        <div class="interaction like"><i class="far fa-heart"></i> 12</div>
+                        <div class="interaction"><i class="fas fa-share-square"></i></div>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+
+        <!-- SIDEBAR DERECHA -->
+        <aside class="social-sidebar-right">
+            
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" class="search-input" placeholder="Buscar en el Reino...">
+            </div>
+
+            <!-- Widget de Tendencias -->
+            <div class="widget">
+                <h3>Tendencias en Narak'Thul</h3>
+                <div class="trend-item">
+                    <div class="trend-category">Magia Oscura · Tendencia</div>
+                    <div class="trend-title">#ElReyBrujo</div>
+                    <div class="trend-volume">15.4K Leyendas</div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-category">Juegos · Tendencia</div>
+                    <div class="trend-title">Athermoor</div>
+                    <div class="trend-volume">8,204 Leyendas</div>
+                </div>
+            </div>
+
+            <!-- Footer pequeño tipo twitter -->
+            <div style="font-size: 0.8rem; color: #555; display: flex; flex-wrap: wrap; gap: 10px; padding: 0 10px; margin-top: 10px;">
+                <a href="#" style="color: #555; text-decoration: none;">Términos Reales</a>
+                <a href="#" style="color: #555; text-decoration: none;">Política de Privacidad</a>
+                <span>© 2026 Imperio de los Sueños</span>
+            </div>
+
+        </aside>
+
+    </div>
+    <!-- Script básico -->
+    <script>
+        // Efecto scroll en Navbar para que coincida con el estilo de la web principal
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Simulación básica de likes
+        document.querySelectorAll('.interaction.like').forEach(likeBtn => {
+            likeBtn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                if(icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    this.style.color = '#e0245e';
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    this.style.color = '#777';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

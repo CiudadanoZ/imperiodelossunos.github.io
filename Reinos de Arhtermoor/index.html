@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reinos de Athermoor - Una aventura épica y oscura de Imperio de los Sueños.">
+    <title>Reinos de Athermoor | Imperio de los Sueños</title>
+    <!-- CSS Principal para utilidades y consistencia -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- CSS Específico del juego -->
+    <link rel="stylesheet" href="game-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="game-page">
+    <header class="navbar">
+        <a href="../Index.html" class="logo-text" style="text-decoration: none;">Imperio de los Sueños</a>
+        <nav>
+            <a href="../Index.html#games">Volver a Juegos</a>
+        </nav>
+    </header>
+
+    <section class="game-hero">
+        <!-- Imagen de Portada -->
+        <div class="bg-container">
+            <img src="img/portada-castillo.jpg" alt="Reinos de Athermoor - Castillo" class="game-bg">
+        </div>
+        <div class="video-overlay dark"></div>
+        <div class="hero-content">
+            <!-- Logo del juego -->
+            <img src="img/logo-athermoor.png" alt="Reinos de Athermoor Logo" class="main-logo float-anim athermoor-logo">
+            <!-- El h1 está oculto visualmente pero sirve para SEO -->
+            <h1 class="sr-only">Reinos de Athermoor</h1>
+            <p class="fade-in lore-text">Forja tu destino en un mundo donde la magia arcana y el acero manchado de sangre decidirán el futuro del imperio.</p>
+            <div class="hero-buttons" style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeIn 1s forwards 1.3s;">
+                <a href="#trailer-section" class="btn-primary pulse" style="animation: none; opacity: 1;">Ver Tráiler Oficial</a>
+                <a href="https://apps.microsoft.com/detail/9nzzcf1lkw7g?hl=es-ES&gl=ES" target="_blank" class="btn-primary" style="background: linear-gradient(45deg, #005A9E, #0078D4); display: flex; align-items: center; gap: 12px; animation: none; opacity: 1;">
+                    <img src="img/Logotipo_Microsoft_Store.png" alt="Microsoft Store" style="width: 28px; height: 28px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+                    Descargar en MS Store
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="trailer-section" class="trailer-container">
+        <h2 class="section-title">Descubre el Reino</h2>
+        <div class="video-wrapper">
+            <!-- El trailer provisto -->
+            <video controls>
+                <source src="img/Gameplay y trailer de los Reinos de Aethermoor ¡Nuevo!.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de video.
+            </video>
+        </div>
+        <p class="game-desc fade-in">
+            "Reinos de Athermoor" es una aventura inmersiva a través de tierras olvidadas. Levanta tu estandarte, reúne a tus campeones y conquista fortalezas impenetrables. El honor de tu linaje está en juego en esta épica travesía de fantasía oscura.
+        </p>
+    </section>
+
+    <section class="features-section">
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fas fa-khanda feature-icon"></i>
+                <h3>Combate Táctico</h3>
+                <p>Domina un sistema de combate donde cada movimiento, cada hechizo y cada esquiva cuenta. El acero forjado será tu mejor aliado.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-magic feature-icon"></i>
+                <h3>Magia Arcaica</h3>
+                <p>Descubre tomos perdidos y domina artes olvidadas para desatar el poder de los elementos sobre tus enemigos.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chess-rook feature-icon"></i>
+                <h3>Conquista Épica</h3>
+                <p>Asedia inmensas fortalezas, forja alianzas y reclama el trono que te pertenece por derecho de nacimiento.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Imperio de los Sueños</h3>
+                <p>Creando experiencias asombrosas que perduran más allá del tiempo.</p>
+            </div>
+            <div class="socials">
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scrolling and animations for the specific page
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    const target = document.querySelector(targetId);
+                    if(target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Fade in elements on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.feature-card, .game-desc, .video-wrapper').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

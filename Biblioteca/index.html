@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Biblioteca - Imperio de los Sueños. Explora nuestros libros, historias y lore del universo.">
+    <title>Biblioteca | Imperio de los Sueños</title>
+    <!-- Enlazamos al CSS principal del estudio -->
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos específicos para la Biblioteca que complementan style.css */
+        
+        /* Ajuste de Hero para subpáginas (más corto) */
+        .subpage-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, #07070a, #111118);
+            overflow: hidden;
+            border-bottom: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .subpage-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .subpage-content {
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+        }
+        
+        .subpage-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #ffffff, var(--accent-gold), #ffffff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 5s linear infinite;
+        }
+
+        .subpage-content p {
+            font-size: 1.2rem;
+            color: #dfdfdf;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Biblioteca Grid (Basado en games-grid pero para libros) */
+        .library-section {
+            padding: 5rem 5%;
+            background: #050508;
+            min-height: 50vh;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .book-card {
+            background: rgba(15, 15, 22, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.15);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .book-cover {
+            width: 100%;
+            aspect-ratio: 2 / 3; /* Formato estándar de libro/pantalla */
+            background-color: #0c0c12;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.05);
+        }
+        
+        /* Placeholder styling for when no image is present */
+        .book-cover .placeholder {
+            font-size: 3rem;
+            color: rgba(212, 175, 55, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .book-cover .placeholder span {
+            font-size: 0.9rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+        }
+
+        .book-info {
+            padding: 1.8rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: #fff;
+        }
+
+        .book-info p {
+            color: #aaa;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .btn-read {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 0.8rem 1rem;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            width: 100%;
+        }
+
+        .btn-read:hover {
+            background: var(--accent-gold);
+            color: #000;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .subpage-hero h1 { font-size: 2.5rem; }
+            .books-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar (Mismo diseño, diferentes enlaces) -->
+    <header class="navbar">
+        <div class="logo-text">Imperio de los Sueños</div>
+        <nav>
+            <a href="../Index.html#home">Inicio</a>
+            <a href="../Index.html#games">Juegos</a>
+            <a href="#">Libros</a>
+            <a href="../UNIVERSO/index.html">Universo</a>
+            <a href="../Index.html#about">Nosotros</a>
+        </nav>
+    </header>
+
+    <!-- Subpage Hero -->
+    <section class="subpage-hero">
+        <div class="subpage-content">
+            <h1>La Biblioteca</h1>
+            <p>Un santuario de conocimiento. Explora las historias, lore y crónicas que dan vida a nuestros mundos.</p>
+        </div>
+    </section>
+
+    <!-- Library Grid -->
+    <section class="library-section">
+        <div class="books-grid">
+            
+            <!-- Ejemplo Libro 1 -->
+            <article class="book-card">
+                <div class="book-cover">
+                    <!-- Cuando tengas la imagen de Canva, colócala aquí. Ej: <img src="ruta/a/tu/portada.jpg" alt="Título"> -->
+                    <div class="placeholder">
+                        <i class="fas fa-book-journal-whills"></i>
+                        <span>Próximamente</span>
+                    </div>
+                </div>
+                <div class="book-info">
+                    <h3>Crónicas de Athermoor</h3>
+                    <p>Una antología de historias cortas que detallan la caída de los primeros reyes y el alzamiento de la nueva era de magia arcaica.</p>
+                    <a href="#" class="btn-read" target="_blank">
+                        <i class="fas fa-book-open"></i> Leer Libro
+                    </a>
+                </div>
+            </article>
+
+            <!-- Ejemplo Libro 2 -->
+            <article class="book-card">
+                <div class="book-cover">
+                    <div class="placeholder">
+                        <i class="fas fa-book-journal-whills"></i>
+                        <span>Próximamente</span>
+                    </div>
+                </div>
+                <div class="book-info">
+                    <h3>El Grimorio Prohibido</h3>
+                    <p>Los secretos más oscuros que llevaron a la creación de The Shadow World. Textos perdidos descubiertos en las ruinas de Ciudad Esperanza.</p>
+                    <a href="#" class="btn-read" target="_blank">
+                        <i class="fas fa-book-open"></i> Leer Libro
+                    </a>
+                </div>
+            </article>
+
+            <!-- Tarjeta Nueva -->
+            <article class="book-card">
+                <div class="book-cover">
+                    <div class="placeholder">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Nuevo Espacio</span>
+                    </div>
+                </div>
+                <div class="book-info">
+                    <h3>Nuevo Relato</h3>
+                    <p>Espacio reservado para futuras historias y expansiones del universo creadas en Canva.</p>
+                    <a href="#" class="btn-read">
+                        <i class="fas fa-clock"></i> En Desarrollo
+                    </a>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Footer Compartido -->
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Sobre el Estudio</h3>
+                <p>Imperio de los Sueños es un estudio de desarrollo de videojuegos independiente, apasionado y dedicado a crear experiencias con atmósferas envolventes y sistemas de juego profundos.</p>
+            </div>
+            <div class="socials">
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script básico para la navbar (reutilizando lógica del estudio si aplica) -->
+    <script>
+        // Efecto scroll en Navbar para que coincida con el estilo de la web principal
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Imperio de los Sueños - Estudio Independiente de Videojuegos. Descubre The Shadow World, Reinos de Atehermoor y más.">
+    <title>Imperio de los Sueños | Estudio de Videojuegos</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo-text">Imperio de los Sueños</div>
+        <nav>
+            <a href="#home">Inicio</a>
+            <a href="#games">Juegos</a>
+            <a href="Biblioteca/index.html">Libros</a>
+            <a href="UNIVERSO/index.html">Universo</a>
+            <a href="#about">Nosotros</a>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="video-overlay"></div>
+        <video autoplay muted loop id="bg-video">
+            <source src="img/Logo Animado.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <img src="img/Imperio_de_los_sueños.png" alt="Imperio de los Sueños Logo" class="main-logo float-anim">
+            <h1 class="reveal-text">Imperio de los Sueños</h1>
+            <p class="fade-in">Donde las leyendas cobran vida. Forjamos mundos épicos, historias inmersivas y experiencias inolvidables.</p>
+            <a href="#games" class="btn-primary pulse">Explorar Nuestros Mundos</a>
+        </div>
+    </section>
+
+    <section id="games" class="games-section">
+        <h2 class="section-title">Nuestros Juegos</h2>
+        <div class="games-grid">
+            
+            <!-- Game 1: The Shadow World -->
+            <div class="game-card">
+                <div class="card-bg tsw"></div>
+                <div class="card-content">
+                    <img src="img/TSW_logo.png" alt="Logo de The Shadow World" style="width: 100%; max-width: 320px; margin-top: -60px; margin-bottom: 0.5rem; display: block; margin-left: auto; margin-right: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
+                    <h3>The Shadow World</h3>
+                    <p>Adéntrate en un universo sumido en la oscuridad. Descubre los profundos secretos que yacen bajo las sombras en esta aventura épica donde la luz es tu único refugio.</p>
+                    <a href="TSW_web/index.html" class="btn-external" target="_blank">
+                        Visitar Portal <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Game 2: Reinos de Atehermoor -->
+            <div class="game-card">
+                <div class="card-bg rda"></div>
+                <div class="card-content">
+                    <img src="img/Athermoor_Transparente.png" alt="Logo de Reinos de Atehermoor" style="width: 100%; max-width: 320px; margin-top: -60px; margin-bottom: 0.5rem; display: block; margin-left: auto; margin-right: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
+                    <h3>Reinos de Atehermoor</h3>
+                    <p>Forja tu propio destino en los bastos e imponentes Reinos de Atehermoor. Magia arcaica, acero forjado y un honor inquebrantable te aguardan en tu camino.</p>
+                    <a href="Reinos de Arhtermoor/index.html" class="btn-external">
+                        Visitar Portal <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Game 3: Más Allá de TSW -->
+            <div class="game-card">
+                <div class="card-bg matsw"></div>
+                <div class="card-content">
+                    <h3>Más Allá de TSW</h3>
+                    <p>Una nueva historia expandiendo el universo que ya conoces. Nuevos y oscuros desafíos, personajes enigmáticos y misterios por resolver te esperan más allá del límite.</p>
+                    <a href="#" class="btn-secondary">Próximamente</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Sobre el Estudio</h3>
+                <p>Imperio de los Sueños es un estudio de desarrollo de videojuegos independiente, apasionado y dedicado a crear experiencias con atmósferas envolventes y sistemas de juego profundos.</p>
+            </div>
+            <div class="socials">
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
