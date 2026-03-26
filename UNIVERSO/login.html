@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | UNIVERSO</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/social-db.js"></script>
+    <style>
+        body {
+            background: radial-gradient(circle at center, #1a0b2e 0%, #030305 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .auth-card {
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.1);
+            text-align: center;
+        }
+
+        .auth-card h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .auth-card p {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: var(--accent-gold);
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.05);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .btn-auth {
+            width: 100%;
+            background: linear-gradient(45deg, #d4af37, #b8860b);
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .auth-footer {
+            margin-top: 25px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .auth-footer a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-msg {
+            color: #ff4444;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h1>Universo</h1>
+        <p>Entra en el Reino de los Sueños</p>
+        
+        <div id="errorMsg" class="error-msg">Las runas no coinciden. Inténtalo de nuevo.</div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Nombre de Bardo (@handle)</label>
+                <input type="text" id="handle" placeholder="@noble_errante" required>
+            </div>
+            <div class="form-group">
+                <label>Palabra de Poder (Contraseña)</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-auth">Entrar al Reino</button>
+        </form>
+
+        <div class="auth-footer">
+            ¿Aún no tienes una leyenda? <a href="registro.html">Forja una nueva cuenta</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { SocialFirebase } from './js/social-firebase.js';
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const handle = document.getElementById('handle').value; // En un sistema real usaríamos email, aquí adaptaremos o pediremos email
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Firebase requiere email. Unificamos la lógica: quitamos el @ inicial si existe
+            let cleanHandle = handle.startsWith('@') ? handle.substring(1) : handle;
+            const email = cleanHandle.includes('.') ? handle : cleanHandle + "@universo.com";
+
+            try {
+                await SocialFirebase.login(email, password);
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error(error);
+                errorMsg.textContent = "Las runas no coinciden o el héroe no existe.";
+                errorMsg.style.display = 'block';
+                // Animacion de sacudida
+                const card = document.querySelector('.auth-card');
+                card.style.animation = 'none';
+                card.offsetHeight; // trigger reflow
+                card.style.animation = 'shake 0.4s';
+            }
+        });
+
+        // CSS Shake animation
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Universo - Imperio de los Sueños. Sigue las últimas leyendas y murmullos del reino.">
+    <meta name="description"
+        content="Universo - Imperio de los Sueños. Sigue las últimas leyendas y murmullos del reino.">
     <title>Universo | Imperio de los Sueños</title>
     <!-- Enlazamos al CSS principal del estudio -->
     <link rel="stylesheet" href="../style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+    <!-- social-db.js eliminado, ahora usamos social-firebase.js -->
+    <!-- Protección de ruta se maneja de forma asíncrona abajo con Firebase -->
     <style>
         /* Base Social Media Layout */
         body {
@@ -24,7 +30,8 @@
             max-width: 1400px;
             margin: 0 auto;
             min-height: 100vh;
-            padding-top: 80px; /* Espacio para la navbar principal */
+            padding-top: 80px;
+            /* Espacio para la navbar principal */
         }
 
         /* ----- SIDEBAR IZQUIERDA (Navegación Social) ----- */
@@ -62,7 +69,8 @@
             text-align: center;
         }
 
-        .social-nav-item:hover, .social-nav-item.active {
+        .social-nav-item:hover,
+        .social-nav-item.active {
             background: rgba(212, 175, 55, 0.1);
             color: var(--accent-gold);
         }
@@ -129,7 +137,8 @@
 
         .feed-header {
             position: sticky;
-            top: 75px; /* Altura de la navbar principal */
+            top: 75px;
+            /* Altura de la navbar principal */
             background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(10px);
             padding: 15px 20px;
@@ -317,10 +326,11 @@
         .interaction:hover i {
             background: rgba(212, 175, 55, 0.1);
         }
-        
+
         .interaction.like:hover {
             color: #e0245e;
         }
+
         .interaction.like:hover i {
             background: rgba(224, 36, 94, 0.1);
         }
@@ -328,8 +338,17 @@
         .interaction.retweet:hover {
             color: #17bf63;
         }
+
         .interaction.retweet:hover i {
             background: rgba(23, 191, 99, 0.1);
+        }
+
+        .interaction.retweet.active {
+            color: #17bf63;
+        }
+
+        .interaction.save.active {
+            color: var(--accent-gold);
         }
 
 
@@ -465,14 +484,107 @@
             color: #000;
         }
 
+        /* ----- MODAL DE COMENTARIOS ----- */
+        .comment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .comment-modal-content {
+            background: #0a0a0f;
+            border: 1px solid var(--glass-border);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.1);
+        }
+
+        .comment-modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .comment-modal-header h3 {
+            margin: 0;
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+        }
+
+        .comment-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .comment-input-area {
+            padding: 20px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            gap: 10px;
+        }
+
+        .comment-input-area input {
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 10px 15px;
+            border-radius: 30px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .comment-input-area input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .btn-comment-send {
+            background: var(--accent-gold);
+            color: black;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .btn-comment-send:hover {
+            transform: scale(1.1);
+        }
+
         /* Responsive */
         @media (max-width: 1100px) {
             .social-layout {
                 grid-template-columns: 80px minmax(500px, 1fr) 300px;
             }
-            .social-nav-item span, .btn-post, .user-profile-widget div {
+
+            .social-nav-item span,
+            .btn-post,
+            .user-profile-widget div {
                 display: none;
             }
+
             .btn-post {
                 padding: 15px;
                 border-radius: 50%;
@@ -482,11 +594,14 @@
                 align-items: center;
                 justify-content: center;
             }
+
             .btn-post::before {
-                content: "\f044"; /* Icono FontAwesome para editar/postear */
+                content: "\f044";
+                /* Icono FontAwesome para editar/postear */
                 font-family: "Font Awesome 6 Free";
                 font-weight: 900;
             }
+
             .user-profile-widget {
                 justify-content: center;
             }
@@ -496,6 +611,7 @@
             .social-layout {
                 grid-template-columns: 80px 1fr;
             }
+
             .social-sidebar-right {
                 display: none;
             }
@@ -505,8 +621,10 @@
             .social-layout {
                 grid-template-columns: 1fr;
                 padding-top: 60px;
-                padding-bottom: 60px; /* Para nav bar inferion */
+                padding-bottom: 60px;
+                /* Para nav bar inferion */
             }
+
             .social-sidebar-left {
                 position: fixed;
                 bottom: 0;
@@ -520,22 +638,26 @@
                 padding: 5px;
                 z-index: 100;
             }
+
             .social-feed {
                 border-left: none;
                 border-right: none;
             }
+
             .btn-post {
                 position: fixed;
                 bottom: 80px;
                 right: 20px;
                 z-index: 101;
             }
+
             .user-profile-widget {
                 display: none;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Navbar Principal (La mantenemos para no romper la navegación del estudio) -->
     <header class="navbar">
@@ -550,7 +672,7 @@
     </header>
 
     <div class="social-layout">
-        
+
         <!-- SIDEBAR IZQUIERDA -->
         <aside class="social-sidebar-left">
             <a href="../index.html" class="social-nav-item">
@@ -561,15 +683,16 @@
                 <i class="fas fa-globe"></i>
                 <span>Universo</span>
             </a>
-            <a href="#" class="social-nav-item">
+            <a href="proclamas.html" class="social-nav-item">
                 <i class="fas fa-bell"></i>
                 <span>Proclamas</span>
+                <span id="notifBadge" style="display: none; width: 10px; height: 10px; background: #e0245e; border-radius: 50%; margin-left: -5px; border: 2px solid #030305;"></span>
             </a>
-            <a href="#" class="social-nav-item">
+            <a href="mensajeros.html" class="social-nav-item">
                 <i class="fas fa-envelope"></i>
                 <span>Mensajeros</span>
             </a>
-            <a href="#" class="social-nav-item">
+            <a href="guardados.html" class="social-nav-item">
                 <i class="fas fa-bookmark"></i>
                 <span>Leyendas Guardadas</span>
             </a>
@@ -577,17 +700,26 @@
                 <i class="fas fa-user-shield"></i>
                 <span>Perfil de Héroe</span>
             </a>
-            
+
             <button class="btn-post">Forjar Leyenda</button>
 
             <!-- Perfil del usuario -->
-            <div class="user-profile-widget">
-                <img src="https://via.placeholder.com/40/1a1a24/d4af37?text=A" alt="Avatar" class="avatar">
-                <div style="flex-grow: 1;">
-                    <div style="font-weight: bold; font-size: 0.9rem;">Aventurero</div>
-                    <div style="color: #777; font-size: 0.8rem;">@noble_errante</div>
+            <div class="user-profile-widget" onclick="window.location.href='perfil.html'" style="position: relative;">
+                <div style="position: relative; width: 40px; height: 40px;" id="avatarContainer">
+                    <img src="" alt="Avatar" class="avatar user-avatar-img" id="userAvatarSidebar">
+                    <div class="avatar-edit-overlay"
+                        style="position: absolute; top:0; left:0; width:100%; height:100%; border-radius: 50%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; cursor: pointer;"
+                        title="Cambiar Apariencia">
+                        <i class="fas fa-camera" style="color: white; font-size: 0.8rem;"></i>
+                    </div>
                 </div>
-                <i class="fas fa-ellipsis-h" style="color: #777;"></i>
+                <div style="flex-grow: 1; margin-left: 10px;">
+                    <div style="font-weight: bold; font-size: 0.9rem;" class="user-name-text">Aventurero</div>
+                    <div style="color: #777; font-size: 0.8rem;" class="user-handle-text">@noble_errante</div>
+                </div>
+                <div onclick="event.stopPropagation(); SocialFirebase.logout();" title="Abandonar el Reino (Cerrar Sesión)">
+                    <i class="fas fa-sign-out-alt" style="color: #777; cursor: pointer;"></i>
+                </div>
             </div>
         </aside>
 
@@ -600,127 +732,88 @@
 
             <!-- Caja para publicar -->
             <div class="compose-box">
-                <img src="https://via.placeholder.com/40/1a1a24/d4af37?text=A" alt="Avatar" class="avatar">
+                <img src="" alt="Avatar" class="avatar user-avatar-img">
                 <div class="compose-input-area">
-                    <textarea class="compose-input" placeholder="Haz eco de tu historia o comparte un avistamiento oscuro..."></textarea>
+                    <textarea class="compose-input" id="postText"
+                        placeholder="Haz eco de tu historia o comparte un avistamiento oscuro..."></textarea>
                     <div class="compose-actions">
                         <div class="action-icons">
-                            <i class="fas fa-image" title="Añadir Pergamino / Imagen"></i>
-                            <i class="fas fa-list-ul" title="Realizar Sondeo"></i>
-                            <i class="fas fa-smile" title="Expresiones arcanas"></i>
-                            <i class="fas fa-calendar-alt" title="Programar Edicto"></i>
-                            <i class="fas fa-map-marker-alt" title="Añadir Coordenadas del Reino"></i>
+                            <i class="fas fa-image" title="Añadir Pergamino / Imagen" id="imgBtn"></i>
+                            <i class="fas fa-list-ul" title="Realizar Sondeo (Encuesta)" id="pollBtn"></i>
+                            <i class="fas fa-smile" title="Expresiones arcanas (Emoji)" id="emojiBtn"></i>
+                            <i class="fas fa-calendar-alt" title="Programar Edicto" id="scheduleBtn"></i>
                         </div>
-                        <button class="btn-small-post">Publicar</button>
+                        <button class="btn-small-post" id="publishBtn">Publicar</button>
                     </div>
+                    <!-- Contenedores extra para funcionalidad -->
+                    <div id="imagePreviewArea" style="display: none; margin-top: 10px; position: relative;">
+                        <img id="imgPreview" src=""
+                            style="max-width: 100%; border-radius: 10px; border: 1px solid var(--glass-border);">
+                        <i class="fas fa-times-circle" id="removeImg"
+                            style="position: absolute; top: 10px; right: 10px; color: var(--accent-gold); cursor: pointer; background: rgba(0,0,0,0.5); border-radius: 50%;"></i>
+                    </div>
+                    <div id="pollCreator"
+                        style="display: none; margin-top: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border: 1px solid rgba(212,175,55,0.2);">
+                        <label
+                            style="font-size: 0.8rem; color: var(--accent-gold); display: block; margin-bottom: 10px; font-family: Cinzel;">Opciones
+                            del Sondeo</label>
+                        <input type="text" class="poll-opt" placeholder="Opción 1"
+                            style="width: 100%; background: rgba(0,0,0,0.3); border: 1px solid #333; color: white; padding: 8px; border-radius: 5px; margin-bottom: 8px;">
+                        <input type="text" class="poll-opt" placeholder="Opción 2"
+                            style="width: 100%; background: rgba(0,0,0,0.3); border: 1px solid #333; color: white; padding: 8px; border-radius: 5px;">
+                    </div>
+                    <div id="emojiPicker"
+                        style="display: none; position: absolute; z-index: 100; background: #1a1a24; border: 1px solid var(--accent-gold); padding: 10px; border-radius: 10px; grid-template-columns: repeat(5, 1fr); gap: 5px; box-shadow: 0 5px 20px rgba(0,0,0,0.8);">
+                        <span onclick="addEmoji('⚔️')" style="cursor: pointer; font-size: 1.2rem;">⚔️</span>
+                        <span onclick="addEmoji('🌑')" style="cursor: pointer; font-size: 1.2rem;">🌑</span>
+                        <span onclick="addEmoji('✨')" style="cursor: pointer; font-size: 1.2rem;">✨</span>
+                        <span onclick="addEmoji('🖤')" style="cursor: pointer; font-size: 1.2rem;">🖤</span>
+                        <span onclick="addEmoji('🪽')" style="cursor: pointer; font-size: 1.2rem;">🪽</span>
+                        <span onclick="addEmoji('🐉')" style="cursor: pointer; font-size: 1.2rem;">🐉</span>
+                        <span onclick="addEmoji('📜')" style="cursor: pointer; font-size: 1.2rem;">📜</span>
+                        <span onclick="addEmoji('🔥')" style="cursor: pointer; font-size: 1.2rem;">🔥</span>
+                        <span onclick="addEmoji('👑')" style="cursor: pointer; font-size: 1.2rem;">👑</span>
+                        <span onclick="addEmoji('💀')" style="cursor: pointer; font-size: 1.2rem;">💀</span>
+                    </div>
+                    <div id="scheduleArea"
+                        style="display: none; margin-top: 10px; color: var(--accent-gold); font-size: 0.85rem;">
+                        <i class="fas fa-clock"></i> Programar para: <input type="datetime-local" id="scheduleDate"
+                            style="background: transparent; border: 1px solid #333; color: white; cursor: pointer;">
+                    </div>
+                    <input type="file" id="imgInput" accept="image/*" style="display: none;">
                 </div>
             </div>
 
-            <!-- POST 1 -->
-            <article class="post">
-                <img src="../img/personaje-protagonista.png" alt="El Anciano" class="avatar" style="object-fit: contain; background: #000;">
-                <div class="post-content">
-                    <div class="post-header">
-                        <span class="post-author">El Anciano Erudito</span>
-                        <span class="post-handle">@creador_grimorio</span>
-                        <span class="post-time">2h</span>
-                    </div>
-                    <div class="post-text">
-                        Siento la corrupción extenderse más allá del límite de Ciudad Esperanza. El sello que colocamos hace ciclos se está debilitando... Necesitamos reunir a la vanguardia antes del próximo solsticio rojo. ¿Quién se une a la cruzada? ⚔️🌑 #TheShadowWorld #JRPG
-                    </div>
-                    <div class="post-interactions">
-                        <div class="interaction"><i class="far fa-comment"></i> 142</div>
-                        <div class="interaction retweet"><i class="fas fa-retweet"></i> 89</div>
-                        <div class="interaction like"><i class="far fa-heart"></i> 523</div>
-                        <div class="interaction"><i class="fas fa-share-square"></i></div>
-                    </div>
-                </div>
-            </article>
+            <div id="legendsFeed"></div>
 
-            <!-- POST 2 -->
-            <article class="post">
-                <img src="../img/TSW_logo.png" alt="TSW Dev Team" class="avatar" style="object-fit: contain;">
-                <div class="post-content">
-                    <div class="post-header">
-                        <span class="post-author">Imperio Devs</span>
-                        <span class="post-handle">@imperio_sueños</span>
-                        <span class="post-time">5h</span>
-                    </div>
-                    <div class="post-text">
-                        Hemos estado trabajando en los nuevos bocetos para las ruinas de Athermoor. Echad un vistazo a la oscuridad que se esconde detrás de la cascada. 👇✨
-                    </div>
-                    <img src="../img/media-1.png" alt="Ruinas" class="post-image">
-                    <div class="post-interactions">
-                        <div class="interaction"><i class="far fa-comment"></i> 56</div>
-                        <div class="interaction retweet"><i class="fas fa-retweet"></i> 112</div>
-                        <div class="interaction like"><i class="far fa-heart"></i> 1.2K</div>
-                        <div class="interaction"><i class="fas fa-share-square"></i></div>
-                    </div>
-                </div>
-            </article>
-
-            <!-- POST 3 -->
-            <article class="post">
-                <img src="../img/personaje-dama-soledad.png" alt="Dama Soledad" class="avatar" style="object-fit: contain; background: #000;">
-                <div class="post-content">
-                    <div class="post-header">
-                        <span class="post-author">La Dama de la Soledad</span>
-                        <span class="post-handle">@arcangel_caido</span>
-                        <span class="post-time">10h</span>
-                    </div>
-                    <div class="post-text">
-                        La luz que alguna vez defendí me exilió. Ahora la oscuridad es mi única compañía. 🪽🖤 
-                        El Rey Brujo me ha propuesto una alianza... y puede que Santuario pague por sus pecados.
-                    </div>
-                    <div class="post-interactions">
-                        <div class="interaction"><i class="far fa-comment"></i> 890</div>
-                        <div class="interaction retweet"><i class="fas fa-retweet"></i> 3.4K</div>
-                        <div class="interaction like"><i class="far fa-heart"></i> 15K</div>
-                        <div class="interaction"><i class="fas fa-share-square"></i></div>
-                    </div>
-                </div>
-            </article>
+            <!-- Los posts se cargarán dinámicamente aquí -->
 
         </main>
 
         <!-- SIDEBAR DERECHA -->
         <aside class="social-sidebar-right">
-            
+
             <div class="search-container">
                 <i class="fas fa-search"></i>
-                <input type="text" class="search-input" placeholder="Buscar en el Reino...">
+                <input type="text" class="search-input" id="searchLegendsInput" placeholder="Buscar en el Reino...">
             </div>
 
             <!-- Widget de Tendencias -->
-            <div class="widget">
+            <div class="widget" id="trendsWidget">
                 <h3>Tendencias en Narak'Thul</h3>
-                
-                <div class="trend-item">
-                    <div class="trend-category">Magia Oscura · Tendencia</div>
-                    <div class="trend-title">#ElReyBrujo</div>
-                    <div class="trend-volume">15.4K Leyendas</div>
-                </div>
-                
-                <div class="trend-item">
-                    <div class="trend-category">Juegos · Tendencia</div>
-                    <div class="trend-title">Athermoor</div>
-                    <div class="trend-volume">8,204 Leyendas</div>
-                </div>
-                
-                <div class="trend-item">
-                    <div class="trend-category">Lugares · Tendencia</div>
-                    <div class="trend-title">Santuario</div>
-                    <div class="trend-volume">5,102 Leyendas</div>
+                <div id="trendsContainer">
+                    <!-- Dinámico -->
                 </div>
             </div>
 
             <!-- Widget Sugerencias -->
             <div class="widget">
                 <h3>Aliados Sugeridos</h3>
-                
+
                 <div class="follow-item">
                     <div class="follow-info">
-                        <img src="../img/personaje-brujo-oscuro.png" alt="Brujo" class="avatar" style="object-fit: contain; background: #000;">
+                        <img src="../img/personaje-brujo-oscuro.png" alt="Brujo" class="avatar"
+                            style="object-fit: contain; background: #000;">
                         <div>
                             <div class="follow-name">El Rey Brujo</div>
                             <div style="font-size: 0.8rem; color: #777;">@oscuridad_absoluta</div>
@@ -731,7 +824,8 @@
 
                 <div class="follow-item">
                     <div class="follow-info">
-                        <img src="../img/logo-completo.png" alt="Logo" class="avatar" style="object-fit: contain; background: #000;">
+                        <img src="../img/logo-completo.png" alt="Logo" class="avatar"
+                            style="object-fit: contain; background: #000;">
                         <div>
                             <div class="follow-name">Soporte TSW</div>
                             <div style="font-size: 0.8rem; color: #777;">@tsw_ayuda</div>
@@ -753,9 +847,286 @@
 
     </div>
 
-    <!-- Script básico -->
-    <script>
-        // Efecto scroll en Navbar para que coincida con el estilo de la web principal
+    <!-- Modal de Comentarios -->
+    <div class="comment-modal" id="commentModal">
+        <div class="comment-modal-content">
+            <div class="comment-modal-header">
+                <h3>Ecos de la Leyenda</h3>
+                <i class="fas fa-times close-modal" id="closeCommentModal"
+                    style="cursor:pointer; color:#777; transition: color 0.2s;"></i>
+            </div>
+            <!-- El post original aparecerá aquí para dar contexto -->
+            <div id="originalPostInModal"
+                style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02);">
+            </div>
+            <div class="comment-list" id="commentList">
+                <!-- Los comentarios se cargarán aquí -->
+            </div>
+            <div class="comment-input-area">
+                <input type="text" id="commentInput" placeholder="Añade tu voz al eco...">
+                <button class="btn-comment-send" id="sendCommentBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { SocialFirebase } from './js/social-firebase.js';
+        // Variables para contenido extra
+        let postImageData = null;
+
+        // Gestión de Imagen
+        document.getElementById('imgBtn').addEventListener('click', () => document.getElementById('imgInput').click());
+        document.getElementById('imgInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    postImageData = event.target.result;
+                    document.getElementById('imgPreview').src = postImageData;
+                    document.getElementById('imagePreviewArea').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        document.getElementById('removeImg').addEventListener('click', () => {
+            postImageData = null;
+            document.getElementById('imagePreviewArea').style.display = 'none';
+            document.getElementById('imgInput').value = '';
+        });
+
+        // Gestión de Sondeo
+        document.getElementById('pollBtn').addEventListener('click', () => {
+            const el = document.getElementById('pollCreator');
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Gestión de Emoji
+        document.getElementById('emojiBtn').addEventListener('click', (e) => {
+            const el = document.getElementById('emojiPicker');
+            el.style.display = el.style.display === 'none' ? 'grid' : 'none';
+            el.style.top = (e.pageY + 10) + 'px';
+            el.style.left = e.pageX + 'px';
+        });
+        window.addEmoji = function (emoji) {
+            const input = document.getElementById('postText');
+            input.value += emoji;
+            document.getElementById('emojiPicker').style.display = 'none';
+        }
+
+        // Gestión de Calendario
+        document.getElementById('scheduleBtn').addEventListener('click', () => {
+            const el = document.getElementById('scheduleArea');
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Cambio de Avatar desde Sidebar (Avatar aleatorio en formato SVG)
+        document.getElementById('avatarContainer').addEventListener('click', async (e) => {
+            e.stopPropagation();
+            try {
+                const newAvatar = SocialFirebase.generateRandomAvatar();
+                await SocialFirebase.updateUserAvatar(newAvatar);
+                loadUserInfo(); // Recargar imágenes en widgets
+            } catch (error) {
+                console.error("Error al actualizar avatar:", error);
+                alert("Error al actualizar tu apariencia.");
+            }
+        });
+
+        document.getElementById('avatarContainer').addEventListener('mouseenter', function () {
+            this.querySelector('.avatar-edit-overlay').style.opacity = '1';
+        });
+        document.getElementById('avatarContainer').addEventListener('mouseleave', function () {
+            this.querySelector('.avatar-edit-overlay').style.opacity = '0';
+        });
+
+        // --- GESTIÓN DE USUARIO ---
+        async function loadUserInfo() {
+            const user = await SocialFirebase.getCurrentUserProfile();
+            if (!user) {
+                // Si no hay sesión, mandamos al login
+                window.location.href = 'login.html';
+                return;
+            }
+            document.querySelectorAll('.user-avatar-img').forEach(img => img.src = user.avatar);
+            document.querySelectorAll('.user-name-text').forEach(el => el.textContent = user.name);
+            document.querySelectorAll('.user-handle-text').forEach(el => el.textContent = user.handle);
+        }
+
+        // --- RENDERIZADO DEL FEED (Tiempo Real) ---
+        function renderFeed(posts) {
+            const feedContainer = document.getElementById('legendsFeed');
+            const searchQuery = document.getElementById('searchLegendsInput').value.toLowerCase();
+            
+            feedContainer.innerHTML = '';
+
+            const filteredPosts = searchQuery ? posts.filter(p => 
+                p.text.toLowerCase().includes(searchQuery) || 
+                p.author.toLowerCase().includes(searchQuery) || 
+                p.handle.toLowerCase().includes(searchQuery)
+            ) : posts;
+
+            filteredPosts.forEach(post => {
+                const postHTML = `
+                    <article class="post" data-id="${post.id}">
+                        <img src="${post.avatar}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
+                        <div class="post-content">
+                            <div class="post-header">
+                                <span class="post-author">${post.author}</span>
+                                <span class="post-handle">${post.handle}</span>
+                                <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
+                            </div>
+                            <div class="post-text">${post.text}</div>
+                            ${(post.image && post.image.includes('data:image')) ? `<img src="${post.image}" alt="Media" class="post-image">` : ''}
+                            <div class="post-interactions">
+                                <div class="interaction" onclick="event.stopPropagation(); openCommentModal('${post.id}')">
+                                    <i class="far fa-comment"></i> ${post.commentsCount || 0}
+                                </div>
+                                <div class="interaction retweet ${post.retweeted ? 'active' : ''}" onclick="event.stopPropagation(); toggleRetweet('${post.id}')">
+                                    <i class="fas fa-retweet"></i> ${post.retweets}
+                                </div>
+                                <div class="interaction like ${post.liked ? 'active' : ''}" onclick="event.stopPropagation(); toggleLike('${post.id}')">
+                                    <i class="${post.liked ? 'fas' : 'far'} fa-heart"></i> ${post.likes}
+                                </div>
+                                <div class="interaction save ${post.saved ? 'active' : ''}" onclick="event.stopPropagation(); toggleSave('${post.id}')">
+                                    <i class="${post.saved ? 'fas' : 'far'} fa-bookmark"></i>
+                                </div>
+                                <div class="interaction" onclick="event.stopPropagation(); handleShare('${post.id}')">
+                                    <i class="fas fa-share-square"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                `;
+                feedContainer.insertAdjacentHTML('beforeend', postHTML);
+            });
+        }
+
+        // --- ACCIONES MÍSTICAS ---
+        document.getElementById('publishBtn').addEventListener('click', async () => {
+            const text = document.getElementById('postText').value;
+            const image = postImageData; // Usar la variable de datos real
+
+            if (text.trim() || image) {
+                try {
+                    await SocialFirebase.addPost(text, image);
+                    // Limpiar tras publicar
+                    document.getElementById('postText').value = '';
+                    postImageData = null;
+                    document.getElementById('imagePreviewArea').style.display = 'none';
+                    document.getElementById('imgInput').value = '';
+                } catch (error) {
+                    alert("Error al sellar la leyenda: " + error.message);
+                }
+            }
+        });
+
+        window.toggleLike = async function (postId) {
+            await SocialFirebase.toggleLike(postId);
+        };
+
+        window.toggleRetweet = async function (postId) {
+            await SocialFirebase.toggleRetweet(postId);
+        };
+
+        window.toggleSave = async function (postId) {
+            await SocialFirebase.toggleSave(postId);
+        };
+
+        window.handleShare = function (postId) {
+            const url = window.location.origin + window.location.pathname + '?post=' + postId;
+            navigator.clipboard.writeText(url).then(() => {
+                alert("¡Vínculo de la Leyenda copiado al pergamino! 📜✨");
+            });
+        };
+
+        // --- GESTIÓN DE COMENTARIOS (ECOS) ---
+        let currentModalPostId = null;
+
+        window.openCommentModal = async function (postId) {
+            currentModalPostId = postId;
+            const post = await SocialFirebase.getPost(postId); // Fetch post from Firebase
+            if (!post) return;
+
+            // Mostrar el post original en el modal para contexto
+            const originalPostContainer = document.getElementById('originalPostInModal');
+            originalPostContainer.innerHTML = `
+                <div style="display: flex; gap: 15px;">
+                    <img src="${post.avatar}" class="avatar" style="width: 40px; height: 40px; object-fit: contain; background: #000;">
+                    <div>
+                        <div style="font-weight: bold; color: var(--text-light); font-size: 0.9rem;">
+                            ${post.author} <span style="color: #777; font-weight: normal;">${post.handle}</span>
+                        </div>
+                        <div style="color: #ccc; margin-top: 5px; font-size: 0.95rem;">${post.text}</div>
+                    </div>
+                </div>
+            `;
+
+            renderComments(postId); // Pass postId to renderComments
+            document.getElementById('commentModal').style.display = 'flex';
+        };
+
+        function renderComments(postId) {
+            // Listen for comments in real-time
+            SocialFirebase.onCommentsUpdate(postId, (comments) => {
+                const container = document.getElementById('commentList');
+                
+                if (comments.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; color: #555; padding: 20px;">Silencio... Sé el primero en hacer eco.</div>';
+                } else {
+                    container.innerHTML = '';
+                    comments.forEach(c => {
+                        container.insertAdjacentHTML('beforeend', `
+                            <div style="display: flex; gap: 12px; margin-bottom: 20px; animation: fadeIn 0.3s ease;">
+                                <img src="${c.avatar}" class="avatar" style="width: 32px; height: 32px; object-fit: contain; background: #000; border: 1px solid var(--accent-gold);">
+                                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
+                                    <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${c.author}</div>
+                                    <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${c.text}</div>
+                                    <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
+                                </div>
+                            </div>
+                        `);
+                    });
+                }
+            });
+        }
+
+        document.getElementById('sendCommentBtn').addEventListener('click', async () => {
+            const input = document.getElementById('commentInput');
+            const text = input.value.trim();
+            if (text && currentModalPostId) {
+                await SocialFirebase.addComment(currentModalPostId, text);
+                input.value = '';
+                // renderComments will update automatically via onCommentsUpdate
+                // renderFeed(); // No need to call renderFeed here, onFeedUpdate handles it
+            }
+        });
+
+        // Permitir enviar con Enter
+        document.getElementById('commentInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('sendCommentBtn').click();
+            }
+        });
+
+        document.getElementById('closeCommentModal').addEventListener('click', () => {
+            document.getElementById('commentModal').style.display = 'none';
+            SocialFirebase.stopCommentsUpdate(); // Stop listening when modal closes
+        });
+
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('commentModal');
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                SocialFirebase.stopCommentsUpdate(); // Stop listening when modal closes
+            }
+        });
+
+        // Evento publicar (original logic for poll/schedule removed as per instruction, keeping only text/image)
+        // The publishBtn event listener above already handles text and image.
+        // The original complex logic for polls and scheduling is not included in the provided replacement.
+
+        // Efecto scroll en Navbar
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 50) {
@@ -765,21 +1136,72 @@
             }
         });
 
-        // Simulación básica de likes
-        document.querySelectorAll('.interaction.like').forEach(likeBtn => {
-            likeBtn.addEventListener('click', function() {
-                const icon = this.querySelector('i');
-                if(icon.classList.contains('far')) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                    this.style.color = '#e0245e';
-                } else {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                    this.style.color = '#777';
-                }
-            });
+        // Gestión de Búsqueda
+        document.getElementById('searchLegendsInput').addEventListener('input', (e) => {
+            // renderFeed will be called by onFeedUpdate, just need to trigger a re-render with current search query
+            // The onFeedUpdate callback already takes care of filtering based on the input value.
         });
+
+        // --- GESTIÓN DE TENDENCIAS ---
+        function updateTrends(posts) {
+            const container = document.getElementById('trendsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            // Simple hashtag extraction and counting
+            const hashtagCounts = {};
+            posts.forEach(post => {
+                const hashtags = post.text.match(/#\w+/g) || [];
+                hashtags.forEach(tag => {
+                    const lowerTag = tag.toLowerCase();
+                    hashtagCounts[lowerTag] = (hashtagCounts[lowerTag] || 0) + 1;
+                });
+            });
+
+            const sortedHashtags = Object.entries(hashtagCounts)
+                .sort(([, countA], [, countB]) => countB - countA)
+                .slice(0, 5); // Top 5 trends
+
+            if (sortedHashtags.length > 0) {
+                sortedHashtags.forEach(([tag, count]) => {
+                    container.insertAdjacentHTML('beforeend', `
+                        <div class="trend-item" onclick="document.getElementById('searchLegendsInput').value='${tag}'; document.getElementById('searchLegendsInput').dispatchEvent(new Event('input'));">
+                            <div class="trend-category">Resonancia Mística · Tendencia</div>
+                            <div class="trend-title">${tag}</div>
+                            <div class="trend-volume">${count} ${count === 1 ? 'Leyenda' : 'Leyendas'}</div>
+                        </div>
+                    `);
+                });
+            } else {
+                container.innerHTML = '<div style="padding:20px; text-align:center; color:#555; font-size: 0.85rem;">El Reino está en silencio... Forja la primera leyenda.</div>';
+            }
+        }
+
+        // --- INICIALIZACIÓN ---
+        SocialFirebase.auth.onAuthStateChanged(user => {
+            if (user) {
+                loadUserInfo();
+                SocialFirebase.onFeedUpdate(posts => {
+                    renderFeed(posts);
+                    // Actualizar tendencias basado en tags
+                    updateTrends(posts);
+                });
+                // Escuchar notificaciones para el badge
+                SocialFirebase.onNotificationsUpdate(notifs => {
+                    const hasUnread = notifs.some(n => !n.read);
+                    document.getElementById('notifBadge').style.display = hasUnread ? 'block' : 'none';
+                });
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Logout
+        window.logoutLegacy = async () => {
+            await SocialFirebase.logout();
+            window.location.href = 'login.html';
+        };
     </script>
 </body>
+
 </html>

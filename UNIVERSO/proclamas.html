@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Proclamas - Imperio de los Sueños. Mantente al tanto de las noticias del reino.">
+    <title>Proclamas | Imperio de los Sueños</title>
+    <!-- Enlazamos al CSS principal del estudio -->
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Reusamos los estilos de index.html */
+        body { background-color: #030305; }
+        .social-layout {
+            display: grid;
+            grid-template-columns: 280px minmax(500px, 700px) 350px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        .social-sidebar-left {
+            position: sticky; top: 80px; height: calc(100vh - 80px);
+            padding: 20px 10px 20px 20px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto;
+        }
+        .social-sidebar-left::-webkit-scrollbar { width: 0px; }
+        .social-nav-item {
+            display: flex; align-items: center; gap: 15px; padding: 12px 20px;
+            color: var(--text-light); text-decoration: none; font-size: 1.1rem;
+            font-weight: 600; border-radius: 30px; transition: all 0.2s ease;
+        }
+        .social-nav-item i { font-size: 1.4rem; width: 25px; text-align: center; }
+        .social-nav-item:hover, .social-nav-item.active {
+            background: rgba(212, 175, 55, 0.1); color: var(--accent-gold);
+        }
+        .social-nav-item.active {
+            font-family: 'Cinzel', serif; font-size: 1.2rem; text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        .avatar {
+            width: 40px; height: 40px; border-radius: 50%; object-fit: cover;
+            border: 2px solid var(--accent-gold); background-color: #1a1a24;
+        }
+        .social-feed {
+            border-left: 1px solid var(--glass-border); border-right: 1px solid var(--glass-border);
+            min-height: 100vh; background: rgba(10, 10, 15, 0.5); backdrop-filter: blur(5px);
+        }
+        .feed-header {
+            position: sticky; top: 75px; background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(10px);
+            padding: 15px 20px; border-bottom: 1px solid var(--glass-border); z-index: 10;
+        }
+        .feed-header h2 { font-size: 1.5rem; margin: 0; color: var(--text-light); }
+        
+        /* Notificaciones Styles */
+        .notification {
+            display: flex; gap: 15px; padding: 20px; border-bottom: 1px solid var(--glass-border);
+            transition: background 0.2s; cursor: pointer; align-items: flex-start;
+        }
+        .notification:hover { background: rgba(255, 255, 255, 0.02); }
+        .notification.unread { background: rgba(212, 175, 55, 0.03); }
+        .notif-icon { font-size: 1.5rem; width: 30px; text-align: center; }
+        .icon-like { color: #e0245e; }
+        .icon-message { color: var(--accent-gold); }
+        .icon-retweet { color: #17bf63; }
+        .icon-comment { color: #1da1f2; }
+        .icon-follow { color: #ffad1f; }
+        
+        .notif-content { flex-grow: 1; }
+        .notif-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+        .notif-text { font-size: 1rem; color: #e0e0e0; line-height: 1.4; }
+        .notif-time { font-size: 0.8rem; color: #777; margin-top: 5px; }
+        
+        .btn-post {
+            background: linear-gradient(45deg, var(--accent-gold), #b8860b);
+            color: #050505; border: none; padding: 15px 30px; border-radius: 50px;
+            font-size: 1.1rem; font-weight: bold; font-family: 'Cinzel', serif;
+            cursor: pointer; margin-top: 10px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .social-sidebar-right { padding: 20px 20px 20px 10px; position: sticky; top: 80px; height: calc(100vh - 80px); overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        .widget { background: rgba(15, 15, 22, 0.6); border: 1px solid var(--glass-border); border-radius: 16px; padding: 15px 0; backdrop-filter: blur(10px); }
+        .widget h3 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: #fff; padding: 0 20px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px; }
+
+        @media (max-width: 1100px) {
+            .social-layout { grid-template-columns: 80px minmax(500px, 1fr) 300px; }
+            .social-nav-item span, .btn-post { display: none; }
+        }
+        @media (max-width: 900px) {
+            .social-layout { grid-template-columns: 80px 1fr; }
+            .social-sidebar-right { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo-text">Imperio de los Sueños</div>
+        <nav>
+            <a href="../index.html#home">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="index.html">Universo</a>
+            <a href="../index.html#about">Nosotros</a>
+        </nav>
+    </header>
+
+    <div class="social-layout">
+        <!-- SIDEBAR IZQUIERDA -->
+        <aside class="social-sidebar-left">
+            <a href="../index.html" class="social-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Inicio del Estudio</span>
+            </a>
+            <a href="index.html" class="social-nav-item">
+                <i class="fas fa-globe"></i>
+                <span>Universo</span>
+            </a>
+            <a href="proclamas.html" class="social-nav-item active">
+                <i class="fas fa-bell"></i>
+                <span>Proclamas</span>
+            </a>
+            <a href="mensajeros.html" class="social-nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Mensajeros</span>
+            </a>
+            <a href="guardados.html" class="social-nav-item">
+                <i class="fas fa-bookmark"></i>
+                <span>Leyendas Guardadas</span>
+            </a>
+            <a href="perfil.html" class="social-nav-item">
+                <i class="fas fa-user-shield"></i>
+                <span>Perfil de Héroe</span>
+            </a>
+            <button class="btn-post" onclick="window.location.href='index.html'">Forjar Leyenda</button>
+
+            <div class="user-profile-widget" onclick="window.location.href='perfil.html'" style="margin-top: auto; padding: 12px; display: flex; align-items: center; gap: 12px; border-radius: 50px; cursor: pointer;">
+                <img src="" alt="Avatar" class="avatar user-avatar-img">
+                <div style="flex-grow: 1;">
+                    <div style="font-weight: bold; font-size: 0.9rem;" class="user-name-text">Aventurero</div>
+                    <div style="color: #777; font-size: 0.8rem;" class="user-handle-text">@noble_errante</div>
+                </div>
+                <div onclick="event.stopPropagation(); SocialFirebase.logout();"><i class="fas fa-sign-out-alt" style="color: #777;"></i></div>
+            </div>
+        </aside>
+
+        <!-- FEED CENTRAL -->
+        <main class="social-feed">
+            <div class="feed-header">
+                <h2>Proclamas</h2>
+            </div>
+            <div id="notificationsList">
+                <div style="text-align: center; color: #555; padding: 50px;">Escuchando los ecos del reino...</div>
+            </div>
+        </main>
+
+        <!-- SIDEBAR DERECHA -->
+        <aside class="social-sidebar-right">
+            <div class="widget">
+                <h3>Voz del Reino</h3>
+                <div style="padding: 0 20px 20px; color: #777; font-size: 0.9rem;">
+                    Las Proclamas te informan sobre quiénes han resonado con tus leyendas o quiénes intentan contactarte mediante mensajeros.
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script type="module">
+        import { SocialFirebase } from './js/social-firebase.js';
+
+        async function loadUserInfo() {
+            const user = await SocialFirebase.getCurrentUserProfile();
+            if (!user) { window.location.href = 'login.html'; return; }
+            document.querySelectorAll('.user-avatar-img').forEach(img => img.src = user.avatar);
+            document.querySelectorAll('.user-name-text').forEach(el => el.textContent = user.name);
+            document.querySelectorAll('.user-handle-text').forEach(el => el.textContent = user.handle);
+        }
+
+        function renderNotifications(notifs) {
+            const container = document.getElementById('notificationsList');
+            if (notifs.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #555; padding: 50px;">El Reino está en silencio por ahora...</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            notifs.forEach(n => {
+                let icon = '';
+                let text = '';
+                let link = '#';
+
+                switch(n.type) {
+                    case 'like':
+                        icon = '<i class="fas fa-heart icon-like"></i>';
+                        text = `A <strong>${n.fromName}</strong> (@${n.fromHandle.replace('@','')}) le ha gustado tu leyenda.`;
+                        link = `index.html?post=${n.postId}`;
+                        break;
+                    case 'message':
+                        icon = '<i class="fas fa-envelope icon-message"></i>';
+                        text = `Has recibido un nuevo mensaje de <strong>${n.fromName}</strong>.`;
+                        link = `mensajeros.html?chat=${n.fromHandle}`;
+                        break;
+                    case 'retweet':
+                        icon = '<i class="fas fa-retweet icon-retweet"></i>';
+                        text = `<strong>${n.fromName}</strong> ha compartido tu leyenda en su propio pergamino.`;
+                        link = `index.html?post=${n.postId}`;
+                        break;
+                    case 'comment':
+                        icon = '<i class="fas fa-comment icon-comment"></i>';
+                        text = `<strong>${n.fromName}</strong> ha añadido un eco a tu leyenda.`;
+                        link = `index.html?post=${n.postId}`;
+                        break;
+                    case 'follow':
+                        icon = '<i class="fas fa-user-plus icon-follow"></i>';
+                        text = `<strong>${n.fromName}</strong> te ha jurado leatad y ahora es tu aliado (te sigue).`;
+                        link = `perfil.html?u=${n.fromHandle}`;
+                        break;
+                }
+
+                const notifHTML = `
+                    <div class="notification ${n.read ? '' : 'unread'}" onclick="window.location.href='${link}'">
+                        <div class="notif-icon">${icon}</div>
+                        <div class="notif-content">
+                            <div class="notif-text">${text}</div>
+                            <div class="notif-time">${new Date(n.timestamp).toLocaleString()}</div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', notifHTML);
+            });
+        }
+
+        SocialFirebase.auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                loadUserInfo();
+                SocialFirebase.onNotificationsUpdate(notifs => renderNotifications(notifs));
+                // Marcar como leídas al entrar
+                await SocialFirebase.markNotificationsAsRead();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+    </script>
+</body>
+</html>

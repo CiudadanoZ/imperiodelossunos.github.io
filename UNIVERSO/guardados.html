@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Leyendas Guardadas - Imperio de los Sueños. Tus historias favoritas del reino.">
+    <title>Leyendas Guardadas | Imperio de los Sueños</title>
+    <!-- Enlazamos al CSS principal del estudio -->
+    <link rel="stylesheet" href="../style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Reusamos los estilos de index.html */
+        body { background-color: #030305; }
+        .social-layout {
+            display: grid;
+            grid-template-columns: 280px minmax(500px, 700px) 350px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        .social-sidebar-left {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            padding: 20px 10px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+        .social-sidebar-left::-webkit-scrollbar { width: 0px; }
+        .social-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.2s ease;
+        }
+        .social-nav-item i { font-size: 1.4rem; width: 25px; text-align: center; }
+        .social-nav-item:hover, .social-nav-item.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent-gold);
+        }
+        .social-nav-item.active {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        .btn-post {
+            background: linear-gradient(45deg, var(--accent-gold), #b8860b);
+            color: #050505;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+        .avatar {
+            width: 40px; height: 40px; border-radius: 50%; object-fit: cover;
+            border: 2px solid var(--accent-gold); background-color: #1a1a24;
+        }
+        .social-feed {
+            border-left: 1px solid var(--glass-border);
+            border-right: 1px solid var(--glass-border);
+            min-height: 100vh;
+            background: rgba(10, 10, 15, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        .feed-header {
+            position: sticky; top: 75px;
+            background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(10px);
+            padding: 15px 20px; border-bottom: 1px solid var(--glass-border);
+            z-index: 10; display: flex; justify-content: space-between; align-items: center;
+        }
+        .feed-header h2 { font-size: 1.5rem; margin: 0; color: var(--text-light); }
+        .post { display: flex; gap: 15px; padding: 20px; border-bottom: 1px solid var(--glass-border); transition: background 0.2s; cursor: pointer; }
+        .post:hover { background: rgba(255, 255, 255, 0.02); }
+        .post-content { flex-grow: 1; }
+        .post-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; }
+        .post-author { font-weight: bold; color: var(--text-light); }
+        .post-handle, .post-time { color: #777; font-size: 0.9rem; }
+        .post-time::before { content: "· "; }
+        .post-text { font-size: 1rem; line-height: 1.5; margin-bottom: 15px; color: #e0e0e0; }
+        .post-image { width: 100%; border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 15px; max-height: 400px; object-fit: cover; }
+        .post-interactions { display: flex; justify-content: space-between; max-width: 400px; color: #777; font-size: 0.95rem; }
+        .interaction { display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+        .interaction:hover { color: var(--accent-gold); }
+        .interaction i { padding: 8px; border-radius: 50%; transition: background 0.2s; }
+        .interaction:hover i { background: rgba(212, 175, 55, 0.1); }
+        .interaction.like.active, .interaction.save.active { color: var(--accent-gold); }
+        .interaction.retweet.active { color: #17bf63; }
+        
+        .social-sidebar-right { padding: 20px 20px 20px 10px; position: sticky; top: 80px; height: calc(100vh - 80px); overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        .widget { background: rgba(15, 15, 22, 0.6); border: 1px solid var(--glass-border); border-radius: 16px; padding: 15px 0; backdrop-filter: blur(10px); }
+        .widget h3 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: #fff; padding: 0 20px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px; }
+        
+        /* Modal simple */
+        .comment-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:2000; align-items:center; justify-content:center; }
+        .comment-modal-content { background:#0a0a0f; border:1px solid var(--glass-border); width:100%; max-width:600px; max-height:90vh; border-radius:16px; display:flex; flex-direction:column; overflow:hidden; }
+        
+        @media (max-width: 1100px) {
+            .social-layout { grid-template-columns: 80px minmax(500px, 1fr) 300px; }
+            .social-nav-item span, .btn-post { display: none; }
+        }
+        @media (max-width: 900px) {
+            .social-layout { grid-template-columns: 80px 1fr; }
+            .social-sidebar-right { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo-text">Imperio de los Sueños</div>
+        <nav>
+            <a href="../index.html#home">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="index.html">Universo</a>
+            <a href="../index.html#about">Nosotros</a>
+        </nav>
+    </header>
+
+    <div class="social-layout">
+        <!-- SIDEBAR IZQUIERDA -->
+        <aside class="social-sidebar-left">
+            <a href="../index.html" class="social-nav-item">
+                <i class="fas fa-home"></i>
+                <span>Inicio del Estudio</span>
+            </a>
+            <a href="index.html" class="social-nav-item">
+                <i class="fas fa-globe"></i>
+                <span>Universo</span>
+            </a>
+            <a href="proclamas.html" class="social-nav-item">
+                <i class="fas fa-bell"></i>
+                <span>Proclamas</span>
+                <span id="notifBadge" style="display: none; width: 10px; height: 10px; background: #e0245e; border-radius: 50%; margin-left: -5px; border: 2px solid #030305;"></span>
+            </a>
+            <a href="mensajeros.html" class="social-nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Mensajeros</span>
+            </a>
+            <a href="guardados.html" class="social-nav-item active">
+                <i class="fas fa-bookmark"></i>
+                <span>Leyendas Guardadas</span>
+            </a>
+            <a href="perfil.html" class="social-nav-item">
+                <i class="fas fa-user-shield"></i>
+                <span>Perfil de Héroe</span>
+            </a>
+            <button class="btn-post" onclick="window.location.href='index.html'">Forjar Leyenda</button>
+
+            <div class="user-profile-widget" onclick="window.location.href='perfil.html'" style="margin-top: auto; padding: 12px; display: flex; align-items: center; gap: 12px; border-radius: 50px; cursor: pointer;">
+                <img src="" alt="Avatar" class="avatar user-avatar-img">
+                <div style="flex-grow: 1;">
+                    <div style="font-weight: bold; font-size: 0.9rem;" class="user-name-text">Aventurero</div>
+                    <div style="color: #777; font-size: 0.8rem;" class="user-handle-text">@noble_errante</div>
+                </div>
+                <div onclick="event.stopPropagation(); SocialFirebase.logout();"><i class="fas fa-sign-out-alt" style="color: #777;"></i></div>
+            </div>
+        </aside>
+
+        <!-- FEED CENTRAL -->
+        <main class="social-feed">
+            <div class="feed-header">
+                <h2>Leyendas Guardadas</h2>
+                <i class="fas fa-bookmark" style="color: var(--accent-gold);"></i>
+            </div>
+            <div id="legendsFeed"></div>
+        </main>
+
+        <!-- SIDEBAR DERECHA -->
+        <aside class="social-sidebar-right">
+            <div class="widget">
+                <h3>Sobre Guardados</h3>
+                <div style="padding: 0 20px 20px; color: #777; font-size: 0.9rem;">
+                    Aquí se conservan aquellas leyendas que has decidido sellar para la posteridad. Solo tú puedes ver este rincón de tu memoria.
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal de Comentarios (Idéntico al de index.html) -->
+    <div class="comment-modal" id="commentModal">
+        <div class="comment-modal-content">
+            <div style="padding: 15px 20px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between;">
+                <h3 style="margin:0; font-family:Cinzel; color:var(--accent-gold);">Ecos de la Leyenda</h3>
+                <i class="fas fa-times" id="closeCommentModal" style="cursor:pointer; color:#777;"></i>
+            </div>
+            <div id="originalPostInModal" style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05);"></div>
+            <div id="commentList" style="flex-grow:1; overflow-y:auto; padding:20px;"></div>
+            <div style="padding:20px; border-top:1px solid var(--glass-border); display:flex; gap:10px;">
+                <input type="text" id="commentInput" placeholder="Añade tu voz al eco..." style="flex-grow:1; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); padding:10px 15px; border-radius:30px; color:white;">
+                <button id="sendCommentBtn" style="background:var(--accent-gold); border:none; width:40px; height:40px; border-radius:50%; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { SocialFirebase } from './js/social-firebase.js';
+
+        async function loadUserInfo() {
+            const user = await SocialFirebase.getCurrentUserProfile();
+            if (!user) { window.location.href = 'login.html'; return; }
+            document.querySelectorAll('.user-avatar-img').forEach(img => img.src = user.avatar);
+            document.querySelectorAll('.user-name-text').forEach(el => el.textContent = user.name);
+            document.querySelectorAll('.user-handle-text').forEach(el => el.textContent = user.handle);
+        }
+
+        function renderFeed(posts) {
+            const feedContainer = document.getElementById('legendsFeed');
+            feedContainer.innerHTML = '';
+            
+            if (posts.length === 0) {
+                feedContainer.innerHTML = '<div style="text-align: center; color: #555; padding: 50px;">Aún no has guardado ninguna leyenda...</div>';
+                return;
+            }
+
+            posts.forEach(post => {
+                const postHTML = `
+                    <article class="post" data-id="${post.id}">
+                        <img src="${post.avatar}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
+                        <div class="post-content">
+                            <div class="post-header">
+                                <span class="post-author">${post.author}</span>
+                                <span class="post-handle">${post.handle}</span>
+                                <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
+                            </div>
+                            <div class="post-text">${post.text}</div>
+                            ${(post.image && post.image.includes('data:image')) ? `<img src="${post.image}" alt="Media" class="post-image">` : ''}
+                            <div class="post-interactions">
+                                <div class="interaction" onclick="event.stopPropagation(); window.openCommentModal('${post.id}')">
+                                    <i class="far fa-comment"></i> ${post.commentsCount || 0}
+                                </div>
+                                <div class="interaction retweet ${post.retweeted ? 'active' : ''}" onclick="event.stopPropagation(); window.toggleRetweet('${post.id}')">
+                                    <i class="fas fa-retweet"></i> ${post.retweets}
+                                </div>
+                                <div class="interaction like ${post.liked ? 'active' : ''}" onclick="event.stopPropagation(); window.toggleLike('${post.id}')">
+                                    <i class="${post.liked ? 'fas' : 'far'} fa-heart"></i> ${post.likes}
+                                </div>
+                                <div class="interaction save active" onclick="event.stopPropagation(); window.toggleSave('${post.id}')">
+                                    <i class="fas fa-bookmark"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                `;
+                feedContainer.insertAdjacentHTML('beforeend', postHTML);
+            });
+        }
+
+        window.toggleLike = async (id) => await SocialFirebase.toggleLike(id);
+        window.toggleRetweet = async (id) => await SocialFirebase.toggleRetweet(id);
+        window.toggleSave = async (id) => await SocialFirebase.toggleSave(id);
+
+        // Comentarios logic (simplificada para guardados)
+        let currentModalPostId = null;
+        window.openCommentModal = async (id) => {
+            currentModalPostId = id;
+            const post = await SocialFirebase.getPost(id);
+            if (!post) return;
+            document.getElementById('originalPostInModal').innerHTML = `<div style="display:flex; gap:15px;"><img src="${post.avatar}" class="avatar" style="width:40px; height:40px; background:#000;"><div style="color:#eee;"><strong>${post.author}</strong><p>${post.text}</p></div></div>`;
+            SocialFirebase.onCommentsUpdate(id, (comments) => {
+                const list = document.getElementById('commentList');
+                list.innerHTML = comments.map(c => `<div style="margin-bottom:15px; display:flex; gap:10px;"><img src="${c.avatar}" class="avatar" style="width:30px; height:30px; background:#000;"><div><div style="font-weight:bold; color:var(--accent-gold); font-size:0.8rem;">${c.author}</div><div style="color:#ccc; font-size:0.9rem;">${c.text}</div></div></div>`).join('');
+            });
+            document.getElementById('commentModal').style.display = 'flex';
+        };
+
+        document.getElementById('sendCommentBtn').addEventListener('click', async () => {
+            const input = document.getElementById('commentInput');
+            if (input.value && currentModalPostId) {
+                await SocialFirebase.addComment(currentModalPostId, input.value);
+                input.value = '';
+            }
+        });
+
+        document.getElementById('closeCommentModal').addEventListener('click', () => {
+            document.getElementById('commentModal').style.display = 'none';
+            SocialFirebase.stopCommentsUpdate();
+        });
+
+        SocialFirebase.auth.onAuthStateChanged(user => {
+            if (user) {
+                loadUserInfo();
+                SocialFirebase.onSavedFeedUpdate(posts => renderFeed(posts));
+                // Escuchar notificaciones para el badge
+                SocialFirebase.onNotificationsUpdate(notifs => {
+                    const hasUnread = notifs.some(n => !n.read);
+                    document.getElementById('notifBadge').style.display = hasUnread ? 'block' : 'none';
+                });
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+    </script>
+</body>
+</html>

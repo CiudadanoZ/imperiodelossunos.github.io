@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forjar Leyenda (Registro) | UNIVERSO</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/social-db.js"></script>
+    <style>
+        body {
+            background: radial-gradient(circle at center, #1a0b2e 0%, #030305 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.1);
+            text-align: center;
+        }
+
+        .auth-card h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            color: var(--accent-gold);
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+        }
+
+        textarea {
+            resize: none;
+            height: 80px;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .btn-auth {
+            width: 100%;
+            background: linear-gradient(45deg, #d4af37, #b8860b);
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .auth-footer {
+            margin-top: 25px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .auth-footer a {
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+
+        .error-msg {
+            color: #ff4444;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h1>Forjar Leyenda</h1>
+        <p style="color: #777; font-size: 0.9rem; margin-bottom: 30px;">Crea tu identidad en los Reinos de Athermoor</p>
+        
+        <div id="errorMsg" class="error-msg"></div>
+
+        <form id="registerForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Nombre de Héroe</label>
+                    <input type="text" id="name" placeholder="Ej: Sir Galahad" required>
+                </div>
+                <div class="form-group">
+                    <label>Nombre de Bardo (@handle)</label>
+                    <input type="text" id="handle" placeholder="@el_caballero" required>
+                </div>
+                <div class="form-group">
+                    <label>Palabra de Poder</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <div class="form-group">
+                    <label>Ubicación</label>
+                    <input type="text" id="location" placeholder="Ej: Tierras Altas" required>
+                </div>
+                <div class="form-group full-width">
+                    <label>Biografía / Tu Historia</label>
+                    <textarea id="bio" placeholder="Cuenta brevemente tus orígenes..."></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn-auth">Comenzar Aventura</button>
+        </form>
+
+        <div class="auth-footer">
+            ¿Ya tienes una leyenda escrita? <a href="login.html">Iniciar Sesión</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { SocialFirebase } from './js/social-firebase.js';
+
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const errorMsg = document.getElementById('errorMsg');
+            
+            const name = document.getElementById('name').value;
+            let handle = document.getElementById('handle').value;
+            const password = document.getElementById('password').value;
+            const location = document.getElementById('location').value;
+            const bio = document.getElementById('bio').value;
+
+            // Asegurar que el handle empiece por @
+            if (!handle.startsWith('@')) {
+                handle = '@' + handle;
+            }
+
+            // Firebase requiere email. Usaremos el handle para generar uno ficticio
+            let cleanHandle = handle.startsWith('@') ? handle.substring(1) : handle;
+            const email = cleanHandle + "@universo.com";
+
+            try {
+                await SocialFirebase.register(name, email, password, handle, bio, location);
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error(error);
+                errorMsg.textContent = "Error al forjar la leyenda: " + error.message;
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
