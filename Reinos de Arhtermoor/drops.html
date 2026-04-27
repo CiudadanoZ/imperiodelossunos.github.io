@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Campañas de Twitch Drops para Reinos de Aethermoor. Consigue recompensas exclusivas viendo tus directos favoritos.">
+    <title>Twitch Drops | Reinos de Aethermoor</title>
+    <!-- CSS Principal para utilidades y consistencia -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- CSS Específico del juego -->
+    <link rel="stylesheet" href="game-style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .drops-hero {
+            padding: 8rem 5% 4rem;
+            background: linear-gradient(to bottom, rgba(2, 2, 4, 0.8), #020204), url('img/portada-castillo.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .twitch-accent {
+            color: #9146ff;
+            text-shadow: 0 0 10px rgba(145, 70, 255, 0.5);
+        }
+
+        .step-number {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: rgba(212, 175, 55, 0.2);
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-weight: bold;
+        }
+
+        .reward-img {
+            width: 100%;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reward-img i {
+            font-size: 4rem;
+            color: rgba(212, 175, 55, 0.3);
+        }
+
+        .reward-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-gold);
+            color: #000;
+            padding: 2px 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="game-page">
+    <header class="navbar">
+        <a href="../index.html" class="logo-text" style="text-decoration: none;">Imperio de los Sueños</a>
+        <nav>
+            <a href="index.html">Volver al Reino</a>
+        </nav>
+    </header>
+
+    <section class="drops-hero">
+        <div class="hero-content">
+            <h1 class="reveal-text" style="font-size: 3.5rem; margin-bottom: 1rem;">Campañas de <span class="twitch-accent">Twitch Drops</span></h1>
+            <p class="fade-in lore-text" style="margin-left: auto; margin-right: auto;">
+                Vincula tu cuenta, mira directos de Reinos de Aethermoor en Twitch y reclama tesoros legendarios para tu aventura.
+            </p>
+            <div style="margin-top: 2rem;">
+                <a href="vincular.html" class="btn-primary pulse" style="background: #9146ff; border-color: #a970ff;">
+                    <i class="fab fa-twitch"></i> Vincular Ahora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section" style="padding-top: 5rem;">
+        <h2 class="section-title">¿Cómo participar?</h2>
+        <div class="feature-grid">
+            <div class="feature-card visible" style="position: relative;">
+                <span class="step-number">01</span>
+                <i class="fas fa-link feature-icon" style="color: #9146ff;"></i>
+                <h3>Conecta tu cuenta</h3>
+                <p>Inicia sesión con tu cuenta de UNIVERSO y vincúlala con tu perfil de Twitch de forma segura.</p>
+            </div>
+            <div class="feature-card visible" style="position: relative;">
+                <span class="step-number">02</span>
+                <i class="fas fa-tv feature-icon" style="color: #9146ff;"></i>
+                <h3>Mira el directo</h3>
+                <p>Busca canales con el tag "Drops Habilitados" y disfruta de la comunidad de Aethermoor.</p>
+            </div>
+            <div class="feature-card visible" style="position: relative;">
+                <span class="step-number">03</span>
+                <i class="fas fa-gift feature-icon" style="color: #9146ff;"></i>
+                <h3>Reclama tu botín</h3>
+                <p>Una vez completado el tiempo, reclama tus recompensas en el inventario de Drops de Twitch.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section" style="background: #050508;">
+        <h2 class="section-title">Recompensas Activas</h2>
+        <div class="feature-grid">
+            <!-- Recompensa 1 -->
+            <div class="feature-card visible">
+                <div class="reward-img">
+                    <span class="reward-badge">Común</span>
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3>Bolsa de Oro Real</h3>
+                <p>Contiene 500 monedas de oro para tus primeras travesías en el reino.</p>
+                <p style="font-size: 0.8rem; color: #9146ff; margin-top: 1rem;">MIRA POR 30 MINUTOS</p>
+            </div>
+
+            <!-- Recompensa 2 -->
+            <div class="feature-card visible">
+                <div class="reward-img">
+                    <span class="reward-badge" style="background: #4a90e2;">Raro</span>
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Escudo de la Guardia</h3>
+                <p>Un robusto escudo de hierro forjado con el emblema de Aethermoor.</p>
+                <p style="font-size: 0.8rem; color: #9146ff; margin-top: 1rem;">MIRA POR 2 HORAS</p>
+            </div>
+
+            <!-- Recompensa 3 -->
+            <div class="feature-card visible">
+                <div class="reward-img">
+                    <span class="reward-badge" style="background: #f5a623;">Legendario</span>
+                    <i class="fas fa-pope"></i>
+                </div>
+                <h3>Capa del Fundador</h3>
+                <p>Capa conmemorativa para los primeros héroes que se unan a la batalla.</p>
+                <p style="font-size: 0.8rem; color: #9146ff; margin-top: 1rem;">MIRA POR 5 HORAS</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Imperio de los Sueños</h3>
+                <p>Forjando el futuro de los videojuegos independientes.</p>
+            </div>
+            <div class="socials">
+                <a href="https://x.com/Oscar31741727" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/WygZEc54A8" aria-label="Discord" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -910,6 +910,10 @@
                 <i class="fas fa-globe"></i>
                 <span>Universo</span>
             </a>
+            <a href="comunidades.html" class="social-nav-item">
+                <i class="fas fa-users"></i>
+                <span>Gremios</span>
+            </a>
             <a href="proclamas.html" class="social-nav-item">
                 <i class="fas fa-bell"></i>
                 <span>Proclamas</span>
@@ -974,7 +978,7 @@
                 <div class="profile-handle user-handle-text">@noble_errante</div>
 
                 <div class="profile-bio" id="userBioText">
-                    Explorador de las sombras. Buscando la redención en los Reinos de Athermoor. Un espadachín más
+                    Explorador de las sombras. Buscando la redención en los Reinos de Aethermoor. Un espadachín más
                     tratando de no ser devorado por la oscuridad. ⚔️🌑
                 </div>
 
@@ -1199,7 +1203,7 @@
                     currentPosts = posts; // Guardamos para cambios de pestaña
                     renderMyFeed(posts);
                     updateTrends(posts);
-                });
+                }, null);
                 // Escuchar notificaciones para el badge
                 SocialFirebase.onNotificationsUpdate(notifs => {
                     const hasUnread = notifs.some(n => !n.read);

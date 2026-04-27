@@ -402,11 +402,46 @@
         }
 
         @media (max-width: 600px) {
+            .messaging-layout {
+                grid-template-columns: 1fr;
+                padding-top: 60px;
+                padding-bottom: 60px;
+                height: 100vh;
+                box-sizing: border-box;
+            }
+            .social-sidebar-left {
+                position: fixed; bottom: 0; top: auto; height: 60px; width: 100%;
+                flex-direction: row; justify-content: space-around;
+                background: rgba(10, 10, 15, 0.95); border-top: 1px solid var(--glass-border);
+                padding: 5px; z-index: 100;
+            }
             .btn-post {
-                position: fixed;
-                bottom: 80px;
-                right: 20px;
-                z-index: 101;
+                position: fixed; bottom: 80px; right: 20px; z-index: 101;
+            }
+            .user-profile-widget { display: none; }
+            
+            /* Ajustes para móviles: Ocultar chat por defecto, mostrar lista completa */
+            .messages-container {
+                grid-template-columns: 1fr;
+            }
+            .chats-sidebar {
+                width: 100%;
+                display: flex; /* Mostrar lista */
+            }
+            .chat-info, .chats-header h2, .chats-header i { display: block; }
+            .chat-window {
+                display: none; /* Ocultar chat activo */
+            }
+
+            /* Cuando un chat está activo en móvil */
+            .messages-container.mobile-chat-active .chats-sidebar {
+                display: none;
+            }
+            .messages-container.mobile-chat-active .chat-window {
+                display: flex;
+            }
+            #btnBackMobile {
+                display: block !important;
             }
         }
     </style>
@@ -435,6 +470,10 @@
             <a href="index.html" class="social-nav-item">
                 <i class="fas fa-globe"></i>
                 <span>Universo</span>
+            </a>
+            <a href="comunidades.html" class="social-nav-item">
+                <i class="fas fa-users"></i>
+                <span>Gremios</span>
             </a>
             <a href="proclamas.html" class="social-nav-item">
                 <i class="fas fa-bell"></i>
@@ -495,7 +534,7 @@
                         <img src="../img/personaje-protagonista.png" alt="El Anciano" class="avatar" style="object-fit: contain; background: #000;">
                         <div class="chat-info">
                             <div class="chat-name">El Anciano <span class="chat-time">14:20</span></div>
-                            <div class="chat-last-msg">¿Has visto el último pergamino de Athermoor?</div>
+                            <div class="chat-last-msg">¿Has visto el último pergamino de Aethermoor?</div>
                         </div>
                     </div>
 
@@ -520,12 +559,17 @@
             <!-- Ventana de Chat -->
             <main class="chat-window">
                 <div class="chat-window-header">
-                    <div class="chat-user-profile">
+                    
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <i class="fas fa-arrow-left" id="btnBackMobile" style="display: none; color: var(--accent-gold); cursor: pointer; font-size: 1.2rem;" onclick="window.closeMobileChat()"></i>
+                        <div class="chat-user-profile">
+
                         <img src="../img/personaje-protagonista.png" alt="Avatar" id="chatHeaderAvatar" class="avatar" style="object-fit: contain; background: #000;">
                         <div>
                             <div style="font-weight: bold; color: #fff;" id="chatHeaderName">El Anciano Erudito</div>
                             <div style="font-size: 0.8rem; color: #17bf63;" id="chatHeaderStatus">En los archivos... (En línea)</div>
                         </div>
+                    </div>
                     </div>
                     <i class="fas fa-info-circle" style="color: #777; cursor: pointer;"></i>
                 </div>
@@ -659,8 +703,11 @@
             currentChatId = handle;
             document.getElementById('searchResults').style.display = 'none';
             document.getElementById('userSearch').value = '';
+            
+            // Activar vista de chat en móviles
+            document.querySelector('.messages-container').classList.add('mobile-chat-active');
+            
             renderMessages();
-            // No necesitamos forzar la lista de chats, onRecentChatsUpdate lo hará solo
         }
 
         // Gestión del menú adjuntar
@@ -707,8 +754,17 @@
             // Marcar activo en la UI
             document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
             if (element) element.classList.add('active');
+            
+            // Activar vista de chat en móviles
+            document.querySelector('.messages-container').classList.add('mobile-chat-active');
+            
             renderMessages();
         }
+
+        window.closeMobileChat = function() {
+            document.querySelector('.messages-container').classList.remove('mobile-chat-active');
+            currentChatId = null;
+        };
 
         function loadRecentChats() {
             SocialFirebase.onRecentChatsUpdate(chats => {

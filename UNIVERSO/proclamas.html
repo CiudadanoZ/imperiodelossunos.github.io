@@ -93,7 +93,46 @@
             .social-layout { grid-template-columns: 80px 1fr; }
             .social-sidebar-right { display: none; }
         }
+
+        @media (max-width: 600px) {
+            .social-layout {
+                grid-template-columns: 1fr;
+                padding-top: 60px;
+                padding-bottom: 60px;
+            }
+
+            .social-sidebar-left {
+                position: fixed;
+                bottom: 0;
+                top: auto;
+                height: 60px;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-around;
+                background: rgba(10, 10, 15, 0.95);
+                border-top: 1px solid var(--glass-border);
+                padding: 5px;
+                z-index: 100;
+            }
+
+            .social-feed {
+                border-left: none;
+                border-right: none;
+            }
+
+            .btn-post {
+                position: fixed;
+                bottom: 80px;
+                right: 20px;
+                z-index: 101;
+            }
+
+            .user-profile-widget {
+                display: none;
+            }
+        }
     </style>
+
 </head>
 
 <body>
@@ -118,6 +157,10 @@
             <a href="index.html" class="social-nav-item">
                 <i class="fas fa-globe"></i>
                 <span>Universo</span>
+            </a>
+            <a href="comunidades.html" class="social-nav-item">
+                <i class="fas fa-users"></i>
+                <span>Gremios</span>
             </a>
             <a href="proclamas.html" class="social-nav-item active">
                 <i class="fas fa-bell"></i>

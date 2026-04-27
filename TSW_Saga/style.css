@@ -1,0 +1,214 @@
+/* TSW Saga Specific Styles */
+.saga-page {
+    background-color: #030305;
+}
+
+.saga-hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+    transform: scale(1.1);
+    animation: slowZoom 20s infinite alternate;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(145, 70, 255, 0.1) 0%, rgba(3, 3, 5, 0.9) 100%);
+    z-index: -1;
+}
+
+.hero-content {
+    max-width: 900px;
+    padding: 2rem;
+    z-index: 10;
+}
+
+.saga-label {
+    font-family: 'Cinzel', serif;
+    color: #9146ff;
+    letter-spacing: 5px;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(145, 70, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+.glitch-text {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    letter-spacing: -2px;
+    position: relative;
+    text-shadow: 0 0 20px rgba(145, 70, 255, 0.3);
+}
+
+.saga-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: var(--accent-gold);
+    letter-spacing: 3px;
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+}
+
+.saga-desc {
+    font-size: 1.15rem;
+    color: #ccc;
+    line-height: 1.8;
+    margin-bottom: 4rem;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.3);
+    padding: 1.5rem;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.saga-btn {
+    background: linear-gradient(45deg, #9146ff, #4a1966);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.4);
+    border: none;
+}
+
+.saga-btn:hover {
+    background: #9146ff;
+    box-shadow: 0 0 50px rgba(145, 70, 255, 0.6);
+}
+
+.saga-btn-outline {
+    border: 1px solid rgba(145, 70, 255, 0.5);
+    color: #fff;
+    background: rgba(145, 70, 255, 0.05);
+}
+
+.saga-btn-outline:hover {
+    background: rgba(145, 70, 255, 0.2);
+    border-color: #9146ff;
+    color: #fff;
+}
+
+/* Info Section */
+.saga-info {
+    padding: 8rem 5%;
+    background: linear-gradient(to bottom, #030305, #080810);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.info-card {
+    background: rgba(15, 15, 25, 0.6);
+    padding: 3.5rem 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid rgba(145, 70, 255, 0.1);
+    transition: all 0.4s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-10px);
+    border-color: #9146ff;
+    background: rgba(145, 70, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.info-card i {
+    font-size: 3rem;
+    color: #9146ff;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 15px rgba(145, 70, 255, 0.5);
+}
+
+.info-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.info-card p {
+    color: #888;
+    line-height: 1.7;
+}
+
+/* Announcement */
+.announcement {
+    padding: 10rem 5%;
+    text-align: center;
+    background: url('../img/saga_hero.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+}
+
+.announcement::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(3, 3, 5, 0.85);
+}
+
+.announcement-content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.announcement h2 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: var(--accent-gold);
+}
+
+.announcement p {
+    font-size: 1.3rem;
+    color: #aaa;
+    line-height: 1.9;
+}
+
+@keyframes slowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.15); }
+}
+
+@media (max-width: 768px) {
+    .glitch-text { font-size: 3rem; }
+    .saga-subtitle { font-size: 1.1rem; }
+    .saga-desc { font-size: 1rem; }
+    .announcement h2 { font-size: 2rem; }
+}

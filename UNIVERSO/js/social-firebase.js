@@ -82,7 +82,7 @@ export const SocialFirebase = {
     },
 
     // --- LEYENDAS (POSTS) ---
-    async addPost(text, image = null) {
+    async addPost(text, image = null, communityId = null, communityName = null) {
         const profile = await this.getCurrentUserProfile();
         if (!profile) throw new Error("No hay sesión activa");
 
@@ -93,6 +93,8 @@ export const SocialFirebase = {
             authorUid: auth.currentUser.uid, // Guardamos el UID del autor para notificaciones
             text: text,
             image: image,
+            communityId: communityId,
+            communityName: communityName,
             timestamp: Date.now(),
             likes: [], 
             retweets: [], 
@@ -100,10 +102,10 @@ export const SocialFirebase = {
         });
     },
 
-    onFeedUpdate(callback) {
+    onFeedUpdate(callback, filterCommunityId = undefined) {
         const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
         return onSnapshot(q, (snapshot) => {
-            const posts = snapshot.docs.map(doc => ({ 
+            let posts = snapshot.docs.map(doc => ({ 
                 id: doc.id, 
                 ...doc.data(),
                 // Adaptar arrays de likes/retweets/saves a contadores para la UI vieja
@@ -113,6 +115,14 @@ export const SocialFirebase = {
                 retweeted: (doc.data().retweets || []).includes(auth.currentUser?.uid),
                 saved: (doc.data().savedBy || []).includes(auth.currentUser?.uid)
             }));
+            
+            if (filterCommunityId !== undefined) {
+                if (filterCommunityId === null) {
+                    posts = posts.filter(p => !p.communityId); // Solo feed global
+                } else {
+                    posts = posts.filter(p => p.communityId === filterCommunityId); // Solo esta comunidad
+                }
+            }
             callback(posts);
         });
     },
@@ -279,6 +289,47 @@ export const SocialFirebase = {
         const postRef = doc(db, "posts", postId);
         const postSnap = await getDoc(postRef);
         return postSnap.exists() ? { id: postSnap.id, ...postSnap.data() } : null;
+    },
+
+    // --- COMUNIDADES (GREMIOS) ---
+    async createCommunity(name, description) {
+        const profile = await this.getCurrentUserProfile();
+        if (!profile) throw new Error("No hay sesión activa");
+
+        const docRef = await addDoc(collection(db, "communities"), {
+            name: name,
+            description: description,
+            creatorUid: auth.currentUser.uid,
+            members: [auth.currentUser.uid], // El creador se une automáticamente
+            timestamp: Date.now()
+        });
+        return docRef.id;
+    },
+
+    async getCommunities() {
+        const q = query(collection(db, "communities"), orderBy("timestamp", "desc"));
+        const snapshot = await getDocs(q);
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), membersCount: (doc.data().members || []).length }));
+    },
+
+    async getCommunity(communityId) {
+        const docRef = doc(db, "communities", communityId);
+        const snap = await getDoc(docRef);
+        return snap.exists() ? { id: snap.id, ...snap.data(), membersCount: (snap.data().members || []).length } : null;
+    },
+
+    async joinCommunity(communityId) {
+        const user = auth.currentUser;
+        if (!user) return;
+        const comRef = doc(db, "communities", communityId);
+        await updateDoc(comRef, { members: arrayUnion(user.uid) });
+    },
+
+    async leaveCommunity(communityId) {
+        const user = auth.currentUser;
+        if (!user) return;
+        const comRef = doc(db, "communities", communityId);
+        await updateDoc(comRef, { members: arrayRemove(user.uid) });
     },
 
     // --- MENSAJEROS (DIRECT MESSAGES) ---

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description"
         content="Universo - Imperio de los Sueños. Sigue las últimas leyendas y murmullos del reino.">
-    <title>Universo | Imperio de los Sueños</title>
+    <title>Gremio | Imperio de los Sueños</title>
     <!-- Enlazamos al CSS principal del estudio -->
     <link rel="stylesheet" href="../style.css">
     <link
@@ -679,11 +679,11 @@
                 <i class="fas fa-home"></i>
                 <span>Inicio del Estudio</span>
             </a>
-            <a href="index.html" class="social-nav-item active">
+            <a href="index.html" class="social-nav-item">
                 <i class="fas fa-globe"></i>
                 <span>Universo</span>
             </a>
-            <a href="comunidades.html" class="social-nav-item">
+            <a href="comunidades.html" class="social-nav-item active">
                 <i class="fas fa-users"></i>
                 <span>Gremios</span>
             </a>
@@ -728,71 +728,44 @@
         </aside>
 
         <!-- FEED CENTRAL -->
+        
         <main class="social-feed">
-            <div class="feed-header">
-                <h2>Últimas Leyendas</h2>
-                <i class="fas fa-sparkles"></i>
+            <div class="feed-header" style="display: flex; gap: 10px; align-items: center;">
+                <a href="comunidades.html" style="color: var(--text-light);"><i class="fas fa-arrow-left"></i></a>
+                <h2 id="gremioName">Cargando Gremio...</h2>
             </div>
 
-            <!-- Caja para publicar -->
-            <div class="compose-box">
+            <!-- Cabecera del Gremio -->
+            <div style="padding: 20px; border-bottom: 1px solid var(--glass-border); text-align: center; background: rgba(0,0,0,0.2);">
+                <div id="gremioDesc" style="color: #ccc; margin-bottom: 15px; font-style: italic;"></div>
+                <div style="display: flex; justify-content: center; gap: 15px; align-items: center;">
+                    <span style="color: #777; font-size: 0.9rem;"><i class="fas fa-users"></i> <span id="gremioMembers">0</span> miembros</span>
+                    <button id="btnJoinLeave" class="btn-follow" style="display: none;">Unirse</button>
+                </div>
+            </div>
+
+            <!-- Caja para publicar en Gremio -->
+            <div class="compose-box" id="gremioCompose" style="display: none;">
                 <img src="" alt="Avatar" class="avatar user-avatar-img">
                 <div class="compose-input-area">
-                    <textarea class="compose-input" id="postText"
-                        placeholder="Haz eco de tu historia o comparte un avistamiento oscuro..."></textarea>
+                    <textarea class="compose-input" id="postText" placeholder="Aporta tu sabiduría al Gremio..."></textarea>
                     <div class="compose-actions">
                         <div class="action-icons">
-                            <i class="fas fa-image" title="Añadir Pergamino / Imagen" id="imgBtn"></i>
-                            <i class="fas fa-list-ul" title="Realizar Sondeo (Encuesta)" id="pollBtn"></i>
-                            <i class="fas fa-smile" title="Expresiones arcanas (Emoji)" id="emojiBtn"></i>
-                            <i class="fas fa-calendar-alt" title="Programar Edicto" id="scheduleBtn"></i>
+                            <i class="fas fa-image" id="imgBtn"></i>
                         </div>
                         <button class="btn-small-post" id="publishBtn">Publicar</button>
                     </div>
-                    <!-- Contenedores extra para funcionalidad -->
                     <div id="imagePreviewArea" style="display: none; margin-top: 10px; position: relative;">
-                        <img id="imgPreview" src=""
-                            style="max-width: 100%; border-radius: 10px; border: 1px solid var(--glass-border);">
-                        <i class="fas fa-times-circle" id="removeImg"
-                            style="position: absolute; top: 10px; right: 10px; color: var(--accent-gold); cursor: pointer; background: rgba(0,0,0,0.5); border-radius: 50%;"></i>
-                    </div>
-                    <div id="pollCreator"
-                        style="display: none; margin-top: 15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border: 1px solid rgba(212,175,55,0.2);">
-                        <label
-                            style="font-size: 0.8rem; color: var(--accent-gold); display: block; margin-bottom: 10px; font-family: Cinzel;">Opciones
-                            del Sondeo</label>
-                        <input type="text" class="poll-opt" placeholder="Opción 1"
-                            style="width: 100%; background: rgba(0,0,0,0.3); border: 1px solid #333; color: white; padding: 8px; border-radius: 5px; margin-bottom: 8px;">
-                        <input type="text" class="poll-opt" placeholder="Opción 2"
-                            style="width: 100%; background: rgba(0,0,0,0.3); border: 1px solid #333; color: white; padding: 8px; border-radius: 5px;">
-                    </div>
-                    <div id="emojiPicker"
-                        style="display: none; position: absolute; z-index: 100; background: #1a1a24; border: 1px solid var(--accent-gold); padding: 10px; border-radius: 10px; grid-template-columns: repeat(5, 1fr); gap: 5px; box-shadow: 0 5px 20px rgba(0,0,0,0.8);">
-                        <span onclick="addEmoji('⚔️')" style="cursor: pointer; font-size: 1.2rem;">⚔️</span>
-                        <span onclick="addEmoji('🌑')" style="cursor: pointer; font-size: 1.2rem;">🌑</span>
-                        <span onclick="addEmoji('✨')" style="cursor: pointer; font-size: 1.2rem;">✨</span>
-                        <span onclick="addEmoji('🖤')" style="cursor: pointer; font-size: 1.2rem;">🖤</span>
-                        <span onclick="addEmoji('🪽')" style="cursor: pointer; font-size: 1.2rem;">🪽</span>
-                        <span onclick="addEmoji('🐉')" style="cursor: pointer; font-size: 1.2rem;">🐉</span>
-                        <span onclick="addEmoji('📜')" style="cursor: pointer; font-size: 1.2rem;">📜</span>
-                        <span onclick="addEmoji('🔥')" style="cursor: pointer; font-size: 1.2rem;">🔥</span>
-                        <span onclick="addEmoji('👑')" style="cursor: pointer; font-size: 1.2rem;">👑</span>
-                        <span onclick="addEmoji('💀')" style="cursor: pointer; font-size: 1.2rem;">💀</span>
-                    </div>
-                    <div id="scheduleArea"
-                        style="display: none; margin-top: 10px; color: var(--accent-gold); font-size: 0.85rem;">
-                        <i class="fas fa-clock"></i> Programar para: <input type="datetime-local" id="scheduleDate"
-                            style="background: transparent; border: 1px solid #333; color: white; cursor: pointer;">
+                        <img id="imgPreview" src="" style="max-width: 100%; border-radius: 10px;">
+                        <i class="fas fa-times-circle" id="removeImg" style="position: absolute; top: 10px; right: 10px; color: var(--accent-gold); cursor: pointer;"></i>
                     </div>
                     <input type="file" id="imgInput" accept="image/*" style="display: none;">
                 </div>
             </div>
 
             <div id="legendsFeed"></div>
-
-            <!-- Los posts se cargarán dinámicamente aquí -->
-
         </main>
+
 
         <!-- SIDEBAR DERECHA -->
         <aside class="social-sidebar-right">
@@ -873,339 +846,201 @@
         </div>
     </div>
 
-    <script type="module">
-        import { SocialFirebase } from './js/social-firebase.js';
-        // Variables para contenido extra
-        let postImageData = null;
+    
+<script type="module">
+    import { SocialFirebase } from './js/social-firebase.js';
 
-        // Gestión de Imagen
-        document.getElementById('imgBtn').addEventListener('click', () => document.getElementById('imgInput').click());
-        document.getElementById('imgInput').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    postImageData = event.target.result;
-                    document.getElementById('imgPreview').src = postImageData;
-                    document.getElementById('imagePreviewArea').style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        document.getElementById('removeImg').addEventListener('click', () => {
-            postImageData = null;
-            document.getElementById('imagePreviewArea').style.display = 'none';
-            document.getElementById('imgInput').value = '';
-        });
+    let currentCommunityId = null;
+    let currentCommunityName = null;
+    let postImageData = null;
 
-        // Gestión de Sondeo
-        document.getElementById('pollBtn').addEventListener('click', () => {
-            const el = document.getElementById('pollCreator');
-            el.style.display = el.style.display === 'none' ? 'block' : 'none';
-        });
+    // --- CARGAR PERFIL ---
+    async function loadUserInfo() {
+        const user = await SocialFirebase.getCurrentUserProfile();
+        if (!user) return;
+        document.querySelectorAll('.user-avatar-img').forEach(img => img.src = user.avatar);
+        document.querySelectorAll('.user-name-text').forEach(el => el.textContent = user.name);
+        document.querySelectorAll('.user-handle-text').forEach(el => el.textContent = user.handle);
+    }
 
-        // Gestión de Emoji
-        document.getElementById('emojiBtn').addEventListener('click', (e) => {
-            const el = document.getElementById('emojiPicker');
-            el.style.display = el.style.display === 'none' ? 'grid' : 'none';
-            el.style.top = (e.pageY + 10) + 'px';
-            el.style.left = e.pageX + 'px';
-        });
-        window.addEmoji = function (emoji) {
-            const input = document.getElementById('postText');
-            input.value += emoji;
-            document.getElementById('emojiPicker').style.display = 'none';
+    // --- CARGAR GREMIO ---
+    async function loadCommunity() {
+        const urlParams = new URLSearchParams(window.location.search);
+        currentCommunityId = urlParams.get('id');
+        
+        if (!currentCommunityId) {
+            window.location.href = 'comunidades.html';
+            return;
         }
 
-        // Gestión de Calendario
-        document.getElementById('scheduleBtn').addEventListener('click', () => {
-            const el = document.getElementById('scheduleArea');
-            el.style.display = el.style.display === 'none' ? 'block' : 'none';
-        });
+        const com = await SocialFirebase.getCommunity(currentCommunityId);
+        if (!com) {
+            alert("Gremio no encontrado o destruido.");
+            window.location.href = 'comunidades.html';
+            return;
+        }
 
-        // Cambio de Avatar desde Sidebar (Avatar aleatorio en formato SVG)
-        document.getElementById('avatarContainer').addEventListener('click', async (e) => {
-            e.stopPropagation();
+        currentCommunityName = com.name;
+        document.getElementById('gremioName').textContent = com.name;
+        document.getElementById('gremioDesc').textContent = com.description;
+        document.getElementById('gremioMembers').textContent = com.membersCount;
+
+        const isMember = com.members && com.members.includes(SocialFirebase.auth.currentUser.uid);
+        const btn = document.getElementById('btnJoinLeave');
+        btn.style.display = 'inline-block';
+        
+        if (isMember) {
+            btn.textContent = 'Abandonar Gremio';
+            btn.style.borderColor = '#e0245e';
+            btn.style.color = '#e0245e';
+            document.getElementById('gremioCompose').style.display = 'flex'; // Solo los miembros publican
+        } else {
+            btn.textContent = 'Unirse al Gremio';
+            btn.style.borderColor = 'var(--accent-gold)';
+            btn.style.color = 'var(--accent-gold)';
+            document.getElementById('gremioCompose').style.display = 'none';
+        }
+
+        btn.onclick = async () => {
+            if (isMember) {
+                await SocialFirebase.leaveCommunity(currentCommunityId);
+            } else {
+                await SocialFirebase.joinCommunity(currentCommunityId);
+            }
+            loadCommunity(); // Recargar datos
+        };
+
+        // Suscribirse al feed específico del gremio
+        SocialFirebase.onFeedUpdate(posts => {
+            renderFeed(posts);
+            updateTrends(posts);
+        }, currentCommunityId);
+    }
+
+    // --- PUBLICAR EN GREMIO ---
+    document.getElementById('imgBtn').addEventListener('click', () => document.getElementById('imgInput').click());
+    document.getElementById('imgInput').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                postImageData = event.target.result;
+                document.getElementById('imgPreview').src = postImageData;
+                document.getElementById('imagePreviewArea').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    document.getElementById('removeImg').addEventListener('click', () => {
+        postImageData = null;
+        document.getElementById('imagePreviewArea').style.display = 'none';
+        document.getElementById('imgInput').value = '';
+    });
+
+    document.getElementById('publishBtn').addEventListener('click', async () => {
+        const text = document.getElementById('postText').value;
+        const image = postImageData;
+
+        if (text.trim() || image) {
             try {
-                const newAvatar = SocialFirebase.generateRandomAvatar();
-                await SocialFirebase.updateUserAvatar(newAvatar);
-                loadUserInfo(); // Recargar imágenes en widgets
+                // Publicar con el ID de comunidad
+                await SocialFirebase.addPost(text, image, currentCommunityId, currentCommunityName);
+                document.getElementById('postText').value = '';
+                postImageData = null;
+                document.getElementById('imagePreviewArea').style.display = 'none';
+                document.getElementById('imgInput').value = '';
             } catch (error) {
-                console.error("Error al actualizar avatar:", error);
-                alert("Error al actualizar tu apariencia.");
+                alert("Error al sellar la leyenda: " + error.message);
             }
-        });
-
-        document.getElementById('avatarContainer').addEventListener('mouseenter', function () {
-            this.querySelector('.avatar-edit-overlay').style.opacity = '1';
-        });
-        document.getElementById('avatarContainer').addEventListener('mouseleave', function () {
-            this.querySelector('.avatar-edit-overlay').style.opacity = '0';
-        });
-
-        // --- GESTIÓN DE USUARIO ---
-        async function loadUserInfo() {
-            const user = await SocialFirebase.getCurrentUserProfile();
-            if (!user) {
-                // Si no hay sesión, mandamos al login
-                window.location.href = 'login.html';
-                return;
-            }
-            document.querySelectorAll('.user-avatar-img').forEach(img => img.src = user.avatar);
-            document.querySelectorAll('.user-name-text').forEach(el => el.textContent = user.name);
-            document.querySelectorAll('.user-handle-text').forEach(el => el.textContent = user.handle);
         }
+    });
 
-        // --- RENDERIZADO DEL FEED (Tiempo Real) ---
-        function renderFeed(posts) {
-            const feedContainer = document.getElementById('legendsFeed');
-            const searchQuery = document.getElementById('searchLegendsInput').value.toLowerCase();
-            
-            feedContainer.innerHTML = '';
-
-            const filteredPosts = searchQuery ? posts.filter(p => 
-                p.text.toLowerCase().includes(searchQuery) || 
-                p.author.toLowerCase().includes(searchQuery) || 
-                p.handle.toLowerCase().includes(searchQuery)
-            ) : posts;
-
-            filteredPosts.forEach(post => {
-                const postHTML = `
-                    <article class="post" data-id="${post.id}">
-                        <img src="${post.avatar}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
-                        <div class="post-content">
-                            <div class="post-header">
-                                <span class="post-author">${post.author}</span>
-                                <span class="post-handle">${post.handle}</span>
-                                <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
+    // --- RENDER FEED (Igual que index) ---
+    function renderFeed(posts) {
+        const feedContainer = document.getElementById('legendsFeed');
+        if (posts.length === 0) {
+            feedContainer.innerHTML = '<div style="padding:40px; text-align:center; color:#555;">No hay leyendas en este gremio todavía.</div>';
+            return;
+        }
+        
+        feedContainer.innerHTML = '';
+        posts.forEach(post => {
+            const postHTML = `
+                <article class="post" data-id="${post.id}">
+                    <img src="${post.avatar}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <span class="post-author">${post.author}</span>
+                            <span class="post-handle">${post.handle}</span>
+                            <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
+                        </div>
+                        <div class="post-text">${post.text}</div>
+                        ${(post.image && post.image.includes('data:image')) ? `<img src="${post.image}" alt="Media" class="post-image">` : ''}
+                        <div class="post-interactions">
+                            <div class="interaction" onclick="event.stopPropagation(); window.openCommentModal('${post.id}')">
+                                <i class="far fa-comment"></i> ${post.commentsCount || 0}
                             </div>
-                            <div class="post-text">${post.text}</div>
-                            ${(post.image && post.image.includes('data:image')) ? `<img src="${post.image}" alt="Media" class="post-image">` : ''}
-                            <div class="post-interactions">
-                                <div class="interaction" onclick="event.stopPropagation(); openCommentModal('${post.id}')">
-                                    <i class="far fa-comment"></i> ${post.commentsCount || 0}
-                                </div>
-                                <div class="interaction retweet ${post.retweeted ? 'active' : ''}" onclick="event.stopPropagation(); toggleRetweet('${post.id}')">
-                                    <i class="fas fa-retweet"></i> ${post.retweets}
-                                </div>
-                                <div class="interaction like ${post.liked ? 'active' : ''}" onclick="event.stopPropagation(); toggleLike('${post.id}')">
-                                    <i class="${post.liked ? 'fas' : 'far'} fa-heart"></i> ${post.likes}
-                                </div>
-                                <div class="interaction save ${post.saved ? 'active' : ''}" onclick="event.stopPropagation(); toggleSave('${post.id}')">
-                                    <i class="${post.saved ? 'fas' : 'far'} fa-bookmark"></i>
-                                </div>
-                                <div class="interaction" onclick="event.stopPropagation(); handleShare('${post.id}')">
-                                    <i class="fas fa-share-square"></i>
-                                </div>
+                            <div class="interaction retweet ${post.retweeted ? 'active' : ''}" onclick="event.stopPropagation(); window.toggleRetweet('${post.id}')">
+                                <i class="fas fa-retweet"></i> ${post.retweets}
+                            </div>
+                            <div class="interaction like ${post.liked ? 'active' : ''}" onclick="event.stopPropagation(); window.toggleLike('${post.id}')">
+                                <i class="${post.liked ? 'fas' : 'far'} fa-heart"></i> ${post.likes}
+                            </div>
+                            <div class="interaction save ${post.saved ? 'active' : ''}" onclick="event.stopPropagation(); window.toggleSave('${post.id}')">
+                                <i class="${post.saved ? 'fas' : 'far'} fa-bookmark"></i>
                             </div>
                         </div>
-                    </article>
-                `;
-                feedContainer.insertAdjacentHTML('beforeend', postHTML);
-            });
-        }
-
-        // --- ACCIONES MÍSTICAS ---
-        document.getElementById('publishBtn').addEventListener('click', async () => {
-            const text = document.getElementById('postText').value;
-            const image = postImageData; // Usar la variable de datos real
-
-            if (text.trim() || image) {
-                try {
-                    await SocialFirebase.addPost(text, image);
-                    // Limpiar tras publicar
-                    document.getElementById('postText').value = '';
-                    postImageData = null;
-                    document.getElementById('imagePreviewArea').style.display = 'none';
-                    document.getElementById('imgInput').value = '';
-                } catch (error) {
-                    alert("Error al sellar la leyenda: " + error.message);
-                }
-            }
-        });
-
-        window.toggleLike = async function (postId) {
-            await SocialFirebase.toggleLike(postId);
-        };
-
-        window.toggleRetweet = async function (postId) {
-            await SocialFirebase.toggleRetweet(postId);
-        };
-
-        window.toggleSave = async function (postId) {
-            await SocialFirebase.toggleSave(postId);
-        };
-
-        window.handleShare = function (postId) {
-            const url = window.location.origin + window.location.pathname + '?post=' + postId;
-            navigator.clipboard.writeText(url).then(() => {
-                alert("¡Vínculo de la Leyenda copiado al pergamino! 📜✨");
-            });
-        };
-
-        // --- GESTIÓN DE COMENTARIOS (ECOS) ---
-        let currentModalPostId = null;
-
-        window.openCommentModal = async function (postId) {
-            currentModalPostId = postId;
-            const post = await SocialFirebase.getPost(postId); // Fetch post from Firebase
-            if (!post) return;
-
-            // Mostrar el post original en el modal para contexto
-            const originalPostContainer = document.getElementById('originalPostInModal');
-            originalPostContainer.innerHTML = `
-                <div style="display: flex; gap: 15px;">
-                    <img src="${post.avatar}" class="avatar" style="width: 40px; height: 40px; object-fit: contain; background: #000;">
-                    <div>
-                        <div style="font-weight: bold; color: var(--text-light); font-size: 0.9rem;">
-                            ${post.author} <span style="color: #777; font-weight: normal;">${post.handle}</span>
-                        </div>
-                        <div style="color: #ccc; margin-top: 5px; font-size: 0.95rem;">${post.text}</div>
                     </div>
-                </div>
+                </article>
             `;
+            feedContainer.insertAdjacentHTML('beforeend', postHTML);
+        });
+    }
 
-            renderComments(postId); // Pass postId to renderComments
-            document.getElementById('commentModal').style.display = 'flex';
-        };
+    // Funciones globales para interacciones
+    window.toggleLike = async (id) => await SocialFirebase.toggleLike(id);
+    window.toggleRetweet = async (id) => await SocialFirebase.toggleRetweet(id);
+    window.toggleSave = async (id) => await SocialFirebase.toggleSave(id);
+    
+    // (Modal de comentarios se maneja en el HTML, necesitaría las funciones, 
+    // lo simplificaremos por ahora omitiendo el modal aquí o implementándolo resumido)
+    window.openCommentModal = (id) => alert("Ecos deshabilitados temporalmente en Gremios.");
 
-        function renderComments(postId) {
-            // Listen for comments in real-time
-            SocialFirebase.onCommentsUpdate(postId, (comments) => {
-                const container = document.getElementById('commentList');
-                
-                if (comments.length === 0) {
-                    container.innerHTML = '<div style="text-align: center; color: #555; padding: 20px;">Silencio... Sé el primero en hacer eco.</div>';
-                } else {
-                    container.innerHTML = '';
-                    comments.forEach(c => {
-                        container.insertAdjacentHTML('beforeend', `
-                            <div style="display: flex; gap: 12px; margin-bottom: 20px; animation: fadeIn 0.3s ease;">
-                                <img src="${c.avatar}" class="avatar" style="width: 32px; height: 32px; object-fit: contain; background: #000; border: 1px solid var(--accent-gold);">
-                                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
-                                    <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${c.author}</div>
-                                    <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${c.text}</div>
-                                    <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
-                                </div>
-                            </div>
-                        `);
-                    });
-                }
+    // --- TENDENCIAS (Igual) ---
+    function updateTrends(posts) {
+        const container = document.getElementById('trendsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        const hashtagCounts = {};
+        posts.forEach(p => {
+            const tags = p.text.match(/#\w+/g) || [];
+            tags.forEach(t => {
+                const lower = t.toLowerCase();
+                hashtagCounts[lower] = (hashtagCounts[lower] || 0) + 1;
             });
+        });
+        const sorted = Object.entries(hashtagCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+        if(sorted.length===0) {
+            container.innerHTML = '<div style="padding:10px; color:#555; text-align:center;">Sin tendencias locales.</div>';
+            return;
         }
-
-        document.getElementById('sendCommentBtn').addEventListener('click', async () => {
-            const input = document.getElementById('commentInput');
-            const text = input.value.trim();
-            if (text && currentModalPostId) {
-                await SocialFirebase.addComment(currentModalPostId, text);
-                input.value = '';
-                // renderComments will update automatically via onCommentsUpdate
-                // renderFeed(); // No need to call renderFeed here, onFeedUpdate handles it
-            }
+        sorted.forEach(([tag, c]) => {
+            container.innerHTML += `<div class="trend-item"><div class="trend-title">${tag}</div></div>`;
         });
+    }
 
-        // Permitir enviar con Enter
-        document.getElementById('commentInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                document.getElementById('sendCommentBtn').click();
-            }
-        });
-
-        document.getElementById('closeCommentModal').addEventListener('click', () => {
-            document.getElementById('commentModal').style.display = 'none';
-            SocialFirebase.stopCommentsUpdate(); // Stop listening when modal closes
-        });
-
-        // Cerrar modal al hacer clic fuera
-        window.addEventListener('click', (e) => {
-            const modal = document.getElementById('commentModal');
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                SocialFirebase.stopCommentsUpdate(); // Stop listening when modal closes
-            }
-        });
-
-        // Evento publicar (original logic for poll/schedule removed as per instruction, keeping only text/image)
-        // The publishBtn event listener above already handles text and image.
-        // The original complex logic for polls and scheduling is not included in the provided replacement.
-
-        // Efecto scroll en Navbar
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Gestión de Búsqueda
-        document.getElementById('searchLegendsInput').addEventListener('input', (e) => {
-            // renderFeed will be called by onFeedUpdate, just need to trigger a re-render with current search query
-            // The onFeedUpdate callback already takes care of filtering based on the input value.
-        });
-
-        // --- GESTIÓN DE TENDENCIAS ---
-        function updateTrends(posts) {
-            const container = document.getElementById('trendsContainer');
-            if (!container) return;
-            container.innerHTML = '';
-
-            // Simple hashtag extraction and counting
-            const hashtagCounts = {};
-            posts.forEach(post => {
-                const hashtags = post.text.match(/#\w+/g) || [];
-                hashtags.forEach(tag => {
-                    const lowerTag = tag.toLowerCase();
-                    hashtagCounts[lowerTag] = (hashtagCounts[lowerTag] || 0) + 1;
-                });
-            });
-
-            const sortedHashtags = Object.entries(hashtagCounts)
-                .sort(([, countA], [, countB]) => countB - countA)
-                .slice(0, 5); // Top 5 trends
-
-            if (sortedHashtags.length > 0) {
-                sortedHashtags.forEach(([tag, count]) => {
-                    container.insertAdjacentHTML('beforeend', `
-                        <div class="trend-item" onclick="document.getElementById('searchLegendsInput').value='${tag}'; document.getElementById('searchLegendsInput').dispatchEvent(new Event('input'));">
-                            <div class="trend-category">Resonancia Mística · Tendencia</div>
-                            <div class="trend-title">${tag}</div>
-                            <div class="trend-volume">${count} ${count === 1 ? 'Leyenda' : 'Leyendas'}</div>
-                        </div>
-                    `);
-                });
-            } else {
-                container.innerHTML = '<div style="padding:20px; text-align:center; color:#555; font-size: 0.85rem;">El Reino está en silencio... Forja la primera leyenda.</div>';
-            }
-        }
-
-        // --- INICIALIZACIÓN ---
-        SocialFirebase.auth.onAuthStateChanged(user => {
-            if (user) {
-                loadUserInfo();
-                SocialFirebase.onFeedUpdate(posts => {
-                    renderFeed(posts);
-                    // Actualizar tendencias basado en tags
-                    updateTrends(posts);
-                }, null);
-                // Escuchar notificaciones para el badge
-                SocialFirebase.onNotificationsUpdate(notifs => {
-                    const hasUnread = notifs.some(n => !n.read);
-                    document.getElementById('notifBadge').style.display = hasUnread ? 'block' : 'none';
-                });
-            } else {
-                window.location.href = 'login.html';
-            }
-        });
-
-        // Logout
-        window.logoutLegacy = async () => {
-            await SocialFirebase.logout();
+    // --- INIT ---
+    SocialFirebase.auth.onAuthStateChanged(user => {
+        if (user) {
+            loadUserInfo();
+            loadCommunity();
+        } else {
             window.location.href = 'login.html';
-        };
-    </script>
+        }
+    });
+
+</script>
+
 </body>
 
 </html>

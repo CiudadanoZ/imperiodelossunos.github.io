@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Shadow World Saga | Imperio de los Sueños</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="saga-page">
+    <header class="navbar">
+        <div class="logo-text">Imperio de los Sueños</div>
+        <nav>
+            <a href="../index.html">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="https://discord.gg/WygZEc54A8" target="_blank">Comunidad</a>
+        </nav>
+    </header>
+
+    <section class="saga-hero">
+        <div class="hero-bg" style="background-image: url('../img/saga_hero.png');"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="saga-label">PRÓXIMAMENTE</div>
+            <h1 class="glitch-text" data-text="THE SHADOW WORLD SAGA">THE SHADOW WORLD SAGA</h1>
+            <div class="saga-subtitle">UN SURVIVAL MMORPG PERSISTENTE</div>
+            <p class="saga-desc">
+                El equilibrio se ha roto. Las sombras que una vez acecharon en los rincones de Aethermoor han reclamado las grandes ciudades. En esta nueva era de supervivencia masiva, deberás forjar alianzas, recolectar recursos en un mundo implacable y defender lo que queda de la humanidad ante el avance de la Saga de las Sombras.
+            </p>
+            <div class="hero-actions">
+                <a href="#info" class="btn-primary saga-btn">Descubrir Más</a>
+                <a href="https://discord.gg/WygZEc54A8" target="_blank" class="btn-secondary saga-btn-outline">
+                    <i class="fab fa-discord"></i> Unirse al Desarrollo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="info" class="saga-info">
+        <div class="info-grid">
+            <div class="info-card">
+                <i class="fas fa-skull-crossbones"></i>
+                <h3>Supervivencia Extrema</h3>
+                <p>Gestiona tu hambre, sed y cordura mientras exploras un Aethermoor devastado. Cada decisión puede ser la última.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-users"></i>
+                <h3>Mundo Persistente</h3>
+                <p>Cientos de jugadores en un mismo servidor. Construye fortalezas, establece rutas comerciales o conviértete en el azote de las sombras.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-magic"></i>
+                <h3>Evolución de Aethermoor</h3>
+                <p>Experimenta cómo el mundo cambia en tiempo real. Eventos dinámicos que alteran el paisaje y la dificultad del juego.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="announcement">
+        <div class="announcement-content">
+            <h2>Un Nuevo Modo para Aethermoor</h2>
+            <p>The Shadow World Saga no es solo una expansión; es una evolución total de la experiencia que conoces. Los Reinos de Aethermoor se transforman en una arena de supervivencia masiva donde tu leyenda se escribe con sangre y acero.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Imperio de los Sueños</h3>
+                <p>Forjando mundos épicos, historias inmersivas y experiencias inolvidables.</p>
+            </div>
+            <div class="socials">
+                <a href="https://x.com/Oscar31741727" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/WygZEc54A8" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+    </script>
+</body>
+</html>

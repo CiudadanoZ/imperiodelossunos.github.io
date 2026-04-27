@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vincular Cuenta | Reinos de Aethermoor</title>
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="../style.css">
+    <!-- CSS Específico -->
+    <link rel="stylesheet" href="game-style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .vincular-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: radial-gradient(circle at center, rgba(145, 70, 255, 0.05) 0%, #020204 100%);
+        }
+
+        .vincular-card {
+            background: rgba(15, 15, 20, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 3rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(145, 70, 255, 0.1);
+        }
+
+        .status-header {
+            margin-bottom: 2rem;
+        }
+
+        .status-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .status-disconnected { color: #555; }
+        .status-connecting { color: var(--accent-gold); animation: pulse 1.5s infinite; }
+        .status-connected { color: #9146ff; text-shadow: 0 0 20px rgba(145, 70, 255, 0.4); }
+
+        .user-info {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 3px solid #9146ff;
+            display: none;
+        }
+
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(212, 175, 55, 0.1);
+            border-top: 3px solid #9146ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+    </style>
+</head>
+
+<body class="game-page">
+    <header class="navbar">
+        <a href="../index.html" class="logo-text" style="text-decoration: none;">Imperio de los Sueños</a>
+        <nav>
+            <a href="drops.html">Volver a Drops</a>
+        </nav>
+    </header>
+
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <section class="vincular-container">
+        <div class="vincular-card">
+            <!-- Sección de Estado -->
+            <div id="status-unauthenticated">
+                <i class="fas fa-user-lock status-icon status-disconnected"></i>
+                <h2 style="font-family: 'Cinzel', serif;">Sesión no iniciada</h2>
+                <p style="margin-bottom: 2rem; color: #aaa;">Para vincular tu cuenta de Twitch, primero debes ser un viajero registrado en UNIVERSO.</p>
+                <a href="../UNIVERSO/login.html" class="btn-primary" style="display: block;">Iniciar Sesión en UNIVERSO</a>
+            </div>
+
+            <div id="status-authenticated" style="display: none;">
+                <div class="status-header">
+                    <i id="main-icon" class="fab fa-twitch status-icon status-connecting"></i>
+                    <h2 id="main-title" style="font-family: 'Cinzel', serif;">Vinculando con Twitch</h2>
+                    <p id="main-text" style="color: #aaa;">Conecta tu perfil para empezar a recibir recompensas.</p>
+                </div>
+
+                <div id="user-display" class="user-info">
+                    <p style="font-size: 0.8rem; text-transform: uppercase; color: #9146ff; margin-bottom: 0.5rem;">Cuenta de UNIVERSO</p>
+                    <p id="username-text" style="font-weight: bold; font-size: 1.2rem;">---</p>
+                </div>
+
+                <div id="twitch-display" class="user-info" style="border-color: #00ff88;">
+                    <p style="font-size: 0.8rem; text-transform: uppercase; color: #00ff88; margin-bottom: 0.5rem;">Cuenta de Twitch</p>
+                    <p id="twitch-username-text" style="font-weight: bold; font-size: 1.2rem;">Conectado</p>
+                </div>
+
+                <div id="action-buttons">
+                    <button id="btn-twitch-connect" class="btn-primary" style="background: #9146ff; border-color: #a970ff; width: 100%;">
+                        <i class="fab fa-twitch"></i> Conectar con Twitch
+                    </button>
+                    <p style="font-size: 0.7rem; color: #555; margin-top: 1rem;">Al conectar, autorizas a Imperio de los Sueños a leer tu ID de Twitch para la entrega de Drops.</p>
+                </div>
+
+                <div id="success-message" style="display: none;">
+                    <i class="fas fa-check-circle" style="color: #00ff88; font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3 style="color: #00ff88;">¡Vinculación Exitosa!</h3>
+                    <p style="color: #aaa; margin-bottom: 2rem;">Ya puedes volver a disfrutar de los directos. Tus recompensas te esperarán en el juego.</p>
+                    <a href="index.html" class="btn-primary" style="width: 100%; display: block;">Volver al Juego</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Importar Lógica de Firebase -->
+    <script type="module">
+        import { SocialFirebase } from '../UNIVERSO/js/social-firebase.js';
+
+        const CLIENT_ID = 'owxoygvoptmb99lrv0lgov4repc07d';
+        const REDIRECT_URI = window.location.origin + window.location.pathname;
+        
+        const elements = {
+            unauth: document.getElementById('status-unauthenticated'),
+            auth: document.getElementById('status-authenticated'),
+            loading: document.getElementById('loading-overlay'),
+            btnConnect: document.getElementById('btn-twitch-connect'),
+            userDisplay: document.getElementById('user-display'),
+            twitchDisplay: document.getElementById('twitch-display'),
+            usernameText: document.getElementById('username-text'),
+            twitchUserText: document.getElementById('twitch-username-text'),
+            mainIcon: document.getElementById('main-icon'),
+            mainTitle: document.getElementById('main-title'),
+            mainText: document.getElementById('main-text'),
+            actionButtons: document.getElementById('action-buttons'),
+            successMsg: document.getElementById('success-message')
+        };
+
+        // 1. Verificar Sesión de Firebase
+        SocialFirebase.auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                elements.unauth.style.display = 'none';
+                elements.auth.style.display = 'block';
+                elements.userDisplay.style.display = 'block';
+                
+                const profile = await SocialFirebase.getCurrentUserProfile();
+                elements.usernameText.innerText = profile ? profile.name : user.email;
+
+                // 2. Verificar si venimos de un redirect de Twitch
+                checkTwitchCallback(user.uid);
+            } else {
+                elements.unauth.style.display = 'block';
+                elements.auth.style.display = 'none';
+            }
+        });
+
+        // Evento Botón Twitch
+        elements.btnConnect.addEventListener('click', () => {
+            const scope = 'user:read:email';
+            const twitchUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=${scope}`;
+            window.location.href = twitchUrl;
+        });
+
+        async function checkTwitchCallback(uid) {
+            const hash = window.location.hash;
+            if (!hash) return;
+
+            const params = new URLSearchParams(hash.substring(1));
+            const token = params.get('access_token');
+
+            if (token) {
+                elements.loading.style.display = 'flex';
+                elements.mainTitle.innerText = "Sincronizando...";
+                window.location.hash = ""; // Limpiar hash
+
+                try {
+                    // 3. Obtener info de Twitch
+                    const response = await fetch('https://api.twitch.tv/helix/users', {
+                        headers: {
+                            'Client-ID': CLIENT_ID,
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    const data = await response.json();
+                    
+                    if (data.data && data.data.length > 0) {
+                        const twitchUser = data.data[0];
+                        
+                        // 4. Guardar en Firebase
+                        await SocialFirebase.updateUserProfile({
+                            twitchId: twitchUser.id,
+                            twitchLogin: twitchUser.login,
+                            twitchDisplayName: twitchUser.display_name,
+                            twitchLinkedAt: Date.now()
+                        });
+
+                        // 5. UI Éxito
+                        showSuccess(twitchUser.display_name);
+                    }
+                } catch (error) {
+                    console.error("Error al vincular:", error);
+                    alert("Ocurrió un error al conectar con Twitch. Inténtalo de nuevo.");
+                } finally {
+                    elements.loading.style.display = 'none';
+                }
+            }
+        }
+
+        function showSuccess(twitchName) {
+            elements.mainIcon.className = "fab fa-twitch status-icon status-connected";
+            elements.mainTitle.innerText = "¡Cuenta Vinculada!";
+            elements.mainText.style.display = 'none';
+            elements.twitchDisplay.style.display = 'block';
+            elements.twitchUserText.innerText = twitchName;
+            elements.actionButtons.style.display = 'none';
+            elements.successMsg.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

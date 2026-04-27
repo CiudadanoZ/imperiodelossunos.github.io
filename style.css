@@ -323,6 +323,55 @@ nav a:hover::after {
     background: linear-gradient(135deg, #0a1118 0%, #152c38 100%);
 }
 
+/* Saga Styling */
+.saga-card {
+    border: 2px solid rgba(145, 70, 255, 0.3);
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.15);
+}
+
+.saga-card:hover {
+    border-color: #9146ff;
+    box-shadow: 0 0 40px rgba(145, 70, 255, 0.4);
+}
+
+.saga-bg {
+    background: linear-gradient(135deg, #4b1248 0%, #1e0a3d 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.saga-bg::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(145, 70, 255, 0.2) 0%, transparent 70%);
+    top: -50%;
+    left: -50%;
+    animation: pulse 4s infinite;
+}
+
+.saga-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #9146ff;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    z-index: 20;
+    box-shadow: 0 0 15px rgba(145, 70, 255, 0.6);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 0.3; }
+}
+
 .card-content {
     padding: 2.5rem 2rem;
     flex-grow: 1;
