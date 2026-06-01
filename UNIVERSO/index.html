@@ -294,8 +294,9 @@
             border-radius: 12px;
             border: 1px solid var(--glass-border);
             margin-bottom: 15px;
-            max-height: 400px;
-            object-fit: cover;
+            max-height: 600px;
+            object-fit: contain;
+            background: rgba(0,0,0,0.5);
         }
 
         .post-interactions {
@@ -811,32 +812,9 @@
             </div>
 
             <!-- Widget Sugerencias -->
-            <div class="widget">
+            <div class="widget" id="suggestedAlliesWidget">
                 <h3>Aliados Sugeridos</h3>
-
-                <div class="follow-item">
-                    <div class="follow-info">
-                        <img src="../img/personaje-brujo-oscuro.png" alt="Brujo" class="avatar"
-                            style="object-fit: contain; background: #000;">
-                        <div>
-                            <div class="follow-name">El Rey Brujo</div>
-                            <div style="font-size: 0.8rem; color: #777;">@oscuridad_absoluta</div>
-                        </div>
-                    </div>
-                    <button class="btn-follow">Seguir</button>
-                </div>
-
-                <div class="follow-item">
-                    <div class="follow-info">
-                        <img src="../img/logo-completo.png" alt="Logo" class="avatar"
-                            style="object-fit: contain; background: #000;">
-                        <div>
-                            <div class="follow-name">Soporte TSW</div>
-                            <div style="font-size: 0.8rem; color: #777;">@tsw_ayuda</div>
-                        </div>
-                    </div>
-                    <button class="btn-follow">Seguir</button>
-                </div>
+                <div style="padding: 10px; color: #777; font-size: 0.85rem; text-align: center;">Buscando aliados...</div>
             </div>
 
             <!-- Footer pequeño tipo twitter -->
@@ -954,9 +932,95 @@
             document.querySelectorAll('.user-avatar-img').forEach(img => img.src = user.avatar);
             document.querySelectorAll('.user-name-text').forEach(el => el.textContent = user.name);
             document.querySelectorAll('.user-handle-text').forEach(el => el.textContent = user.handle);
+            
+            // Cargar Aliados Sugeridos Dinámicamente
+            loadSuggestedAllies();
         }
 
+        async function loadSuggestedAllies() {
+            const users = await SocialFirebase.getSuggestedUsers(2);
+            const container = document.getElementById('suggestedAlliesWidget');
+            if (container) {
+                if (users.length > 0) {
+                    let html = '<h3>Aliados Sugeridos</h3>';
+                    for (const u of users) {
+                        const isFollowing = await SocialFirebase.isFollowing(u.uid);
+                        html += `
+                        <div class="follow-item">
+                            <div class="follow-info">
+                                <img src="${u.avatar}" alt="${u.name}" class="avatar" style="object-fit: contain; background: #000;">
+                                <div>
+                                    <div class="follow-name">${u.name}</div>
+                                    <div style="font-size: 0.8rem; color: #777;">${u.handle}</div>
+                                </div>
+                            </div>
+                            <button class="btn-follow ${isFollowing ? 'active' : ''}" style="${isFollowing ? 'background: var(--accent-gold); color: #000;' : ''}" onclick="toggleFollowUser('${u.uid}', this)">${isFollowing ? 'Aliado' : 'Seguir'}</button>
+                        </div>`;
+                    }
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = '<h3>Aliados Sugeridos</h3><div style="padding:10px; color:#777; font-size:0.85rem; text-align:center;">No hay aliados sugeridos.</div>';
+                }
+            }
+        }
+
+        window.toggleFollowUser = async function(uid, btn) {
+            await SocialFirebase.toggleFollow(uid);
+            const isFollowing = btn.textContent === 'Seguir';
+            btn.textContent = isFollowing ? 'Aliado' : 'Seguir';
+            if (isFollowing) {
+                btn.style.background = 'var(--accent-gold)';
+                btn.style.color = '#000';
+            } else {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--accent-gold)';
+            }
+        };
+
         // --- RENDERIZADO DEL FEED (Tiempo Real) ---
+        function renderPollHTML(post) {
+            if (!post.poll) return '';
+            const totalVotes = post.poll.votes.reduce((a, b) => a + b, 0);
+            const currentUserUid = SocialFirebase.auth.currentUser.uid;
+            const hasVoted = post.poll.voters && post.poll.voters[currentUserUid] !== undefined;
+            
+            let html = '<div style="margin: 15px 0; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; border: 1px solid rgba(212,175,55,0.2);">';
+            post.poll.options.forEach((opt, idx) => {
+                const votes = post.poll.votes[idx];
+                const percent = totalVotes > 0 ? Math.round((votes / totalVotes) * 100) : 0;
+                
+                if (hasVoted) {
+                    const isMyVote = post.poll.voters[currentUserUid] === idx;
+                    html += `
+                        <div style="margin-bottom: 10px; position: relative; background: rgba(255,255,255,0.05); border-radius: 5px; overflow: hidden; padding: 10px;">
+                            <div style="position: absolute; top: 0; left: 0; height: 100%; width: ${percent}%; background: ${isMyVote ? 'rgba(212,175,55,0.3)' : 'rgba(255,255,255,0.1)'}; z-index: 0;"></div>
+                            <div style="position: relative; z-index: 1; display: flex; justify-content: space-between;">
+                                <span>${opt} ${isMyVote ? '<i class="fas fa-check-circle" style="color:var(--accent-gold);"></i>' : ''}</span>
+                                <span>${percent}%</span>
+                            </div>
+                        </div>`;
+                } else {
+                    html += `
+                        <button onclick="event.stopPropagation(); votePoll('${post.id}', ${idx})" style="width: 100%; text-align: left; background: rgba(255,255,255,0.05); border: 1px solid var(--accent-gold); color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; cursor: pointer; transition: background 0.2s;">
+                            ${opt}
+                        </button>`;
+                }
+            });
+            html += `<div style="font-size: 0.8rem; color: #777; margin-top: 5px;">${totalVotes} votos</div>`;
+            html += '</div>';
+            return html;
+        }
+
+        window.votePoll = async function(postId, optionIndex) {
+            await SocialFirebase.votePoll(postId, optionIndex);
+        };
+
+        window.deletePost = async function(postId) {
+            if (confirm('¿Estás seguro de que deseas borrar esta leyenda?')) {
+                await SocialFirebase.deletePost(postId);
+            }
+        };
+
         function renderFeed(posts) {
             const feedContainer = document.getElementById('legendsFeed');
             const searchQuery = document.getElementById('searchLegendsInput').value.toLowerCase();
@@ -970,6 +1034,7 @@
             ) : posts;
 
             filteredPosts.forEach(post => {
+                const isAuthor = post.authorUid === SocialFirebase.auth.currentUser.uid;
                 const postHTML = `
                     <article class="post" data-id="${post.id}">
                         <img src="${post.avatar}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
@@ -978,9 +1043,11 @@
                                 <span class="post-author">${post.author}</span>
                                 <span class="post-handle">${post.handle}</span>
                                 <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
+                                ${isAuthor ? `<i class="fas fa-trash-alt" style="margin-left:auto; color:#e0245e; cursor:pointer;" onclick="event.stopPropagation(); deletePost('${post.id}')" title="Borrar leyenda"></i>` : ''}
                             </div>
                             <div class="post-text">${post.text}</div>
                             ${(post.image && post.image.includes('data:image')) ? `<img src="${post.image}" alt="Media" class="post-image">` : ''}
+                            ${renderPollHTML(post)}
                             <div class="post-interactions">
                                 <div class="interaction" onclick="event.stopPropagation(); openCommentModal('${post.id}')">
                                     <i class="far fa-comment"></i> ${post.commentsCount || 0}
@@ -1010,14 +1077,24 @@
             const text = document.getElementById('postText').value;
             const image = postImageData; // Usar la variable de datos real
 
-            if (text.trim() || image) {
+            let poll = null;
+            if (document.getElementById('pollCreator').style.display !== 'none') {
+                const opts = Array.from(document.querySelectorAll('.poll-opt')).map(i => i.value.trim()).filter(v => v);
+                if (opts.length >= 2) {
+                    poll = { options: opts, votes: new Array(opts.length).fill(0), voters: {} };
+                }
+            }
+
+            if (text.trim() || image || poll) {
                 try {
-                    await SocialFirebase.addPost(text, image);
+                    await SocialFirebase.addPost(text, image, poll);
                     // Limpiar tras publicar
                     document.getElementById('postText').value = '';
                     postImageData = null;
                     document.getElementById('imagePreviewArea').style.display = 'none';
                     document.getElementById('imgInput').value = '';
+                    document.getElementById('pollCreator').style.display = 'none';
+                    document.querySelectorAll('.poll-opt').forEach(i => i.value = '');
                 } catch (error) {
                     alert("Error al sellar la leyenda: " + error.message);
                 }

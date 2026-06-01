@@ -636,9 +636,9 @@
                     let content = msg.text;
                     if (msg.attachment) {
                         if (msg.attachment.type === 'image') {
-                            content += `<br><img src="${msg.attachment.data}" class="msg-image" style="max-width:200px; border-radius:8px; margin-top:5px;">`;
+                            content += `<br><a href="${msg.attachment.data}" target="_blank"><img src="${msg.attachment.data}" class="msg-image" style="max-width:200px; border-radius:8px; margin-top:5px;"></a>`;
                         } else {
-                            content += `<br><div style="padding:10px; background:rgba(0,0,0,0.3); border-radius:8px; margin-top:5px; font-size:0.8rem;"><i class="fas fa-file-alt"></i> ${msg.attachment.name}</div>`;
+                            content += `<br><a href="${msg.attachment.data}" download="${msg.attachment.name}" target="_blank" style="text-decoration:none; color:inherit;"><div style="padding:10px; background:rgba(0,0,0,0.3); border-radius:8px; margin-top:5px; font-size:0.8rem; cursor:pointer;"><i class="fas fa-file-alt"></i> ${msg.attachment.name} (Descargar)</div></a>`;
                         }
                     }
                     

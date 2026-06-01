@@ -1,7 +1,7 @@
 // social-firebase.js
 // Configuración de Firebase para UNIVERSO
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
 // Configuración obtenida del usuario
@@ -82,7 +82,7 @@ export const SocialFirebase = {
     },
 
     // --- LEYENDAS (POSTS) ---
-    async addPost(text, image = null, communityId = null, communityName = null) {
+    async addPost(text, image = null, poll = null, communityId = null, communityName = null) {
         const profile = await this.getCurrentUserProfile();
         if (!profile) throw new Error("No hay sesión activa");
 
@@ -93,6 +93,7 @@ export const SocialFirebase = {
             authorUid: auth.currentUser.uid, // Guardamos el UID del autor para notificaciones
             text: text,
             image: image,
+            poll: poll,
             communityId: communityId,
             communityName: communityName,
             timestamp: Date.now(),
@@ -125,6 +126,36 @@ export const SocialFirebase = {
             }
             callback(posts);
         });
+    },
+
+    async deletePost(postId) {
+        const user = auth.currentUser;
+        if (!user) return;
+        const postRef = doc(db, "posts", postId);
+        const postSnap = await getDoc(postRef);
+        if (postSnap.exists() && postSnap.data().authorUid === user.uid) {
+            await deleteDoc(postRef);
+        }
+    },
+
+    async votePoll(postId, optionIndex) {
+        const user = auth.currentUser;
+        if (!user) return;
+        const postRef = doc(db, "posts", postId);
+        const postSnap = await getDoc(postRef);
+        if (!postSnap.exists()) return;
+        
+        const data = postSnap.data();
+        if (!data.poll) return;
+        
+        const voters = data.poll.voters || {};
+        if (voters[user.uid] !== undefined) return; // ya votó
+        
+        voters[user.uid] = optionIndex;
+        data.poll.votes[optionIndex]++;
+        data.poll.voters = voters;
+        
+        await updateDoc(postRef, { poll: data.poll });
     },
 
     async toggleLike(postId) {
@@ -451,7 +482,7 @@ export const SocialFirebase = {
     // --- SEGUIDORES (ALIADOS) ---
     async toggleFollow(targetUid) {
         const user = auth.currentUser;
-        if (!user) return;
+        if (!user || user.uid === targetUid) return;
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
         const following = userSnap.data().following || [];
@@ -473,6 +504,17 @@ export const SocialFirebase = {
         const userSnap = await getDoc(userRef);
         const following = userSnap.data().following || [];
         return following.includes(targetUid);
+    },
+
+    async getSuggestedUsers(limitCount = 2) {
+        const user = auth.currentUser;
+        if (!user) return [];
+        const q = query(collection(db, "users"));
+        const snapshot = await getDocs(q);
+        const users = snapshot.docs.map(doc => ({ ...doc.data(), uid: doc.id }))
+                                    .filter(u => u.uid !== user.uid);
+        users.sort(() => 0.5 - Math.random());
+        return users.slice(0, limitCount);
     },
 
     async getFollowersCount(uid) {
