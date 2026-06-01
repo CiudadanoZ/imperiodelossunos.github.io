@@ -938,9 +938,10 @@
         }
 
         async function loadSuggestedAllies() {
-            const users = await SocialFirebase.getSuggestedUsers(2);
             const container = document.getElementById('suggestedAlliesWidget');
-            if (container) {
+            if (!container) return;
+            try {
+                const users = await SocialFirebase.getSuggestedUsers(2);
                 if (users.length > 0) {
                     let html = '<h3>Aliados Sugeridos</h3>';
                     for (const u of users) {
@@ -959,8 +960,11 @@
                     }
                     container.innerHTML = html;
                 } else {
-                    container.innerHTML = '<h3>Aliados Sugeridos</h3><div style="padding:10px; color:#777; font-size:0.85rem; text-align:center;">No hay aliados sugeridos.</div>';
+                    container.innerHTML = '<h3>Aliados Sugeridos</h3><div style="padding:10px; color:#777; font-size:0.85rem; text-align:center;">No hay más aliados sugeridos.</div>';
                 }
+            } catch (e) {
+                console.error("Error al cargar aliados sugeridos:", e);
+                container.innerHTML = '<h3>Aliados Sugeridos</h3><div style="padding:10px; color:#777; font-size:0.85rem; text-align:center;">Error al cargar aliados.</div>';
             }
         }
 
@@ -1034,7 +1038,17 @@
             ) : posts;
 
             filteredPosts.forEach(post => {
-                const isAuthor = post.authorUid === SocialFirebase.auth.currentUser.uid;
+                const currentUser = SocialFirebase.auth.currentUser;
+                let isAuthor = false;
+                if (currentUser) {
+                    if (post.authorUid) {
+                        isAuthor = post.authorUid === currentUser.uid;
+                    } else {
+                        const currentHandle = document.querySelector('.user-handle-text')?.textContent;
+                        isAuthor = post.handle === currentHandle;
+                    }
+                }
+                
                 const postHTML = `
                     <article class="post" data-id="${post.id}">
                         <img src="${post.avatar}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
@@ -1082,6 +1096,9 @@
                 const opts = Array.from(document.querySelectorAll('.poll-opt')).map(i => i.value.trim()).filter(v => v);
                 if (opts.length >= 2) {
                     poll = { options: opts, votes: new Array(opts.length).fill(0), voters: {} };
+                } else {
+                    alert("Por favor, introduce al menos 2 opciones para la encuesta.");
+                    return; // Detener publicación si la encuesta está a medias
                 }
             }
 
@@ -1098,6 +1115,8 @@
                 } catch (error) {
                     alert("Error al sellar la leyenda: " + error.message);
                 }
+            } else {
+                alert("La leyenda está vacía. Añade texto, imagen o una encuesta.");
             }
         });
 

@@ -129,12 +129,22 @@ export const SocialFirebase = {
     },
 
     async deletePost(postId) {
-        const user = auth.currentUser;
-        if (!user) return;
-        const postRef = doc(db, "posts", postId);
-        const postSnap = await getDoc(postRef);
-        if (postSnap.exists() && postSnap.data().authorUid === user.uid) {
-            await deleteDoc(postRef);
+        try {
+            const user = auth.currentUser;
+            if (!user) return;
+            const postRef = doc(db, "posts", postId);
+            const postSnap = await getDoc(postRef);
+            if (postSnap.exists()) {
+                const data = postSnap.data();
+                const profile = await this.getCurrentUserProfile();
+                if (data.authorUid === user.uid || (profile && data.handle === profile.handle)) {
+                    await deleteDoc(postRef);
+                } else {
+                    console.error("No tienes permiso para borrar esta leyenda.");
+                }
+            }
+        } catch (e) {
+            console.error("Error al borrar post:", e);
         }
     },
 
@@ -502,8 +512,9 @@ export const SocialFirebase = {
         if (!user) return false;
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) return false;
         const following = userSnap.data().following || [];
-        return following.includes(targetUid);
+        return Array.isArray(following) ? following.includes(targetUid) : false;
     },
 
     async getSuggestedUsers(limitCount = 2) {
