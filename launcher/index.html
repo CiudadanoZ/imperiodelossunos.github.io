@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Descarga el Launcher de Imperio de los Sueños. Un solo lugar para jugar a todos nuestros títulos. Disponible el 20 de agosto.">
+    <title>Launcher | Imperio de los Sueños</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .launcher-hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 9rem 5% 5rem;
+            overflow: hidden;
+        }
+
+        .launcher-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.12), transparent 55%),
+                radial-gradient(circle at 50% 100%, rgba(74, 25, 102, 0.35), transparent 60%),
+                #050508;
+            z-index: -1;
+        }
+
+        .launcher-icon {
+            width: 150px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.35));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .launcher-hero h1 {
+            font-size: 3.8rem;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #ffffff, var(--accent-gold), #ffffff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 5s linear infinite;
+            margin-bottom: 0.5rem;
+        }
+
+        .launcher-hero .tagline {
+            font-size: 1.3rem;
+            color: #dfdfdf;
+            max-width: 680px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* Cuenta atrás */
+        .countdown-label {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .count-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.2rem 1.4rem;
+            min-width: 92px;
+            backdrop-filter: blur(10px);
+        }
+
+        .count-box .num {
+            font-family: 'Cinzel', serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .count-box .lbl {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #999;
+        }
+
+        .download-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-download.locked {
+            background: rgba(255, 255, 255, 0.06);
+            color: #8a8a8a;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            cursor: not-allowed;
+        }
+
+        .btn-download.ready {
+            background: linear-gradient(45deg, var(--accent-gold), #b8860b);
+            color: #050505;
+            box-shadow: 0 5px 25px rgba(212, 175, 55, 0.45);
+        }
+
+        .btn-download.ready:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 8px 35px rgba(212, 175, 55, 0.65);
+        }
+
+        .platform-note {
+            font-size: 0.85rem;
+            color: #888;
+            letter-spacing: 1px;
+        }
+
+        .notify-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .notify-link:hover { border-color: var(--accent-gold); }
+
+        /* Características */
+        .features-section {
+            padding: 7rem 5%;
+            background: #050508;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3.5rem;
+        }
+
+        .feature-card {
+            background: rgba(15, 15, 22, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .feature-card i {
+            font-size: 2.6rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+
+        .feature-card p {
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        /* Títulos incluidos */
+        .included-section {
+            padding: 4rem 5% 7rem;
+            text-align: center;
+        }
+
+        .included-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .included-logos img {
+            height: 90px;
+            width: auto;
+            object-fit: contain;
+            opacity: 0.85;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .included-logos img:hover { opacity: 1; transform: scale(1.05); }
+
+        @media (max-width: 768px) {
+            .launcher-hero h1 { font-size: 2.4rem; }
+            .launcher-hero .tagline { font-size: 1.05rem; }
+            .count-box { min-width: 70px; padding: 1rem; }
+            .count-box .num { font-size: 1.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="../index.html" class="logo-text" style="text-decoration:none;">Imperio de los Sueños</a>
+        <nav>
+            <a href="../index.html#home">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="index.html" class="nav-cta">Launcher</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="../UNIVERSO/index.html">Universo</a>
+            <a href="../index.html#about">Nosotros</a>
+        </nav>
+    </header>
+
+    <section class="launcher-hero">
+        <img src="../img/Imperio_de_los_sueños.png" alt="Imperio de los Sueños" class="launcher-icon">
+        <h1>Launcher de Imperio de los Sueños</h1>
+        <p class="tagline">Un único portal para todos nuestros mundos. Descarga, actualiza y juega a todos los títulos del estudio desde un solo lugar.</p>
+
+        <p class="countdown-label">Lanzamiento · 20 de agosto de 2026</p>
+        <div class="countdown" id="countdown">
+            <div class="count-box"><div class="num" id="cd-days">--</div><span class="lbl">Días</span></div>
+            <div class="count-box"><div class="num" id="cd-hours">--</div><span class="lbl">Horas</span></div>
+            <div class="count-box"><div class="num" id="cd-mins">--</div><span class="lbl">Minutos</span></div>
+            <div class="count-box"><div class="num" id="cd-secs">--</div><span class="lbl">Segundos</span></div>
+        </div>
+
+        <div class="download-area">
+            <!-- Cuando el launcher esté disponible, sustituye el href "#" por la URL real del instalador
+                 y el script lo activará automáticamente al llegar la fecha de lanzamiento. -->
+            <a href="#" class="btn-download locked" id="downloadBtn" aria-disabled="true">
+                <i class="fas fa-lock"></i> Disponible el 20 de agosto
+            </a>
+            <p class="platform-note">Windows 10/11 · Próximamente más plataformas</p>
+            <p class="platform-note">¿Quieres el aviso de lanzamiento? <a href="https://discord.gg/WygZEc54A8" target="_blank" class="notify-link">Únete a nuestro Discord</a></p>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <h2 class="section-title">Todo en un solo lugar</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-gamepad"></i>
+                <h3>Todos los títulos</h3>
+                <p>The Shadow World, Reinos de Aethermoor, TSW Saga y todo lo que está por venir, reunido en una sola biblioteca.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-rotate"></i>
+                <h3>Actualizaciones automáticas</h3>
+                <p>Olvídate de descargar parches a mano. El launcher mantiene todos tus juegos siempre al día.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users"></i>
+                <h3>Conectado a UNIVERSO</h3>
+                <p>Inicia sesión con tu cuenta y lleva tu perfil, aliados y comunidad contigo a cada partida.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Rápido y seguro</h3>
+                <p>Descargas optimizadas e instalación sencilla para que pases del clic al juego en minutos.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="included-section">
+        <h2 class="section-title">Títulos incluidos</h2>
+        <div class="included-logos">
+            <img src="../img/TSW_logo.png" alt="The Shadow World">
+            <img src="../img/Athermoor_Transparente.png" alt="Reinos de Aethermoor">
+            <img src="../img/saga_logo.png" alt="The Shadow World Saga">
+        </div>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Sobre el Estudio</h3>
+                <p>Imperio de los Sueños es un estudio de desarrollo de videojuegos independiente, apasionado y dedicado a crear experiencias con atmósferas envolventes y sistemas de juego profundos.</p>
+            </div>
+            <div class="socials">
+                <a href="https://x.com/Oscar31741727" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/WygZEc54A8" aria-label="Discord" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Fecha de lanzamiento del launcher: 20 de agosto de 2026
+        const launchDate = new Date('2026-08-20T00:00:00').getTime();
+        const elDays = document.getElementById('cd-days');
+        const elHours = document.getElementById('cd-hours');
+        const elMins = document.getElementById('cd-mins');
+        const elSecs = document.getElementById('cd-secs');
+        const downloadBtn = document.getElementById('downloadBtn');
+        // URL real del instalador (rellénala cuando esté lista). Si sigue siendo '#', el botón
+        // mostrará "Descargar ahora" pero no enlazará a ningún archivo.
+        const DOWNLOAD_URL = '#';
+
+        function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+        function unlockDownload() {
+            downloadBtn.classList.remove('locked');
+            downloadBtn.classList.add('ready');
+            downloadBtn.removeAttribute('aria-disabled');
+            downloadBtn.href = DOWNLOAD_URL;
+            downloadBtn.innerHTML = '<i class="fas fa-download"></i> Descargar ahora';
+        }
+
+        function tick() {
+            const diff = launchDate - Date.now();
+            if (diff <= 0) {
+                elDays.textContent = '0';
+                elHours.textContent = elMins.textContent = elSecs.textContent = '00';
+                unlockDownload();
+                clearInterval(timer);
+                return;
+            }
+            elDays.textContent = Math.floor(diff / 86400000);
+            elHours.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+            elMins.textContent = pad(Math.floor((diff % 3600000) / 60000));
+            elSecs.textContent = pad(Math.floor((diff % 60000) / 1000));
+        }
+
+        const timer = setInterval(tick, 1000);
+        tick();
+
+        // Evita la navegación mientras el botón está bloqueado
+        downloadBtn.addEventListener('click', (e) => {
+            if (downloadBtn.classList.contains('locked') || DOWNLOAD_URL === '#') e.preventDefault();
+        });
+    </script>
+</body>
+</html>
