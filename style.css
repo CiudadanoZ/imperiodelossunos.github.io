@@ -289,7 +289,7 @@ nav a:hover::after {
 }
 
 .card-bg {
-    height: 240px;
+    height: 150px;
     background-size: cover;
     background-position: center;
     position: relative;
@@ -373,7 +373,7 @@ nav a:hover::after {
 }
 
 .card-content {
-    padding: 2.5rem 2rem;
+    padding: 0 2rem 2rem;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -381,19 +381,53 @@ nav a:hover::after {
     background: rgba(15, 15, 22, 1);
 }
 
+/* Logo de cada juego: altura fija para alinear todos por igual */
+.card-logo {
+    height: 100px;
+    margin-top: -75px;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 11;
+}
+
+.card-logo img {
+    max-height: 100%;
+    max-width: 80%;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+}
+
+/* Marcador para tarjetas sin logo (p. ej. "Próximamente") */
+.card-logo--placeholder {
+    margin-top: -60px;
+    color: var(--accent-gold);
+    opacity: 0.7;
+}
+
+.card-logo--placeholder i {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+}
+
 .card-content h3 {
     font-size: 1.8rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.8rem;
     color: #fff;
     text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    text-align: center;
 }
 
 .card-content p {
     color: #aaa;
     line-height: 1.7;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.8rem;
     flex-grow: 1;
     font-size: 0.95rem;
+    text-align: center;
 }
 
 .btn-external, .btn-secondary {
