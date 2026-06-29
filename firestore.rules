@@ -1,0 +1,80 @@
+rules_version = '2';
+
+// Reglas de seguridad de Firestore para UNIVERSO (universo-260ce)
+// Modelo: solo usuarios autenticados pueden leer/escribir.
+// Las escrituras sensibles se restringen al dueño del recurso.
+//
+// Cómo publicar:
+//   1) Consola: https://console.firebase.google.com/project/universo-260ce/firestore/rules
+//      Pega TODO este contenido y pulsa "Publicar".
+//   2) O por CLI:  firebase deploy --only firestore:rules
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // --- Perfiles de usuario ---
+    // Cualquiera autenticado puede leer perfiles (buscador, aliados sugeridos,
+    // seguidores...). Solo el propio usuario puede crear/editar su documento.
+    match /users/{userId} {
+      allow read:   if signedIn();
+      allow create: if signedIn() && request.auth.uid == userId;
+      allow update: if signedIn() && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // --- Leyendas (posts) ---
+    match /posts/{postId} {
+      allow read:   if signedIn();
+      // Al crear, el autor debe ser el propio usuario.
+      allow create: if signedIn()
+                    && request.resource.data.authorUid == request.auth.uid;
+      // Like / retweet / guardar / votar encuesta: cualquier usuario autenticado.
+      allow update: if signedIn();
+      // Borrar: solo el autor (los posts antiguos sin authorUid no se pueden borrar).
+      allow delete: if signedIn() && resource.data.authorUid == request.auth.uid;
+
+      // Ecos (comentarios)
+      match /comments/{commentId} {
+        allow read:   if signedIn();
+        allow create: if signedIn();
+        allow update, delete: if false;
+      }
+    }
+
+    // --- Comunidades (gremios) ---
+    match /communities/{communityId} {
+      allow read:   if signedIn();
+      allow create: if signedIn()
+                    && request.resource.data.creatorUid == request.auth.uid;
+      // Unirse / salir (modifica el array members).
+      allow update: if signedIn();
+      allow delete: if signedIn() && resource.data.creatorUid == request.auth.uid;
+    }
+
+    // --- Mensajeros (mensajes directos) ---
+    // Nota: la identidad de chat es por "handle", no por uid, así que no se puede
+    // restringir la lectura solo a los participantes desde las reglas. Cualquier
+    // usuario autenticado puede leer mensajes. Si quieres privacidad real conviene
+    // migrar a una subcolección por chat con uids.
+    match /messages/{messageId} {
+      allow read:   if signedIn();
+      allow create: if signedIn();
+      allow update, delete: if false;
+    }
+
+    // --- Proclamas (notificaciones) ---
+    match /notifications/{notifId} {
+      // Solo puedes leer/marcar como leídas TUS notificaciones.
+      allow read:   if signedIn() && resource.data.recipientUid == request.auth.uid;
+      // Cualquiera puede crear una notificación dirigida a otro usuario
+      // (al darle like, comentar, seguir, etc.).
+      allow create: if signedIn();
+      allow update: if signedIn() && resource.data.recipientUid == request.auth.uid;
+      allow delete: if false;
+    }
+  }
+}
