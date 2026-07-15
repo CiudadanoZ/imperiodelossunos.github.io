@@ -94,6 +94,24 @@ nav a:hover::after {
     width: 100%;
 }
 
+/* Botón hamburguesa (solo visible en móvil) */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0.4rem;
+    cursor: pointer;
+    z-index: 1101;
+    transition: color 0.3s ease;
+}
+
+.nav-toggle:hover {
+    color: var(--accent-gold);
+}
+
 /* Botón destacado del banner (Launcher) */
 .nav-cta {
     padding: 0.5rem 1.3rem;
@@ -581,7 +599,37 @@ footer {
     .navbar { padding: 1rem; }
     .navbar.scrolled { padding: 0.8rem 1rem; }
     .logo-text { font-size: 1.3rem; }
-    nav { display: none; /* In a real app we'd add a hamburger menu */ }
+    .nav-toggle { display: block; }
+
+    /* El menú pasa a ser un panel lateral deslizante */
+    nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: min(78vw, 320px);
+        display: flex;
+        flex-direction: column;
+        gap: 1.8rem;
+        padding: 6rem 2rem 2rem;
+        background: rgba(8, 8, 12, 0.97);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-left: 1px solid var(--glass-border);
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        z-index: 1100;
+        overflow-y: auto;
+    }
+
+    nav.open { transform: translateX(0); }
+
+    nav a {
+        margin-left: 0;
+        font-size: 1rem;
+    }
+
+    .nav-cta { text-align: center; }
     .hero h1 { font-size: 2.5rem; }
     .hero p { font-size: 1rem; }
     .footer-content { flex-direction: column; text-align: center; gap: 3rem; align-items: center; }

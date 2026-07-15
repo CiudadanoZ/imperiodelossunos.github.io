@@ -12,7 +12,7 @@
 <body>
     <header class="navbar">
         <div class="logo-text">Imperio de los Sueños</div>
-        <nav>
+        <nav id="mainNav">
             <a href="#home">Inicio</a>
             <a href="#games">Juegos</a>
             <a href="launcher/index.html" class="nav-cta">Launcher</a>
@@ -20,6 +20,9 @@
             <a href="UNIVERSO/index.html">Universo</a>
             <a href="#about">Nosotros</a>
         </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
 
     <section id="home" class="hero">
@@ -111,5 +114,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="menu.js"></script>
 </body>
 </html>
