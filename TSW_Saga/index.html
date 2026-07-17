@@ -12,11 +12,15 @@
 <body class="saga-page">
     <header class="navbar">
         <div class="logo-text">Imperio de los Sueños</div>
-        <nav>
+        <nav id="mainNav">
             <a href="../index.html">Inicio</a>
             <a href="../index.html#games">Juegos</a>
+            <a href="../launcher/index.html" class="nav-cta">Launcher</a>
             <a href="https://discord.gg/WygZEc54A8" target="_blank">Comunidad</a>
         </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
 
     <section class="saga-hero">
@@ -89,5 +93,6 @@
             else navbar.classList.remove('scrolled');
         });
     </script>
+    <script src="../menu.js"></script>
 </body>
 </html>

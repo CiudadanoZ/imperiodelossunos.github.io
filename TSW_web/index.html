@@ -777,6 +777,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="mobile-menu.css">
 </head>
 <body>
 
@@ -790,7 +791,7 @@
                 <div class="brand-title">The Shadow World</div>
             </div>
 
-            <nav class="main-nav">
+            <nav class="main-nav" id="mainNav">
                 <a href="#inicio">Inicio</a>
                 <a href="#juego">El juego</a>
                 <a href="#personajes">Personajes</a>
@@ -805,6 +806,9 @@
                    target="_blank" rel="noopener noreferrer"
                    class="btn-primary">¡Juega ahora!</a>
             </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
@@ -1146,5 +1150,6 @@
         })();
     </script>
 
+    <script src="../menu.js"></script>
 </body>
 </html>

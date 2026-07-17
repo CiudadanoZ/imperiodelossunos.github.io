@@ -19,10 +19,13 @@
 <body class="game-page">
     <header class="navbar">
         <a href="../index.html" class="logo-text" style="text-decoration: none;">Imperio de los Sueños</a>
-        <nav>
+        <nav id="mainNav">
             <a href="drops.html" style="color: #9146ff; font-weight: bold;"><i class="fab fa-twitch"></i> Twitch Drops</a>
             <a href="../index.html#games">Volver a Juegos</a>
         </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
 
     <section class="game-hero">
@@ -152,6 +155,7 @@
             document.querySelectorAll('.feature-card, .game-desc, .video-wrapper').forEach(el => observer.observe(el));
         });
     </script>
+    <script src="../menu.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,94 @@
+/* mobile-menu.css — Menú hamburguesa para las páginas de The Shadow World.
+   Estas páginas tienen su propio diseño (.top-bar / nav.main-nav) y NO cargan
+   Font Awesome, por eso el icono va dibujado en CSS.
+   Se apoya en ../menu.js, que alterna la clase .open en #mainNav y actualiza
+   aria-expanded en #navToggle (de ahí cuelga la animación a aspa). */
+
+.nav-toggle {
+    display: none;
+    position: relative;
+    width: 42px;
+    height: 34px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    cursor: pointer;
+    flex: 0 0 auto;
+    z-index: 120;
+    transition: border-color 0.2s ease;
+}
+
+.nav-toggle:hover {
+    border-color: var(--color-azul-claro, #3aa3ff);
+}
+
+/* Las tres barras */
+.nav-toggle span {
+    position: absolute;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background: #cfd8ff;
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: top 0.3s ease, transform 0.3s ease, opacity 0.2s ease;
+}
+
+.nav-toggle span:nth-child(1) { top: 10px; }
+.nav-toggle span:nth-child(2) { top: 16px; }
+.nav-toggle span:nth-child(3) { top: 22px; }
+
+/* Estado abierto -> aspa */
+.nav-toggle[aria-expanded="true"] span:nth-child(1) {
+    top: 16px;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(3) {
+    top: 16px;
+    transform: translateX(-50%) rotate(-45deg);
+}
+
+@media (max-width: 900px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    /* Anula el "display: none" que estas páginas aplican al nav en móvil
+       y lo convierte en panel lateral deslizante. */
+    nav.main-nav {
+        display: flex !important;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: min(78vw, 300px);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 88px 24px 24px;
+        background: rgba(5, 15, 30, 0.98);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        z-index: 110;
+        overflow-y: auto;
+    }
+
+    nav.main-nav.open {
+        transform: translateX(0);
+    }
+
+    nav.main-nav a {
+        width: 100%;
+        padding: 8px 6px;
+        font-size: 15px;
+    }
+}

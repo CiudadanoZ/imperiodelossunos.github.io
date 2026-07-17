@@ -189,13 +189,17 @@
     <!-- Navbar (Mismo diseño, diferentes enlaces) -->
     <header class="navbar">
         <div class="logo-text">Imperio de los Sueños</div>
-        <nav>
+        <nav id="mainNav">
             <a href="../index.html#home">Inicio</a>
             <a href="../index.html#games">Juegos</a>
+            <a href="../launcher/index.html" class="nav-cta">Launcher</a>
             <a href="#">Libros</a>
             <a href="../UNIVERSO/index.html">Universo</a>
             <a href="../index.html#about">Nosotros</a>
         </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
 
     <!-- Subpage Hero -->
@@ -271,5 +275,6 @@
             }
         });
     </script>
+    <script src="../menu.js"></script>
 </body>
 </html>
