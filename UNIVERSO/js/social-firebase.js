@@ -1,8 +1,8 @@
 // social-firebase.js
 // Configuración de Firebase para UNIVERSO
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where, deleteDoc, runTransaction } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
 // Configuración obtenida del usuario
 const firebaseConfig = {
@@ -41,12 +41,38 @@ export const SocialFirebase = {
     },
 
     // --- AUTENTICACIÓN ---
+    // Normaliza un handle a su clave única (sin @, en minúsculas, sin espacios).
+    _handleKey(handle) {
+        return String(handle || '').replace(/^@/, '').trim().toLowerCase();
+    },
+
     async register(name, email, password, handle, bio, location) {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        
         // Asegurarse de que el handle tenga @
         const finalHandle = handle.startsWith('@') ? handle : "@" + handle;
+        const handleKey = this._handleKey(finalHandle);
+        if (!handleKey) throw new Error("Ese @handle no es válido.");
+
+        // Comprobación rápida antes de crear la cuenta (sin sesión). La unicidad
+        // real la garantiza la transacción de más abajo.
+        const handleRef = doc(db, "handles", handleKey);
+        const pre = await getDoc(handleRef);
+        if (pre.exists()) throw new Error("Ese @handle ya está en uso. Elige otro.");
+
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Reclamar el handle de forma atómica: si otro lo tomó entre medias, la
+        // transacción falla y deshacemos la cuenta recién creada.
+        try {
+            await runTransaction(db, async (tx) => {
+                const snap = await tx.get(handleRef);
+                if (snap.exists()) throw new Error("Ese @handle ya está en uso. Elige otro.");
+                tx.set(handleRef, { uid: user.uid, handle: finalHandle });
+            });
+        } catch (e) {
+            await deleteUser(user).catch(() => {});
+            throw e;
+        }
 
         const randomAvatar = this.generateRandomAvatar();
 
@@ -58,7 +84,7 @@ export const SocialFirebase = {
             bio: bio || "Un nuevo héroe ha llegado a Narak'Thul.",
             location: location || "Tierras Desconocidas",
             joined: new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }),
-            following: 0,
+            following: [],
             followers: 0,
             uid: user.uid
         });
@@ -381,10 +407,21 @@ export const SocialFirebase = {
     async sendMessage(targetHandle, text, options = {}) {
         const profile = await this.getCurrentUserProfile();
         if (!profile) return;
+        const senderUid = auth.currentUser.uid;
+
+        // Necesitamos el UID del destinatario para participants (privacidad) y
+        // para la notificación.
+        const q = query(collection(db, "users"), where("handle", "==", targetHandle));
+        const snap = await getDocs(q);
+        if (snap.empty) throw new Error("No existe ningún héroe con ese nombre.");
+        const recipientUid = snap.docs[0].id;
 
         const chatKey = this._getChatKey(profile.handle, targetHandle);
         await addDoc(collection(db, "messages"), {
             chatKey: chatKey,
+            participants: [senderUid, recipientUid], // clave para que solo los dos puedan leer
+            senderUid: senderUid,
+            recipientUid: recipientUid,
             sender: profile.handle,
             recipient: targetHandle,
             text: text,
@@ -392,13 +429,7 @@ export const SocialFirebase = {
             attachment: options.attachment || null
         });
 
-        // Para notificar necesitamos el UID del destinatario.
-        const q = query(collection(db, "users"), where("handle", "==", targetHandle));
-        const snap = await getDocs(q);
-        if (!snap.empty) {
-            const recipientUid = snap.docs[0].id;
-            await this.addNotification(recipientUid, 'message', profile.name, profile.handle);
-        }
+        await this.addNotification(recipientUid, 'message', profile.name, profile.handle);
     },
 
     onMessagesUpdate(targetHandle, callback) {
@@ -411,12 +442,15 @@ export const SocialFirebase = {
         this.getCurrentUserProfile().then(profile => {
             if (!profile) return;
             const chatKey = this._getChatKey(profile.handle, targetHandle);
-            // Quitamos orderBy para evitar necesidad de índice compuesto
-            const q = query(collection(db, "messages"), 
-                        where("chatKey", "==", chatKey));
-            
+            // Consultamos por participants (uid) para respetar las reglas de
+            // privacidad, y filtramos el chat concreto en memoria.
+            const q = query(collection(db, "messages"),
+                        where("participants", "array-contains", user.uid));
+
             const sub = onSnapshot(q, (snapshot) => {
-                const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const msgs = snapshot.docs
+                    .map(doc => ({ id: doc.id, ...doc.data() }))
+                    .filter(m => m.chatKey === chatKey);
                 // Ordenamos por fecha ascendente en memoria
                 msgs.sort((a,b) => a.timestamp - b.timestamp);
                 callback(msgs);
@@ -436,14 +470,15 @@ export const SocialFirebase = {
 
         return this.getCurrentUserProfile().then(profile => {
             if (!profile) return () => {};
-            
-            // Consultamos mensajes donde el usuario participa
-            const q1 = query(collection(db, "messages"), where("sender", "==", profile.handle));
-            const q2 = query(collection(db, "messages"), where("recipient", "==", profile.handle));
-            
-            let chatsMap = new Map();
-            
-            const processSnapshot = (snapshot) => {
+
+            // Un único listener por participants (uid): trae solo mis chats y
+            // respeta las reglas de privacidad. Sustituye a las dos consultas
+            // por handle de antes.
+            const q = query(collection(db, "messages"),
+                        where("participants", "array-contains", user.uid));
+
+            const unsub = onSnapshot(q, (snapshot) => {
+                const chatsMap = new Map();
                 snapshot.docs.forEach(doc => {
                     const data = doc.data();
                     const otherHandle = data.sender === profile.handle ? data.recipient : data.sender;
@@ -452,18 +487,17 @@ export const SocialFirebase = {
                         chatsMap.set(otherHandle, { ...data, id: doc.id, handle: otherHandle });
                     }
                 });
-                
+
                 // Convertir el Map a array y ordenar por el más reciente
                 const sortedChats = Array.from(chatsMap.values()).sort((a, b) => b.timestamp - a.timestamp);
-                
+
                 // Buscar perfiles de los interlocutores para el avatar/nombre
                 this._fillChatProfiles(sortedChats).then(callback);
-            };
+            }, (error) => {
+                console.error("Error en onRecentChatsUpdate:", error);
+            });
 
-            const unsub1 = onSnapshot(q1, processSnapshot);
-            const unsub2 = onSnapshot(q2, processSnapshot);
-            
-            return () => { unsub1(); unsub2(); };
+            return () => unsub();
         });
     },
 

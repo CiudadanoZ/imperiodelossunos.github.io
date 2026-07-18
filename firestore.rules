@@ -56,13 +56,23 @@ service cloud.firestore {
     }
 
     // --- Mensajeros (mensajes directos) ---
-    // Nota: la identidad de chat es por "handle", no por uid, así que no se puede
-    // restringir la lectura solo a los participantes desde las reglas. Cualquier
-    // usuario autenticado puede leer mensajes. Si quieres privacidad real conviene
-    // migrar a una subcolección por chat con uids.
+    // Cada mensaje guarda participants: [uidRemitente, uidDestinatario].
+    // Solo esos dos pueden leerlo, y el remitente debe ser uno mismo.
     match /messages/{messageId} {
-      allow read:   if signedIn();
-      allow create: if signedIn();
+      allow read:   if signedIn() && request.auth.uid in resource.data.participants;
+      allow create: if signedIn()
+                    && request.auth.uid in request.resource.data.participants
+                    && request.resource.data.senderUid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // --- Reserva de @handles (unicidad) ---
+    // handles/{handleEnMinusculas} = { uid, handle }.
+    // Lectura pública para poder comprobar disponibilidad antes de registrarse.
+    // Solo se puede crear el propio (uid == auth.uid) y no se puede reasignar.
+    match /handles/{handleKey} {
+      allow read:   if true;
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
       allow update, delete: if false;
     }
 
