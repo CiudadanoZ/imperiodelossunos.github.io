@@ -23,21 +23,43 @@ export const SocialFirebase = {
     auth,
     db,
 
+    // Genera un avatar aleatorio tipo emoji (fondo de color + emoji temático).
+    // Los usuarios NO suben fotos: siempre se asigna uno de estos. El resultado
+    // es una imagen pequeña que se guarda en el propio documento de Firestore,
+    // así que funciona en el plan gratuito (no hace falta Firebase Storage).
     generateRandomAvatar() {
         const colors = [
             "#4a148c", "#311b92", "#1a237e", "#0d47a1", "#01579b", "#006064", "#004d40",
             "#1b5e20", "#33691e", "#827717", "#f57f17", "#ff6f00", "#e65100", "#bf360c",
             "#3e2723", "#212121", "#263238", "#b71c1c", "#880e4f"
         ];
+        const emojis = [
+            "🐉", "🗡️", "🛡️", "🔮", "👑", "⚔️", "🏰", "🦉", "🐺", "🔥", "🌙", "⭐",
+            "🍄", "🗝️", "📜", "⚗️", "🏹", "💀", "🧙", "🐲", "🦅", "🕷️", "🦇", "🐍",
+            "👁️", "🎭", "🧝", "🧪", "🌟", "🪄"
+        ];
         const bgColor = colors[Math.floor(Math.random() * colors.length)];
-        // Un ícono de emblema simple (escudo fantástico) centrado
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <rect width="100" height="100" fill="${bgColor}" />
-            <path d="M50 15 L20 30 L20 60 C20 80 50 95 50 95 C50 95 80 80 80 60 L80 30 Z" fill="rgba(255, 255, 255, 0.85)" />
-            <circle cx="50" cy="50" r="10" fill="${bgColor}" />
-            <circle cx="50" cy="50" r="6" fill="rgba(255, 255, 255, 0.5)" />
-        </svg>`;
-        return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+        // Renderizamos a PNG en un canvas: los emojis dentro de un SVG-como-imagen
+        // no siempre se pintan en color en todos los navegadores; el PNG sí.
+        try {
+            const canvas = document.createElement('canvas');
+            canvas.width = 100;
+            canvas.height = 100;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, 100, 100);
+            ctx.font = '58px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(emoji, 50, 56);
+            return canvas.toDataURL('image/png');
+        } catch (e) {
+            // Reserva por si canvas no está disponible.
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="${bgColor}"/><text x="50" y="54" font-size="56" text-anchor="middle" dominant-baseline="central">${emoji}</text></svg>`;
+            return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+        }
     },
 
     // --- AUTENTICACIÓN ---
