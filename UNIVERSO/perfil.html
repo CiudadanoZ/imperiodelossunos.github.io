@@ -1372,7 +1372,7 @@
                         const isMe = u.uid === uid;
                         const item = `
                             <div class="user-item" style="display:flex; align-items:center; gap:12px; padding:12px; border-bottom:1px solid rgba(255,255,255,0.03);">
-                                <img src="${safeImageUrl(u.avatar) || '../img/personaje-desconocido.png'}" class="avatar" style="width:35px; height:35px; object-fit:contain; background:#000;">
+                                <img src="${safeImageUrl(u.avatar) || 'img/personaje-desconocido.png'}" class="avatar" style="width:35px; height:35px; object-fit:contain; background:#000;">
                                 <div style="flex-grow:1;">
                                     <div style="font-weight:bold; font-size:0.9rem; color:#fff;">${escapeHtml(u.name)}</div>
                                     <div style="font-size:0.8rem; color:#777;">${escapeHtml(u.handle)}</div>

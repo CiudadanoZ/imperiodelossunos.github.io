@@ -279,7 +279,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            background: url('../img/texture-dark.png'); /* Opcional: textura sutil */
+            background: rgba(0, 0, 0, 0.15); /* fondo sutil del hilo de mensajes */
         }
 
         .message {
@@ -531,7 +531,7 @@
                 
                 <div id="chatsListContainer">
                     <div class="chat-item active" onclick="switchChat('el_anciano', this)">
-                        <img src="../img/personaje-protagonista.png" alt="El Anciano" class="avatar" style="object-fit: contain; background: #000;">
+                        <img src="img/personaje-protagonista.png" alt="El Anciano" class="avatar" style="object-fit: contain; background: #000;">
                         <div class="chat-info">
                             <div class="chat-name">El Anciano <span class="chat-time">14:20</span></div>
                             <div class="chat-last-msg">¿Has visto el último pergamino de Aethermoor?</div>
@@ -539,7 +539,7 @@
                     </div>
 
                     <div class="chat-item" onclick="alert('Funcionalidad de chat para otros personajess en desarrollo...')">
-                        <img src="../img/personaje-dama-soledad.png" alt="Dama Soledad" class="avatar" style="object-fit: contain; background: #000;">
+                        <img src="img/personaje-dama-soledad.png" alt="Dama Soledad" class="avatar" style="object-fit: contain; background: #000;">
                         <div class="chat-info">
                             <div class="chat-name">Dama Soledad <span class="chat-time">Ayer</span></div>
                             <div class="chat-last-msg">La oscuridad se acerca, prepárate.</div>
@@ -564,7 +564,7 @@
                         <i class="fas fa-arrow-left" id="btnBackMobile" style="display: none; color: var(--accent-gold); cursor: pointer; font-size: 1.2rem;" onclick="window.closeMobileChat()"></i>
                         <div class="chat-user-profile">
 
-                        <img src="../img/personaje-protagonista.png" alt="Avatar" id="chatHeaderAvatar" class="avatar" style="object-fit: contain; background: #000;">
+                        <img src="img/personaje-protagonista.png" alt="Avatar" id="chatHeaderAvatar" class="avatar" style="object-fit: contain; background: #000;">
                         <div>
                             <div style="font-weight: bold; color: #fff;" id="chatHeaderName">El Anciano Erudito</div>
                             <div style="font-size: 0.8rem; color: #17bf63;" id="chatHeaderStatus">En los archivos... (En línea)</div>
@@ -776,7 +776,7 @@
                     const timeStr = new Date(chat.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                     const chatHTML = `
                         <div class="chat-item ${currentChatId === chat.handle ? 'active' : ''}" onclick="switchChat('${escapeJsAttr(chat.handle)}', this)">
-                            <img src="${safeImageUrl(chat.avatar) || '../img/personaje-desconocido.png'}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
+                            <img src="${safeImageUrl(chat.avatar) || 'img/personaje-desconocido.png'}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
                             <div class="chat-info">
                                 <div class="chat-name">${escapeHtml(chat.name || chat.handle)} <span class="chat-time">${timeStr}</span></div>
                                 <div class="chat-last-msg">${escapeHtml(chat.text)}</div>
