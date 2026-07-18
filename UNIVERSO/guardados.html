@@ -260,6 +260,7 @@
 
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
+        import { escapeHtml, safeImageUrl } from './js/utils.js';
 
         async function loadUserInfo() {
             const user = await SocialFirebase.getCurrentUserProfile();
@@ -281,15 +282,15 @@
             posts.forEach(post => {
                 const postHTML = `
                     <article class="post" data-id="${post.id}">
-                        <img src="${post.avatar}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
+                        <img src="${safeImageUrl(post.avatar)}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
                         <div class="post-content">
                             <div class="post-header">
-                                <span class="post-author">${post.author}</span>
-                                <span class="post-handle">${post.handle}</span>
+                                <span class="post-author">${escapeHtml(post.author)}</span>
+                                <span class="post-handle">${escapeHtml(post.handle)}</span>
                                 <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
                             </div>
-                            <div class="post-text">${post.text}</div>
-                            ${(post.image && post.image.includes('data:image')) ? `<img src="${post.image}" alt="Media" class="post-image">` : ''}
+                            <div class="post-text">${escapeHtml(post.text)}</div>
+                            ${(post.image && post.image.includes('data:image')) ? `<img src="${safeImageUrl(post.image)}" alt="Media" class="post-image">` : ''}
                             <div class="post-interactions">
                                 <div class="interaction" onclick="event.stopPropagation(); window.openCommentModal('${post.id}')">
                                     <i class="far fa-comment"></i> ${post.commentsCount || 0}
@@ -321,10 +322,10 @@
             currentModalPostId = id;
             const post = await SocialFirebase.getPost(id);
             if (!post) return;
-            document.getElementById('originalPostInModal').innerHTML = `<div style="display:flex; gap:15px;"><img src="${post.avatar}" class="avatar" style="width:40px; height:40px; background:#000;"><div style="color:#eee;"><strong>${post.author}</strong><p>${post.text}</p></div></div>`;
+            document.getElementById('originalPostInModal').innerHTML = `<div style="display:flex; gap:15px;"><img src="${safeImageUrl(post.avatar)}" class="avatar" style="width:40px; height:40px; background:#000;"><div style="color:#eee;"><strong>${escapeHtml(post.author)}</strong><p>${escapeHtml(post.text)}</p></div></div>`;
             SocialFirebase.onCommentsUpdate(id, (comments) => {
                 const list = document.getElementById('commentList');
-                list.innerHTML = comments.map(c => `<div style="margin-bottom:15px; display:flex; gap:10px;"><img src="${c.avatar}" class="avatar" style="width:30px; height:30px; background:#000;"><div><div style="font-weight:bold; color:var(--accent-gold); font-size:0.8rem;">${c.author}</div><div style="color:#ccc; font-size:0.9rem;">${c.text}</div></div></div>`).join('');
+                list.innerHTML = comments.map(c => `<div style="margin-bottom:15px; display:flex; gap:10px;"><img src="${safeImageUrl(c.avatar)}" class="avatar" style="width:30px; height:30px; background:#000;"><div><div style="font-weight:bold; color:var(--accent-gold); font-size:0.8rem;">${escapeHtml(c.author)}</div><div style="color:#ccc; font-size:0.9rem;">${escapeHtml(c.text)}</div></div></div>`).join('');
             });
             document.getElementById('commentModal').style.display = 'flex';
         };

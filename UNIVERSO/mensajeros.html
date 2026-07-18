@@ -603,6 +603,7 @@
 
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
+        import { escapeHtml, escapeJsAttr, safeImageUrl, safeLinkUrl } from './js/utils.js';
 
         let currentChatId = null;
         let messagesUnsubscribe = null;
@@ -633,12 +634,13 @@
                     const isMe = msg.sender === currentUser.handle;
                     msgDiv.className = `message ${isMe ? 'sent' : 'received'}`;
                     
-                    let content = msg.text;
+                    let content = escapeHtml(msg.text);
                     if (msg.attachment) {
                         if (msg.attachment.type === 'image') {
-                            content += `<br><a href="${msg.attachment.data}" target="_blank"><img src="${msg.attachment.data}" class="msg-image" style="max-width:200px; border-radius:8px; margin-top:5px;"></a>`;
+                            content += `<br><a href="${safeLinkUrl(msg.attachment.data)}" target="_blank"><img src="${safeImageUrl(msg.attachment.data)}" class="msg-image" style="max-width:200px; border-radius:8px; margin-top:5px;"></a>`;
                         } else {
-                            content += `<br><a href="${msg.attachment.data}" download="${msg.attachment.name}" target="_blank" style="text-decoration:none; color:inherit;"><div style="padding:10px; background:rgba(0,0,0,0.3); border-radius:8px; margin-top:5px; font-size:0.8rem; cursor:pointer;"><i class="fas fa-file-alt"></i> ${msg.attachment.name} (Descargar)</div></a>`;
+                            // href escapado (a prueba de romper el atributo) + download fuerza la descarga en vez de navegar
+                            content += `<br><a href="${escapeHtml(msg.attachment.data)}" download="${escapeHtml(msg.attachment.name)}" target="_blank" style="text-decoration:none; color:inherit;"><div style="padding:10px; background:rgba(0,0,0,0.3); border-radius:8px; margin-top:5px; font-size:0.8rem; cursor:pointer;"><i class="fas fa-file-alt"></i> ${escapeHtml(msg.attachment.name)} (Descargar)</div></a>`;
                         }
                     }
                     
@@ -672,16 +674,16 @@
                     div.className = 'result-item';
                     div.style.cssText = "display:flex; align-items:center; gap:10px; padding:10px; cursor:pointer; border-bottom:1px solid rgba(212,175,55,0.1);";
                     div.innerHTML = `
-                        <img src="${user.avatar}" class="avatar" style="width:30px; height:30px; object-fit:contain; background:#000;">
-                        <div style="flex-grow:1; font-size:0.85rem;" onclick="window.startNewChat('${user.handle}')">
-                            <div style="color:white;">${user.name}</div>
-                            <div style="color:#777; font-size:0.75rem;">${user.handle}</div>
+                        <img src="${safeImageUrl(user.avatar)}" class="avatar" style="width:30px; height:30px; object-fit:contain; background:#000;">
+                        <div style="flex-grow:1; font-size:0.85rem;" onclick="window.startNewChat('${escapeJsAttr(user.handle)}')">
+                            <div style="color:white;">${escapeHtml(user.name)}</div>
+                            <div style="color:#777; font-size:0.75rem;">${escapeHtml(user.handle)}</div>
                         </div>
                         <div style="display:flex; gap:5px;">
-                            <button class="result-btn ${following ? 'active' : ''}" onclick="window.toggleUserFollow('${user.uid}', this)">
+                            <button class="result-btn ${following ? 'active' : ''}" onclick="window.toggleUserFollow('${escapeJsAttr(user.uid)}', this)">
                                 ${following ? 'Aliado' : 'Seguir'}
                             </button>
-                            <button class="result-btn" style="background:var(--accent-gold); border:none; color:black; padding:4px 10px; border-radius:15px; font-size:0.7rem; cursor:pointer;" onclick="window.startNewChat('${user.handle}')">
+                            <button class="result-btn" style="background:var(--accent-gold); border:none; color:black; padding:4px 10px; border-radius:15px; font-size:0.7rem; cursor:pointer;" onclick="window.startNewChat('${escapeJsAttr(user.handle)}')">
                                 Mensaje
                             </button>
                         </div>
@@ -773,11 +775,11 @@
                 chats.forEach(chat => {
                     const timeStr = new Date(chat.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                     const chatHTML = `
-                        <div class="chat-item ${currentChatId === chat.handle ? 'active' : ''}" onclick="switchChat('${chat.handle}', this)">
-                            <img src="${chat.avatar || '../img/personaje-desconocido.png'}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
+                        <div class="chat-item ${currentChatId === chat.handle ? 'active' : ''}" onclick="switchChat('${escapeJsAttr(chat.handle)}', this)">
+                            <img src="${safeImageUrl(chat.avatar) || '../img/personaje-desconocido.png'}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
                             <div class="chat-info">
-                                <div class="chat-name">${chat.name || chat.handle} <span class="chat-time">${timeStr}</span></div>
-                                <div class="chat-last-msg">${chat.text}</div>
+                                <div class="chat-name">${escapeHtml(chat.name || chat.handle)} <span class="chat-time">${timeStr}</span></div>
+                                <div class="chat-last-msg">${escapeHtml(chat.text)}</div>
                             </div>
                         </div>
                     `;

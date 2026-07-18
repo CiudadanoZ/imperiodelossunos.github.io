@@ -1068,6 +1068,7 @@
     </div>
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
+        import { escapeHtml, escapeJsAttr, safeImageUrl } from './js/utils.js';
 
         // --- GESTIÓN DE PERFIL ---
         async function loadUserProfile() {
@@ -1150,15 +1151,15 @@
             filtered.forEach(post => {
                 const postHTML = `
                     <article class="post">
-                        <img src="${post.avatar}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
+                        <img src="${safeImageUrl(post.avatar)}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
                         <div class="post-content">
                             <div class="post-header">
-                                <span class="post-author">${post.author}</span>
-                                <span class="post-handle">${post.handle}</span>
+                                <span class="post-author">${escapeHtml(post.author)}</span>
+                                <span class="post-handle">${escapeHtml(post.handle)}</span>
                                 <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
                             </div>
-                            <div class="post-text">${post.text}</div>
-                            ${(post.image && post.image.includes('data:image')) ? `<img src="${post.image}" alt="Media" class="post-image">` : ''}
+                            <div class="post-text">${escapeHtml(post.text)}</div>
+                            ${(post.image && post.image.includes('data:image')) ? `<img src="${safeImageUrl(post.image)}" alt="Media" class="post-image">` : ''}
                             <div class="post-interactions">
                                 <div class="interaction" onclick="event.stopPropagation(); window.openCommentModal('${post.id}')">
                                     <i class="far fa-comment"></i> ${post.commentsCount || 0}
@@ -1225,12 +1226,12 @@
             const originalPostContainer = document.getElementById('originalPostInModal');
             originalPostContainer.innerHTML = `
                 <div style="display: flex; gap: 15px;">
-                    <img src="${post.avatar}" class="avatar" style="width: 40px; height: 40px; object-fit: contain; background: #000;">
+                    <img src="${safeImageUrl(post.avatar)}" class="avatar" style="width: 40px; height: 40px; object-fit: contain; background: #000;">
                     <div>
                         <div style="font-weight: bold; color: var(--text-light); font-size: 0.9rem;">
-                            ${post.author} <span style="color: #777; font-weight: normal;">${post.handle}</span>
+                            ${escapeHtml(post.author)} <span style="color: #777; font-weight: normal;">${escapeHtml(post.handle)}</span>
                         </div>
-                        <div style="color: #ccc; margin-top: 5px; font-size: 0.95rem;">${post.text}</div>
+                        <div style="color: #ccc; margin-top: 5px; font-size: 0.95rem;">${escapeHtml(post.text)}</div>
                     </div>
                 </div>
             `;
@@ -1249,10 +1250,10 @@
                     comments.forEach(c => {
                         container.insertAdjacentHTML('beforeend', `
                             <div style="display: flex; gap: 12px; margin-bottom: 20px;">
-                                <img src="${c.avatar}" class="avatar" style="width: 32px; height: 32px; object-fit: contain; background: #000; border: 1px solid var(--accent-gold);">
+                                <img src="${safeImageUrl(c.avatar)}" class="avatar" style="width: 32px; height: 32px; object-fit: contain; background: #000; border: 1px solid var(--accent-gold);">
                                 <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
-                                    <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${c.author}</div>
-                                    <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${c.text}</div>
+                                    <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${escapeHtml(c.author)}</div>
+                                    <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${escapeHtml(c.text)}</div>
                                     <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
                                 </div>
                             </div>
@@ -1371,15 +1372,15 @@
                         const isMe = u.uid === uid;
                         const item = `
                             <div class="user-item" style="display:flex; align-items:center; gap:12px; padding:12px; border-bottom:1px solid rgba(255,255,255,0.03);">
-                                <img src="${u.avatar || '../img/personaje-desconocido.png'}" class="avatar" style="width:35px; height:35px; object-fit:contain; background:#000;">
+                                <img src="${safeImageUrl(u.avatar) || '../img/personaje-desconocido.png'}" class="avatar" style="width:35px; height:35px; object-fit:contain; background:#000;">
                                 <div style="flex-grow:1;">
-                                    <div style="font-weight:bold; font-size:0.9rem; color:#fff;">${u.name}</div>
-                                    <div style="font-size:0.8rem; color:#777;">${u.handle}</div>
+                                    <div style="font-weight:bold; font-size:0.9rem; color:#fff;">${escapeHtml(u.name)}</div>
+                                    <div style="font-size:0.8rem; color:#777;">${escapeHtml(u.handle)}</div>
                                 </div>
                                 ${!isMe ? `
-                                    <button class="result-btn ${following ? 'active' : ''}" 
+                                    <button class="result-btn ${following ? 'active' : ''}"
                                             style="font-size:0.7rem; padding:5px 10px; border-radius:15px; cursor:pointer;"
-                                            onclick="window.toggleModalFollow('${u.uid}', this)">
+                                            onclick="window.toggleModalFollow('${escapeJsAttr(u.uid)}', this)">
                                         ${following ? 'Aliado' : 'Seguir'}
                                     </button>
                                 ` : ''}

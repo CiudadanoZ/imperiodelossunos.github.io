@@ -213,6 +213,7 @@
 
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
+        import { escapeHtml, escapeJsAttr } from './js/utils.js';
 
         async function loadUserInfo() {
             const user = await SocialFirebase.getCurrentUserProfile();
@@ -238,33 +239,33 @@
                 switch(n.type) {
                     case 'like':
                         icon = '<i class="fas fa-heart icon-like"></i>';
-                        text = `A <strong>${n.fromName}</strong> (@${n.fromHandle.replace('@','')}) le ha gustado tu leyenda.`;
+                        text = `A <strong>${escapeHtml(n.fromName)}</strong> (@${escapeHtml(n.fromHandle.replace('@',''))}) le ha gustado tu leyenda.`;
                         link = `index.html?post=${n.postId}`;
                         break;
                     case 'message':
                         icon = '<i class="fas fa-envelope icon-message"></i>';
-                        text = `Has recibido un nuevo mensaje de <strong>${n.fromName}</strong>.`;
+                        text = `Has recibido un nuevo mensaje de <strong>${escapeHtml(n.fromName)}</strong>.`;
                         link = `mensajeros.html?chat=${n.fromHandle}`;
                         break;
                     case 'retweet':
                         icon = '<i class="fas fa-retweet icon-retweet"></i>';
-                        text = `<strong>${n.fromName}</strong> ha compartido tu leyenda en su propio pergamino.`;
+                        text = `<strong>${escapeHtml(n.fromName)}</strong> ha compartido tu leyenda en su propio pergamino.`;
                         link = `index.html?post=${n.postId}`;
                         break;
                     case 'comment':
                         icon = '<i class="fas fa-comment icon-comment"></i>';
-                        text = `<strong>${n.fromName}</strong> ha añadido un eco a tu leyenda.`;
+                        text = `<strong>${escapeHtml(n.fromName)}</strong> ha añadido un eco a tu leyenda.`;
                         link = `index.html?post=${n.postId}`;
                         break;
                     case 'follow':
                         icon = '<i class="fas fa-user-plus icon-follow"></i>';
-                        text = `<strong>${n.fromName}</strong> te ha jurado leatad y ahora es tu aliado (te sigue).`;
+                        text = `<strong>${escapeHtml(n.fromName)}</strong> te ha jurado leatad y ahora es tu aliado (te sigue).`;
                         link = `perfil.html?u=${n.fromHandle}`;
                         break;
                 }
 
                 const notifHTML = `
-                    <div class="notification ${n.read ? '' : 'unread'}" onclick="window.location.href='${link}'">
+                    <div class="notification ${n.read ? '' : 'unread'}" onclick="window.location.href='${escapeJsAttr(link)}'">
                         <div class="notif-icon">${icon}</div>
                         <div class="notif-content">
                             <div class="notif-text">${text}</div>
