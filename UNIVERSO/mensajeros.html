@@ -603,7 +603,7 @@
 
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
-        import { escapeHtml, escapeJsAttr, safeImageUrl, safeLinkUrl } from './js/utils.js';
+        import { escapeHtml, escapeJsAttr, safeImageUrl, safeLinkUrl, compressImage, readFileCapped } from './js/utils.js';
 
         let currentChatId = null;
         let messagesUnsubscribe = null;
@@ -730,15 +730,20 @@
         document.getElementById('mediaInput').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (file && currentChatId) {
-                const reader = new FileReader();
-                reader.onload = async function(event) {
-                    const type = file.type.startsWith('image') ? 'image' : 'file';
+                try {
+                    const isImage = file.type.startsWith('image');
+                    // Imágenes: comprimir. Ficheros: leer con tope (no se pueden
+                    // comprimir). Ambos deben caber en 1 MB de Firestore.
+                    const data = isImage ? await compressImage(file) : await readFileCapped(file);
                     await SocialFirebase.sendMessage(currentChatId, `Adjunto: ${file.name}`, {
-                        attachment: { type: type, data: event.target.result, name: file.name }
+                        attachment: { type: isImage ? 'image' : 'file', data: data, name: file.name }
                     });
+                } catch (err) {
+                    alert(err.message || 'No se pudo adjuntar el archivo.');
+                } finally {
                     document.getElementById('attachMenu').style.display = 'none';
-                };
-                reader.readAsDataURL(file);
+                    e.target.value = '';
+                }
             }
         });
 

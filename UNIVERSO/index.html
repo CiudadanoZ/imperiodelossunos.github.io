@@ -853,22 +853,26 @@
 
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
-        import { escapeHtml, escapeJsAttr, safeImageUrl } from './js/utils.js';
+        import { escapeHtml, escapeJsAttr, safeImageUrl, compressImage } from './js/utils.js';
         // Variables para contenido extra
         let postImageData = null;
 
         // Gestión de Imagen
         document.getElementById('imgBtn').addEventListener('click', () => document.getElementById('imgInput').click());
-        document.getElementById('imgInput').addEventListener('change', function (e) {
+        document.getElementById('imgInput').addEventListener('change', async function (e) {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    postImageData = event.target.result;
+                try {
+                    // Comprimimos en el navegador para no superar el límite de 1 MB
+                    // de Firestore (plan gratuito, sin Storage).
+                    postImageData = await compressImage(file);
                     document.getElementById('imgPreview').src = postImageData;
                     document.getElementById('imagePreviewArea').style.display = 'block';
-                };
-                reader.readAsDataURL(file);
+                } catch (err) {
+                    postImageData = null;
+                    document.getElementById('imgInput').value = '';
+                    alert(err.message || 'No se pudo procesar la imagen.');
+                }
             }
         });
         document.getElementById('removeImg').addEventListener('click', () => {
