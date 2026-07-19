@@ -718,8 +718,8 @@
                     </div>
                 </div>
                 <div style="flex-grow: 1; margin-left: 10px;">
-                    <div style="font-weight: bold; font-size: 0.9rem;" class="user-name-text">Aventurero</div>
-                    <div style="color: #777; font-size: 0.8rem;" class="user-handle-text">@noble_errante</div>
+                    <div style="font-weight: bold; font-size: 0.9rem;" class="user-name-text"></div>
+                    <div style="color: #777; font-size: 0.8rem;" class="user-handle-text"></div>
                 </div>
                 <div onclick="event.stopPropagation(); SocialFirebase.logout();" title="Abandonar el Reino (Cerrar Sesión)">
                     <i class="fas fa-sign-out-alt" style="color: #777; cursor: pointer;"></i>
@@ -761,33 +761,10 @@
                 </div>
             </div>
 
-            <!-- Widget Sugerencias -->
-            <div class="widget">
+            <!-- Widget Sugerencias (se rellena dinámicamente) -->
+            <div class="widget" id="suggestedAlliesWidget">
                 <h3>Aliados Sugeridos</h3>
-
-                <div class="follow-item">
-                    <div class="follow-info">
-                        <img src="img/personaje-brujo-oscuro.png" alt="Brujo" class="avatar"
-                            style="object-fit: contain; background: #000;">
-                        <div>
-                            <div class="follow-name">El Rey Brujo</div>
-                            <div style="font-size: 0.8rem; color: #777;">@oscuridad_absoluta</div>
-                        </div>
-                    </div>
-                    <button class="btn-follow">Seguir</button>
-                </div>
-
-                <div class="follow-item">
-                    <div class="follow-info">
-                        <img src="img/logo-completo.png" alt="Logo" class="avatar"
-                            style="object-fit: contain; background: #000;">
-                        <div>
-                            <div class="follow-name">Soporte TSW</div>
-                            <div style="font-size: 0.8rem; color: #777;">@tsw_ayuda</div>
-                        </div>
-                    </div>
-                    <button class="btn-follow">Seguir</button>
-                </div>
+                <div style="padding: 10px; color: #777; font-size: 0.85rem; text-align: center;">Buscando aliados...</div>
             </div>
 
             <!-- Footer pequeño tipo twitter -->
@@ -842,7 +819,7 @@
     
 <script type="module">
     import { SocialFirebase } from './js/social-firebase.js';
-    import { escapeHtml, escapeJsAttr } from './js/utils.js';
+    import { escapeHtml, escapeJsAttr, safeImageUrl } from './js/utils.js';
 
     // --- CARGAR PERFIL SIDEBAR ---
     async function loadUserInfo() {
@@ -920,11 +897,52 @@
         }
     });
 
+    // --- ALIADOS SUGERIDOS (dinámico, igual que en la página principal) ---
+    async function loadSuggestedAllies() {
+        const container = document.getElementById('suggestedAlliesWidget');
+        if (!container) return;
+        try {
+            const users = await SocialFirebase.getSuggestedUsers(2);
+            if (users.length > 0) {
+                let html = '<h3>Aliados Sugeridos</h3>';
+                for (const u of users) {
+                    const isFollowing = await SocialFirebase.isFollowing(u.uid);
+                    html += `
+                    <div class="follow-item">
+                        <div class="follow-info">
+                            <img src="${safeImageUrl(u.avatar)}" alt="${escapeHtml(u.name)}" class="avatar" style="object-fit: contain; background: #000;">
+                            <div>
+                                <div class="follow-name">${escapeHtml(u.name)}</div>
+                                <div style="font-size: 0.8rem; color: #777;">${escapeHtml(u.handle)}</div>
+                            </div>
+                        </div>
+                        <button class="btn-follow ${isFollowing ? 'active' : ''}" style="${isFollowing ? 'background: var(--accent-gold); color: #000;' : ''}" onclick="toggleFollowUser('${escapeJsAttr(u.uid)}', this)">${isFollowing ? 'Aliado' : 'Seguir'}</button>
+                    </div>`;
+                }
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '<h3>Aliados Sugeridos</h3><div style="padding:10px; color:#777; font-size:0.85rem; text-align:center;">No hay más aliados sugeridos.</div>';
+            }
+        } catch (e) {
+            console.error("Error al cargar aliados sugeridos:", e);
+            container.innerHTML = '<h3>Aliados Sugeridos</h3><div style="padding:10px; color:#777; font-size:0.85rem; text-align:center;">Error al cargar aliados.</div>';
+        }
+    }
+
+    window.toggleFollowUser = async function(uid, btn) {
+        await SocialFirebase.toggleFollow(uid);
+        const isFollowing = btn.textContent.trim() === 'Seguir';
+        btn.textContent = isFollowing ? 'Aliado' : 'Seguir';
+        btn.style.background = isFollowing ? 'var(--accent-gold)' : 'transparent';
+        btn.style.color = isFollowing ? '#000' : 'var(--accent-gold)';
+    };
+
     // --- INIT ---
     SocialFirebase.auth.onAuthStateChanged(user => {
         if (user) {
             loadUserInfo();
             renderCommunities();
+            loadSuggestedAllies();
         } else {
             window.location.href = 'login.html';
         }
