@@ -792,6 +792,9 @@
             <div id="legendsFeed"></div>
 
             <!-- Los posts se cargarán dinámicamente aquí -->
+            <button id="loadMoreBtn" style="display:none; width:100%; padding:14px; margin:10px 0 30px; background:transparent; border:1px solid var(--glass-border); color:var(--accent-gold); border-radius:12px; cursor:pointer; font-family:'Cinzel',serif; letter-spacing:1px; transition:background 0.2s;">
+                Cargar más leyendas
+            </button>
 
         </main>
 
@@ -1242,9 +1245,9 @@
         });
 
         // Gestión de Búsqueda
-        document.getElementById('searchLegendsInput').addEventListener('input', (e) => {
-            // renderFeed will be called by onFeedUpdate, just need to trigger a re-render with current search query
-            // The onFeedUpdate callback already takes care of filtering based on the input value.
+        document.getElementById('searchLegendsInput').addEventListener('input', () => {
+            // Re-renderiza con los posts ya cargados aplicando el filtro de búsqueda.
+            renderFeed(latestFeedPosts);
         });
 
         // --- GESTIÓN DE TENDENCIAS ---
@@ -1282,15 +1285,36 @@
             }
         }
 
+        // --- PAGINACIÓN DEL FEED ---
+        // Suscripción en tiempo real solo a las últimas N leyendas; "Cargar más"
+        // amplía el límite y re-suscribe. Así no se descarga la colección entera.
+        const FEED_PAGE = 15;
+        let feedLimit = FEED_PAGE;
+        let feedUnsub = null;
+        let latestFeedPosts = [];
+
+        function subscribeFeed() {
+            if (feedUnsub) feedUnsub();
+            feedUnsub = SocialFirebase.onFeedUpdate((posts, rawCount) => {
+                latestFeedPosts = posts;
+                renderFeed(posts);
+                updateTrends(posts);
+                // Si la consulta devolvió tantos como el límite, probablemente hay más.
+                const btn = document.getElementById('loadMoreBtn');
+                if (btn) btn.style.display = (rawCount >= feedLimit) ? 'block' : 'none';
+            }, null, feedLimit);
+        }
+
+        document.getElementById('loadMoreBtn').addEventListener('click', () => {
+            feedLimit += FEED_PAGE;
+            subscribeFeed();
+        });
+
         // --- INICIALIZACIÓN ---
         SocialFirebase.auth.onAuthStateChanged(user => {
             if (user) {
                 loadUserInfo();
-                SocialFirebase.onFeedUpdate(posts => {
-                    renderFeed(posts);
-                    // Actualizar tendencias basado en tags
-                    updateTrends(posts);
-                }, null);
+                subscribeFeed();
                 // Escuchar notificaciones para el badge
                 SocialFirebase.onNotificationsUpdate(notifs => {
                     const hasUnread = notifs.some(n => !n.read);

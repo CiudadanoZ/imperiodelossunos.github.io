@@ -1,7 +1,7 @@
 // social-firebase.js
 // Configuración de Firebase para UNIVERSO
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where, deleteDoc, runTransaction } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where, deleteDoc, runTransaction, limit } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
 // Configuración obtenida del usuario
@@ -151,11 +151,17 @@ export const SocialFirebase = {
         });
     },
 
-    onFeedUpdate(callback, filterCommunityId = undefined) {
-        const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+    // limitCount: si se indica, solo trae las N leyendas más recientes (paginación).
+    // El callback recibe (posts, rawCount) donde rawCount es cuántos documentos
+    // devolvió la consulta ANTES de filtrar por comunidad, para saber si hay más.
+    onFeedUpdate(callback, filterCommunityId = undefined, limitCount = null) {
+        const q = limitCount
+            ? query(collection(db, "posts"), orderBy("timestamp", "desc"), limit(limitCount))
+            : query(collection(db, "posts"), orderBy("timestamp", "desc"));
         return onSnapshot(q, (snapshot) => {
-            let posts = snapshot.docs.map(doc => ({ 
-                id: doc.id, 
+            const rawCount = snapshot.docs.length;
+            let posts = snapshot.docs.map(doc => ({
+                id: doc.id,
                 ...doc.data(),
                 // Adaptar arrays de likes/retweets/saves a contadores para la UI vieja
                 likes: (doc.data().likes || []).length,
@@ -164,7 +170,7 @@ export const SocialFirebase = {
                 retweeted: (doc.data().retweets || []).includes(auth.currentUser?.uid),
                 saved: (doc.data().savedBy || []).includes(auth.currentUser?.uid)
             }));
-            
+
             if (filterCommunityId !== undefined) {
                 if (filterCommunityId === null) {
                     posts = posts.filter(p => !p.communityId); // Solo feed global
@@ -172,7 +178,7 @@ export const SocialFirebase = {
                     posts = posts.filter(p => p.communityId === filterCommunityId); // Solo esta comunidad
                 }
             }
-            callback(posts);
+            callback(posts, rawCount);
         });
     },
 
