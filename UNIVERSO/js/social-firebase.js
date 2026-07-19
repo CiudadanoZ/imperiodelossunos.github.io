@@ -1,7 +1,7 @@
 // social-firebase.js
 // Configuración de Firebase para UNIVERSO
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where, deleteDoc, runTransaction, limit } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where, deleteDoc, runTransaction, limit, increment } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
 // Configuración obtenida del usuario
@@ -206,20 +206,22 @@ export const SocialFirebase = {
         const user = auth.currentUser;
         if (!user) return;
         const postRef = doc(db, "posts", postId);
-        const postSnap = await getDoc(postRef);
-        if (!postSnap.exists()) return;
-        
-        const data = postSnap.data();
-        if (!data.poll) return;
-        
-        const voters = data.poll.voters || {};
-        if (voters[user.uid] !== undefined) return; // ya votó
-        
-        voters[user.uid] = optionIndex;
-        data.poll.votes[optionIndex]++;
-        data.poll.voters = voters;
-        
-        await updateDoc(postRef, { poll: data.poll });
+        // Transacción: evita que dos votos simultáneos se pisen (condición de carrera).
+        await runTransaction(db, async (tx) => {
+            const snap = await tx.get(postRef);
+            if (!snap.exists()) return;
+            const data = snap.data();
+            if (!data.poll) return;
+
+            const voters = data.poll.voters || {};
+            if (voters[user.uid] !== undefined) return; // ya votó
+
+            voters[user.uid] = optionIndex;
+            const votes = Array.isArray(data.poll.votes) ? data.poll.votes.slice() : [];
+            votes[optionIndex] = (votes[optionIndex] || 0) + 1;
+
+            tx.update(postRef, { poll: { ...data.poll, votes, voters } });
+        });
     },
 
     async toggleLike(postId) {
@@ -345,12 +347,11 @@ export const SocialFirebase = {
             timestamp: Date.now()
         });
 
-        // Actualizar contador
+        // Incremento atómico del contador (evita perder comentarios simultáneos).
         const postRef = doc(db, "posts", postId);
         const postSnap = await getDoc(postRef);
         const postData = postSnap.data();
-        const currentCount = postData.commentsCount || 0;
-        await updateDoc(postRef, { commentsCount: currentCount + 1 });
+        await updateDoc(postRef, { commentsCount: increment(1) });
 
         // Notificar al autor
         let targetUid = postData.authorUid;
