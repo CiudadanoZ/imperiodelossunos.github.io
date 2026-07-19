@@ -857,7 +857,7 @@
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
         import { handleNotifications } from './js/notify.js';
-        import { escapeHtml, escapeJsAttr, safeImageUrl, compressImage, linkifyText } from './js/utils.js';
+        import { escapeHtml, escapeJsAttr, safeImageUrl, compressImage, linkifyText, embedHtml } from './js/utils.js';
         // Variables para contenido extra
         let postImageData = null;
 
@@ -1083,6 +1083,7 @@
                             </div>
                             <div class="post-text">${linkifyText(post.text)}</div>
                             ${(post.image && post.image.includes('data:image')) ? `<img src="${safeImageUrl(post.image)}" alt="Media" class="post-image">` : ''}
+                            ${embedHtml(post.text)}
                             ${renderPollHTML(post)}
                             <div class="post-interactions">
                                 <div class="interaction" onclick="event.stopPropagation(); openCommentModal('${post.id}')">

@@ -44,6 +44,35 @@ export function linkifyText(rawText) {
 }
 
 /**
+ * Si el texto contiene un enlace de YouTube o Twitch, devuelve el HTML de un
+ * reproductor incrustado (el primero que encuentre); si no, cadena vacía.
+ * SEGURIDAD: solo extraemos el ID (caracteres inocuos) y construimos NOSOTROS
+ * la URL del iframe; nunca metemos la URL del usuario tal cual.
+ */
+export function embedHtml(text) {
+    const s = String(text ?? '');
+    const wrap = (src, ratio = '56.25%') =>
+        `<div style="position:relative; padding-bottom:${ratio}; height:0; margin:12px 0; border-radius:12px; overflow:hidden; border:1px solid var(--glass-border);">` +
+        `<iframe src="${src}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>`;
+
+    // YouTube (watch, youtu.be, shorts)
+    let m = s.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    if (m) return wrap(`https://www.youtube.com/embed/${m[1]}`);
+
+    // Twitch necesita el dominio actual como "parent".
+    const host = (typeof location !== 'undefined' ? location.hostname : '');
+    m = s.match(/twitch\.tv\/videos\/(\d+)/);
+    if (m) return wrap(`https://player.twitch.tv/?video=${m[1]}&parent=${encodeURIComponent(host)}&autoplay=false`);
+    m = s.match(/clips\.twitch\.tv\/([A-Za-z0-9_-]+)/) || s.match(/twitch\.tv\/\w+\/clip\/([A-Za-z0-9_-]+)/);
+    if (m) return wrap(`https://clips.twitch.tv/embed?clip=${m[1]}&parent=${encodeURIComponent(host)}&autoplay=false`);
+    m = s.match(/twitch\.tv\/([A-Za-z0-9_]{3,25})(?:[/?#]|$)/);
+    if (m && !['videos', 'directory', 'p', 'settings'].includes(m[1].toLowerCase())) {
+        return wrap(`https://player.twitch.tv/?channel=${m[1]}&parent=${encodeURIComponent(host)}&autoplay=false`);
+    }
+    return '';
+}
+
+/**
  * Extrae los @handles únicos mencionados en un texto (con la @ incluida).
  */
 export function extractMentions(rawText) {
