@@ -581,6 +581,7 @@
 
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
+        import { handleNotifications } from './js/notify.js';
         import { escapeHtml, escapeJsAttr, safeImageUrl, safeLinkUrl, compressImage, readFileCapped } from './js/utils.js';
 
         let currentChatId = null;
@@ -795,6 +796,7 @@
                 SocialFirebase.onNotificationsUpdate(notifs => {
                     const hasUnread = notifs.some(n => !n.read);
                     document.getElementById('notifBadge').style.display = hasUnread ? 'block' : 'none';
+                    handleNotifications(notifs);
                 });
             } else {
                 window.location.href = 'login.html';

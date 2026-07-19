@@ -1080,6 +1080,7 @@
     </div>
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
+        import { handleNotifications } from './js/notify.js';
         import { escapeHtml, escapeJsAttr, safeImageUrl, linkifyText } from './js/utils.js';
 
         // --- GESTIÓN DE PERFIL ---
@@ -1221,6 +1222,7 @@
                 SocialFirebase.onNotificationsUpdate(notifs => {
                     const hasUnread = notifs.some(n => !n.read);
                     document.getElementById('notifBadge').style.display = hasUnread ? 'block' : 'none';
+                    handleNotifications(notifs);
                 });
             } else {
                 window.location.href = 'login.html';

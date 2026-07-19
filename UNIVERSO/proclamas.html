@@ -194,6 +194,9 @@
         <main class="social-feed">
             <div class="feed-header">
                 <h2>Proclamas</h2>
+                <button id="enableNotifsBtn" style="display:none; background:transparent; border:1px solid var(--accent-gold); color:var(--accent-gold); padding:8px 14px; border-radius:20px; cursor:pointer; font-size:0.8rem;">
+                    <i class="fas fa-bell"></i> Activar avisos
+                </button>
             </div>
             <div id="notificationsList">
                 <div style="text-align: center; color: #555; padding: 50px;">Escuchando los ecos del reino...</div>
@@ -214,6 +217,26 @@
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
         import { escapeHtml, escapeJsAttr } from './js/utils.js';
+        import { requestNotificationPermission, notificationsSupported, notificationsGranted } from './js/notify.js';
+
+        // Botón para activar los avisos del navegador (solo si el navegador los
+        // soporta y aún no están concedidos).
+        (function initNotifButton() {
+            const btn = document.getElementById('enableNotifsBtn');
+            if (!btn) return;
+            if (notificationsSupported() && !notificationsGranted()) {
+                btn.style.display = 'inline-block';
+            }
+            btn.addEventListener('click', async () => {
+                const res = await requestNotificationPermission();
+                if (res === 'granted') {
+                    btn.style.display = 'none';
+                    alert('Avisos activados. Recibirás una notificación cuando algo ocurra mientras UNIVERSO esté abierto.');
+                } else if (res === 'denied') {
+                    alert('Has bloqueado los avisos. Puedes reactivarlos en los permisos del navegador para esta página.');
+                }
+            });
+        })();
 
         async function loadUserInfo() {
             const user = await SocialFirebase.getCurrentUserProfile();
