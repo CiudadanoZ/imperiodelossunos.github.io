@@ -2,7 +2,7 @@
 // Configuración de Firebase para UNIVERSO
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where, deleteDoc, runTransaction, limit, increment } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser, sendPasswordResetEmail, updateEmail } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser, sendPasswordResetEmail, updateEmail, verifyBeforeUpdateEmail } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
 // Configuración obtenida del usuario
 const firebaseConfig = {
@@ -134,12 +134,23 @@ export const SocialFirebase = {
     },
 
     // Vincula un email real a una cuenta existente (para habilitar la
-    // recuperación). Cambia el email de autenticación: a partir de ahí el
-    // usuario inicia sesión con ese email, no con @handle.
+    // recuperación). Con la protección anti-enumeración de Firebase hay que usar
+    // verifyBeforeUpdateEmail: envía un correo de verificación al NUEVO email y
+    // el cambio se aplica cuando el usuario pulsa el enlace. Desde entonces
+    // iniciará sesión con ese email, no con @handle.
     async updateAuthEmail(newEmail) {
         const user = auth.currentUser;
         if (!user) throw new Error("No hay sesión activa.");
-        await updateEmail(user, newEmail);
+        try {
+            await verifyBeforeUpdateEmail(user, newEmail);
+        } catch (e) {
+            // Reserva para proyectos sin protección anti-enumeración.
+            if (e.code === 'auth/operation-not-allowed') {
+                await updateEmail(user, newEmail);
+            } else {
+                throw e;
+            }
+        }
     },
 
     // Cache de UIDs bloqueados por el usuario actual (para filtrar feeds/comentarios).

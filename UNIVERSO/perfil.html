@@ -1371,8 +1371,7 @@
             }
             try {
                 await SocialFirebase.updateAuthEmail(email);
-                alert("¡Listo! Tu cuenta ya tiene email. Podrás recuperar la contraseña y entrar con " + email);
-                document.getElementById('linkEmailBtn').style.display = 'none';
+                alert("Te hemos enviado un correo de verificación a " + email + ".\n\nÁbrelo y pulsa el enlace para completar el cambio. A partir de entonces iniciarás sesión con ese email (revisa también la carpeta de spam).");
             } catch (error) {
                 console.error(error);
                 if (error.code === 'auth/requires-recent-login') {
