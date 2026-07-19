@@ -847,6 +847,10 @@
             <div class="comment-list" id="commentList">
                 <!-- Los comentarios se cargarán aquí -->
             </div>
+            <div id="replyingBanner" style="display:none; align-items:center; justify-content:space-between; padding:6px 15px; font-size:0.8rem; color:#aaa; border-top:1px solid var(--glass-border);">
+                <span id="replyingText"></span>
+                <span id="cancelReply" style="cursor:pointer; color:#e0245e;"><i class="fas fa-times"></i></span>
+            </div>
             <div class="comment-input-area">
                 <input type="text" id="commentInput" placeholder="Añade tu voz al eco...">
                 <button class="btn-comment-send" id="sendCommentBtn"><i class="fas fa-paper-plane"></i></button>
@@ -1184,6 +1188,7 @@
 
         window.openCommentModal = async function (postId) {
             currentModalPostId = postId;
+            if (typeof cancelReply === 'function') cancelReply();
             const post = await SocialFirebase.getPost(postId); // Fetch post from Firebase
             if (!post) return;
 
@@ -1205,46 +1210,81 @@
             document.getElementById('commentModal').style.display = 'flex';
         };
 
+        function commentBlockHtml(c, isReply) {
+            const isMine = c.authorUid && SocialFirebase.auth.currentUser && c.authorUid === SocialFirebase.auth.currentUser.uid;
+            const size = isReply ? 28 : 32;
+            const parent = c.replyTo || c.id; // las respuestas cuelgan del comentario de primer nivel
+            const actions = `
+                <div style="margin-top: 6px; display: flex; gap: 14px;">
+                    <span onclick="window.replyToComment('${escapeJsAttr(parent)}', '${escapeJsAttr(c.handle)}')" style="cursor: pointer; color: #888; font-size: 0.72rem;"><i class="fas fa-reply"></i> Responder</span>
+                    ${isMine ? `<span onclick="window.editComment('${escapeJsAttr(c.id)}')" style="cursor: pointer; color: #888; font-size: 0.72rem;"><i class="fas fa-pen"></i> Editar</span>
+                    <span onclick="window.deleteComment('${escapeJsAttr(c.id)}')" style="cursor: pointer; color: #e0245e; font-size: 0.72rem;"><i class="fas fa-trash-alt"></i> Borrar</span>` : ''}
+                </div>`;
+            return `
+                <div style="display: flex; gap: 12px; margin-bottom: 16px; ${isReply ? 'margin-left: 40px;' : ''} animation: fadeIn 0.3s ease;">
+                    <img src="${safeImageUrl(c.avatar)}" class="avatar" style="width: ${size}px; height: ${size}px; object-fit: contain; background: #000; border: 1px solid var(--accent-gold);">
+                    <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
+                        <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${escapeHtml(c.author)}</div>
+                        <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${linkifyText(c.text)}${c.editedAt ? ' <span style="color:#555; font-size:0.7rem;">(editado)</span>' : ''}</div>
+                        <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
+                        ${actions}
+                    </div>
+                </div>`;
+        }
+
         function renderComments(postId) {
-            // Listen for comments in real-time
             SocialFirebase.onCommentsUpdate(postId, (comments) => {
                 const container = document.getElementById('commentList');
-                
                 if (comments.length === 0) {
                     container.innerHTML = '<div style="text-align: center; color: #555; padding: 20px;">Silencio... Sé el primero en hacer eco.</div>';
-                } else {
-                    container.innerHTML = '';
-                    comments.forEach(c => {
-                        const isMine = c.authorUid && SocialFirebase.auth.currentUser && c.authorUid === SocialFirebase.auth.currentUser.uid;
-                        const commentActions = isMine ? `
-                                    <div style="margin-top: 6px; display: flex; gap: 14px;">
-                                        <span onclick="window.editComment('${escapeJsAttr(c.id)}')" style="cursor: pointer; color: #888; font-size: 0.72rem;"><i class="fas fa-pen"></i> Editar</span>
-                                        <span onclick="window.deleteComment('${escapeJsAttr(c.id)}')" style="cursor: pointer; color: #e0245e; font-size: 0.72rem;"><i class="fas fa-trash-alt"></i> Borrar</span>
-                                    </div>` : '';
-                        container.insertAdjacentHTML('beforeend', `
-                            <div style="display: flex; gap: 12px; margin-bottom: 20px; animation: fadeIn 0.3s ease;">
-                                <img src="${safeImageUrl(c.avatar)}" class="avatar" style="width: 32px; height: 32px; object-fit: contain; background: #000; border: 1px solid var(--accent-gold);">
-                                <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
-                                    <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${escapeHtml(c.author)}</div>
-                                    <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${linkifyText(c.text)}${c.editedAt ? ' <span style="color:#555; font-size:0.7rem;">(editado)</span>' : ''}</div>
-                                    <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
-                                    ${commentActions}
-                                </div>
-                            </div>
-                        `);
-                    });
+                    return;
                 }
+                // Hilos de un nivel: comentarios de primer nivel + sus respuestas.
+                const top = comments.filter(c => !c.replyTo);
+                const topIds = new Set(top.map(c => c.id));
+                const repliesByParent = {};
+                comments.filter(c => c.replyTo).forEach(c => {
+                    (repliesByParent[c.replyTo] = repliesByParent[c.replyTo] || []).push(c);
+                });
+                let html = '';
+                top.forEach(c => {
+                    html += commentBlockHtml(c, false);
+                    (repliesByParent[c.id] || []).forEach(r => html += commentBlockHtml(r, true));
+                });
+                // Respuestas huérfanas (su padre fue borrado): mostrarlas como primer nivel.
+                comments.filter(c => c.replyTo && !topIds.has(c.replyTo)).forEach(o => {
+                    html += commentBlockHtml(o, false);
+                });
+                container.innerHTML = html;
             });
         }
+
+        // --- HILOS: estado de "respondiendo a" ---
+        let replyingTo = null; // { parentId, handle }
+
+        window.replyToComment = function (parentId, handle) {
+            replyingTo = { parentId, handle };
+            document.getElementById('replyingText').textContent = 'Respondiendo a ' + handle;
+            document.getElementById('replyingBanner').style.display = 'flex';
+            const input = document.getElementById('commentInput');
+            if (!input.value.includes(handle)) input.value = handle + ' ' + input.value.trimStart();
+            input.focus();
+        };
+
+        function cancelReply() {
+            replyingTo = null;
+            document.getElementById('replyingBanner').style.display = 'none';
+        }
+        document.getElementById('cancelReply').addEventListener('click', cancelReply);
 
         document.getElementById('sendCommentBtn').addEventListener('click', async () => {
             const input = document.getElementById('commentInput');
             const text = input.value.trim();
             if (text && currentModalPostId) {
-                await SocialFirebase.addComment(currentModalPostId, text);
+                await SocialFirebase.addComment(currentModalPostId, text, replyingTo ? replyingTo.parentId : null);
                 input.value = '';
-                // renderComments will update automatically via onCommentsUpdate
-                // renderFeed(); // No need to call renderFeed here, onFeedUpdate handles it
+                cancelReply();
+                // renderComments se actualiza solo via onCommentsUpdate
             }
         });
 

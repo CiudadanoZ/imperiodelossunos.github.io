@@ -463,7 +463,8 @@ export const SocialFirebase = {
     },
 
     // --- COMENTARIOS (ECOS) ---
-    async addComment(postId, text) {
+    // replyTo: id del comentario padre (para hilos). null = comentario de primer nivel.
+    async addComment(postId, text, replyTo = null) {
         const profile = await this.getCurrentUserProfile();
         if (!profile) return;
 
@@ -474,8 +475,12 @@ export const SocialFirebase = {
             avatar: profile.avatar,
             authorUid: auth.currentUser.uid, // para poder editar/borrar solo los propios
             text: text,
+            replyTo: replyTo,
             timestamp: Date.now()
         });
+
+        // Notificar a los @mencionados en el eco (incluye respuestas a alguien).
+        await this._notifyMentions(text, profile, postId);
 
         // Incremento atómico del contador (evita perder comentarios simultáneos).
         const postRef = doc(db, "posts", postId);
