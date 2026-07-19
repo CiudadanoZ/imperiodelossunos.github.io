@@ -730,9 +730,9 @@
 
         <!-- FEED CENTRAL -->
         <main class="social-feed">
-            <div class="feed-header">
-                <h2>Últimas Leyendas</h2>
-                <i class="fas fa-sparkles"></i>
+            <div class="feed-header" style="padding:0;">
+                <div id="tabForYou">Para ti</div>
+                <div id="tabFollowing">Siguiendo</div>
             </div>
 
             <!-- Caja para publicar -->
@@ -1338,18 +1338,61 @@
         let feedLimit = FEED_PAGE;
         let feedUnsub = null;
         let latestFeedPosts = [];
+        let latestGlobalPosts = [];   // posts tal cual llegan (sin filtro de pestaña)
+        let feedMode = 'foryou';      // 'foryou' (global) | 'following' (solo seguidos)
+        let myFollowing = [];
+
+        // Aplica el filtro de la pestaña activa.
+        function applyFeedMode(posts) {
+            if (feedMode !== 'following') return posts;
+            const myUid = SocialFirebase.auth.currentUser?.uid;
+            return posts.filter(p => p.authorUid === myUid || myFollowing.includes(p.authorUid));
+        }
+
+        function refreshFeedView() {
+            const shown = applyFeedMode(latestGlobalPosts);
+            latestFeedPosts = shown;
+            renderFeed(shown);
+            if (feedMode === 'following' && shown.length === 0) {
+                document.getElementById('legendsFeed').innerHTML =
+                    '<div style="padding:40px 20px; text-align:center; color:#777;">Sigue a más aliados para ver aquí sus leyendas.</div>';
+            }
+        }
+
+        function styleFeedTabs() {
+            const base = "flex:1; text-align:center; padding:16px; cursor:pointer; font-family:'Cinzel',serif; transition:all 0.2s;";
+            const on = "color:var(--text-light); border-bottom:3px solid var(--accent-gold);";
+            const off = "color:#888; border-bottom:3px solid transparent;";
+            document.getElementById('tabForYou').setAttribute('style', base + (feedMode === 'foryou' ? on : off));
+            document.getElementById('tabFollowing').setAttribute('style', base + (feedMode === 'following' ? on : off));
+        }
 
         function subscribeFeed() {
             if (feedUnsub) feedUnsub();
             feedUnsub = SocialFirebase.onFeedUpdate((posts, rawCount) => {
-                latestFeedPosts = posts;
-                renderFeed(posts);
+                latestGlobalPosts = posts;
+                refreshFeedView();
                 updateTrends(posts);
                 // Si la consulta devolvió tantos como el límite, probablemente hay más.
                 const btn = document.getElementById('loadMoreBtn');
                 if (btn) btn.style.display = (rawCount >= feedLimit) ? 'block' : 'none';
             }, null, feedLimit);
         }
+
+        document.getElementById('tabForYou').addEventListener('click', () => {
+            feedMode = 'foryou';
+            styleFeedTabs();
+            refreshFeedView();
+        });
+        document.getElementById('tabFollowing').addEventListener('click', async () => {
+            // Refrescamos la lista de seguidos por si cambió.
+            const p = await SocialFirebase.getCurrentUserProfile();
+            myFollowing = Array.isArray(p?.following) ? p.following : [];
+            feedMode = 'following';
+            styleFeedTabs();
+            refreshFeedView();
+        });
+        styleFeedTabs();
 
         document.getElementById('loadMoreBtn').addEventListener('click', () => {
             feedLimit += FEED_PAGE;
@@ -1360,6 +1403,9 @@
         SocialFirebase.auth.onAuthStateChanged(user => {
             if (user) {
                 loadUserInfo();
+                SocialFirebase.getCurrentUserProfile().then(p => {
+                    myFollowing = Array.isArray(p?.following) ? p.following : [];
+                });
                 subscribeFeed();
                 // Escuchar notificaciones para el badge
                 SocialFirebase.onNotificationsUpdate(notifs => {
