@@ -857,7 +857,7 @@
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
         import { handleNotifications } from './js/notify.js';
-        import { escapeHtml, escapeJsAttr, safeImageUrl, compressImage, linkifyText, embedHtml } from './js/utils.js';
+        import { escapeHtml, escapeJsAttr, safeImageUrl, compressImage, linkifyText, embedHtml, quotedBoxHtml } from './js/utils.js';
         // Variables para contenido extra
         let postImageData = null;
 
@@ -1034,6 +1034,19 @@
             }
         };
 
+        window.quoteLegend = async function(postId) {
+            const original = latestGlobalPosts.find(p => p.id === postId) || await SocialFirebase.getPost(postId);
+            if (!original) return;
+            const text = prompt('Escribe tu cita:');
+            if (text === null || !text.trim()) return;
+            try {
+                await SocialFirebase.quotePost(text.trim(), original);
+            } catch (e) {
+                console.error(e);
+                alert('No se pudo citar la leyenda.');
+            }
+        };
+
         window.blockUser = async function(uid, name) {
             if (!confirm(`¿Bloquear a ${name}? Dejarás de ver sus leyendas y no podrá enviarte mensajes.`)) return;
             try {
@@ -1083,6 +1096,7 @@
                             </div>
                             <div class="post-text">${linkifyText(post.text)}</div>
                             ${(post.image && post.image.includes('data:image')) ? `<img src="${safeImageUrl(post.image)}" alt="Media" class="post-image">` : ''}
+                            ${quotedBoxHtml(post.quoted)}
                             ${embedHtml(post.text)}
                             ${renderPollHTML(post)}
                             <div class="post-interactions">
@@ -1091,6 +1105,9 @@
                                 </div>
                                 <div class="interaction retweet ${post.retweeted ? 'active' : ''}" onclick="event.stopPropagation(); toggleRetweet('${post.id}')">
                                     <i class="fas fa-retweet"></i> ${post.retweets}
+                                </div>
+                                <div class="interaction" onclick="event.stopPropagation(); quoteLegend('${escapeJsAttr(post.id)}')" title="Citar leyenda">
+                                    <i class="fas fa-quote-right"></i>
                                 </div>
                                 <div class="interaction like ${post.liked ? 'active' : ''}" onclick="event.stopPropagation(); toggleLike('${post.id}')">
                                     <i class="${post.liked ? 'fas' : 'far'} fa-heart"></i> ${post.likes}

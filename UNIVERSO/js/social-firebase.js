@@ -219,6 +219,45 @@ export const SocialFirebase = {
         return docRef;
     },
 
+    // Cita una leyenda: crea una nueva con tu texto que muestra la original dentro.
+    async quotePost(text, original) {
+        const profile = await this.getCurrentUserProfile();
+        if (!profile) throw new Error("No hay sesión activa");
+        if (!original) throw new Error("No hay leyenda que citar");
+
+        const quoted = {
+            id: original.id || null,
+            author: original.author || '',
+            handle: original.handle || '',
+            avatar: original.avatar || '',
+            text: original.text || ''
+        };
+
+        const docRef = await addDoc(collection(db, "posts"), {
+            author: profile.name,
+            handle: profile.handle,
+            avatar: profile.avatar,
+            authorUid: auth.currentUser.uid,
+            text: text,
+            image: null,
+            poll: null,
+            quoted: quoted,
+            communityId: null,
+            communityName: null,
+            timestamp: Date.now(),
+            likes: [],
+            retweets: [],
+            commentsCount: 0
+        });
+
+        await this._notifyMentions(text, profile, docRef.id);
+        // Avisar al autor citado.
+        if (original.authorUid && original.authorUid !== auth.currentUser.uid) {
+            await this.addNotification(original.authorUid, 'quote', profile.name, profile.handle, docRef.id);
+        }
+        return docRef;
+    },
+
     // Busca @handles en el texto y envía una notificación de tipo 'mention'.
     async _notifyMentions(text, fromProfile, postId) {
         const mentions = [...new Set((String(text || '').match(/@[\p{L}\p{N}_]+/gu) || []))];

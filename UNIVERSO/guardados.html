@@ -261,7 +261,7 @@
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
         import { handleNotifications } from './js/notify.js';
-        import { escapeHtml, safeImageUrl, linkifyText, embedHtml } from './js/utils.js';
+        import { escapeHtml, safeImageUrl, linkifyText, embedHtml, quotedBoxHtml } from './js/utils.js';
 
         async function loadUserInfo() {
             const user = await SocialFirebase.getCurrentUserProfile();
@@ -292,6 +292,7 @@
                             </div>
                             <div class="post-text">${linkifyText(post.text)}</div>
                             ${(post.image && post.image.includes('data:image')) ? `<img src="${safeImageUrl(post.image)}" alt="Media" class="post-image">` : ''}
+                            ${quotedBoxHtml(post.quoted)}
                             ${embedHtml(post.text)}
                             <div class="post-interactions">
                                 <div class="interaction" onclick="event.stopPropagation(); window.openCommentModal('${post.id}')">

@@ -73,6 +73,20 @@ export function embedHtml(text) {
 }
 
 /**
+ * HTML de la "leyenda citada" que se muestra dentro de una cita (quote).
+ * `quoted` es una instantánea guardada del post original {author,handle,avatar,text}.
+ */
+export function quotedBoxHtml(quoted) {
+    if (!quoted) return '';
+    return `<div style="border:1px solid var(--glass-border); border-radius:12px; padding:12px; margin-top:10px; background:rgba(255,255,255,0.02);">` +
+        `<div style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">` +
+        `<img src="${safeImageUrl(quoted.avatar)}" style="width:24px; height:24px; border-radius:50%; object-fit:contain; background:#000;">` +
+        `<span style="font-weight:bold; font-size:0.85rem; color:#fff;">${escapeHtml(quoted.author)}</span>` +
+        `<span style="color:#777; font-size:0.8rem;">${escapeHtml(quoted.handle)}</span></div>` +
+        `<div style="color:#ccc; font-size:0.9rem; line-height:1.4;">${linkifyText(quoted.text)}</div></div>`;
+}
+
+/**
  * Extrae los @handles únicos mencionados en un texto (con la @ incluida).
  */
 export function extractMentions(rawText) {
