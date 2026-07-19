@@ -198,7 +198,7 @@ export const SocialFirebase = {
         const profile = await this.getCurrentUserProfile();
         if (!profile) throw new Error("No hay sesión activa");
 
-        return await addDoc(collection(db, "posts"), {
+        const docRef = await addDoc(collection(db, "posts"), {
             author: profile.name,
             handle: profile.handle,
             avatar: profile.avatar,
@@ -209,10 +209,34 @@ export const SocialFirebase = {
             communityId: communityId,
             communityName: communityName,
             timestamp: Date.now(),
-            likes: [], 
-            retweets: [], 
+            likes: [],
+            retweets: [],
             commentsCount: 0
         });
+
+        // Notificar a los usuarios mencionados (@handle) en la leyenda.
+        await this._notifyMentions(text, profile, docRef.id);
+        return docRef;
+    },
+
+    // Busca @handles en el texto y envía una notificación de tipo 'mention'.
+    async _notifyMentions(text, fromProfile, postId) {
+        const mentions = [...new Set((String(text || '').match(/@[\p{L}\p{N}_]+/gu) || []))];
+        for (const handle of mentions) {
+            if (handle === fromProfile.handle) continue; // no auto-mención
+            try {
+                const uq = query(collection(db, "users"), where("handle", "==", handle));
+                const usnap = await getDocs(uq);
+                if (!usnap.empty) {
+                    const uid = usnap.docs[0].id;
+                    if (uid !== auth.currentUser.uid) {
+                        await this.addNotification(uid, 'mention', fromProfile.name, fromProfile.handle, postId);
+                    }
+                }
+            } catch (e) {
+                console.error("Error notificando mención a", handle, e);
+            }
+        }
     },
 
     // limitCount: si se indica, solo trae las N leyendas más recientes (paginación).

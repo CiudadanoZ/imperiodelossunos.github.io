@@ -19,6 +19,50 @@ export function escapeHtml(value) {
 }
 
 /**
+ * Convierte texto de usuario en HTML SEGURO con menciones (@handle) y hashtags
+ * (#tag) clicables. Escapa por tramos: solo se tratan como token las secuencias
+ * de letras/números tras @ o #, así que no puede colarse HTML/JS.
+ * Al pulsar, llama a window.openMention / window.openHashtag (definidas abajo por
+ * defecto, y sobrescritas en index.html para filtrar sin recargar).
+ */
+export function linkifyText(rawText) {
+    const s = String(rawText ?? '');
+    const re = /([@#])([\p{L}\p{N}_]+)/gu;
+    let out = '', last = 0, m;
+    while ((m = re.exec(s)) !== null) {
+        out += escapeHtml(s.slice(last, m.index));
+        const word = m[2];
+        if (m[1] === '#') {
+            out += `<span class="tag-link" style="color:var(--accent-gold); cursor:pointer;" onclick="event.stopPropagation(); window.openHashtag && window.openHashtag('${word.toLowerCase()}')">#${escapeHtml(word)}</span>`;
+        } else {
+            out += `<span class="mention-link" style="color:var(--accent-gold); cursor:pointer;" onclick="event.stopPropagation(); window.openMention && window.openMention('@${word}')">@${escapeHtml(word)}</span>`;
+        }
+        last = m.index + m[0].length;
+    }
+    out += escapeHtml(s.slice(last));
+    return out;
+}
+
+/**
+ * Extrae los @handles únicos mencionados en un texto (con la @ incluida).
+ */
+export function extractMentions(rawText) {
+    const found = String(rawText ?? '').match(/@[\p{L}\p{N}_]+/gu) || [];
+    return [...new Set(found)];
+}
+
+// Comportamiento por defecto al pulsar un #tag o @handle: ir al feed principal
+// filtrado. index.html lo sobrescribe para filtrar en el sitio sin recargar.
+if (typeof window !== 'undefined') {
+    window.openHashtag = function (tag) {
+        window.location.href = 'index.html?q=' + encodeURIComponent('#' + tag);
+    };
+    window.openMention = function (handle) {
+        window.location.href = 'index.html?q=' + encodeURIComponent(handle);
+    };
+}
+
+/**
  * Escapa un valor que va dentro de una cadena JS en un atributo inline,
  * p. ej. onclick="abrir('${escapeJsAttr(handle)}')".
  *

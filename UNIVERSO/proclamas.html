@@ -257,6 +257,11 @@
                         text = `<strong>${escapeHtml(n.fromName)}</strong> ha añadido un eco a tu leyenda.`;
                         link = `index.html?post=${n.postId}`;
                         break;
+                    case 'mention':
+                        icon = '<i class="fas fa-at icon-comment"></i>';
+                        text = `<strong>${escapeHtml(n.fromName)}</strong> te ha mencionado en una leyenda.`;
+                        link = `index.html?post=${n.postId}`;
+                        break;
                     case 'follow':
                         icon = '<i class="fas fa-user-plus icon-follow"></i>';
                         text = `<strong>${escapeHtml(n.fromName)}</strong> te ha jurado leatad y ahora es tu aliado (te sigue).`;

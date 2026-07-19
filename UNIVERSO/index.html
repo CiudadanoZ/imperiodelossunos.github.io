@@ -856,7 +856,7 @@
 
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
-        import { escapeHtml, escapeJsAttr, safeImageUrl, compressImage } from './js/utils.js';
+        import { escapeHtml, escapeJsAttr, safeImageUrl, compressImage, linkifyText } from './js/utils.js';
         // Variables para contenido extra
         let postImageData = null;
 
@@ -1080,7 +1080,7 @@
                                     ? `<i class="fas fa-trash-alt" style="margin-left:auto; color:#e0245e; cursor:pointer;" onclick="event.stopPropagation(); deletePost('${escapeJsAttr(post.id)}')" title="Borrar leyenda"></i>`
                                     : (post.authorUid ? `<i class="fas fa-ban" style="margin-left:auto; color:#777; cursor:pointer;" onclick="event.stopPropagation(); blockUser('${escapeJsAttr(post.authorUid)}', '${escapeJsAttr(post.author)}')" title="Bloquear a este usuario"></i>` : '')}
                             </div>
-                            <div class="post-text">${escapeHtml(post.text)}</div>
+                            <div class="post-text">${linkifyText(post.text)}</div>
                             ${(post.image && post.image.includes('data:image')) ? `<img src="${safeImageUrl(post.image)}" alt="Media" class="post-image">` : ''}
                             ${renderPollHTML(post)}
                             <div class="post-interactions">
@@ -1177,7 +1177,7 @@
                         <div style="font-weight: bold; color: var(--text-light); font-size: 0.9rem;">
                             ${escapeHtml(post.author)} <span style="color: #777; font-weight: normal;">${escapeHtml(post.handle)}</span>
                         </div>
-                        <div style="color: #ccc; margin-top: 5px; font-size: 0.95rem;">${escapeHtml(post.text)}</div>
+                        <div style="color: #ccc; margin-top: 5px; font-size: 0.95rem;">${linkifyText(post.text)}</div>
                     </div>
                 </div>
             `;
@@ -1207,7 +1207,7 @@
                                 <img src="${safeImageUrl(c.avatar)}" class="avatar" style="width: 32px; height: 32px; object-fit: contain; background: #000; border: 1px solid var(--accent-gold);">
                                 <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
                                     <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${escapeHtml(c.author)}</div>
-                                    <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${escapeHtml(c.text)}${c.editedAt ? ' <span style="color:#555; font-size:0.7rem;">(editado)</span>' : ''}</div>
+                                    <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${linkifyText(c.text)}${c.editedAt ? ' <span style="color:#555; font-size:0.7rem;">(editado)</span>' : ''}</div>
                                     <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
                                     ${commentActions}
                                 </div>
@@ -1295,6 +1295,27 @@
             // Re-renderiza con los posts ya cargados aplicando el filtro de búsqueda.
             renderFeed(latestFeedPosts);
         });
+
+        // Menciones y hashtags: filtran el feed aquí mismo, sin recargar.
+        window.openHashtag = function (tag) {
+            const input = document.getElementById('searchLegendsInput');
+            input.value = '#' + tag;
+            input.dispatchEvent(new Event('input'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        window.openMention = function (handle) {
+            const input = document.getElementById('searchLegendsInput');
+            input.value = handle;
+            input.dispatchEvent(new Event('input'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // Si se llega con ?q= (hashtag/mención pulsado en otra página), aplicar el filtro.
+        (function () {
+            const q = new URLSearchParams(location.search).get('q');
+            const input = document.getElementById('searchLegendsInput');
+            if (q && input) input.value = q;
+        })();
 
         // --- GESTIÓN DE TENDENCIAS ---
         function updateTrends(posts) {
