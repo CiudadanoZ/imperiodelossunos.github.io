@@ -343,6 +343,7 @@ export const SocialFirebase = {
             author: profile.name,
             handle: profile.handle,
             avatar: profile.avatar,
+            authorUid: auth.currentUser.uid, // para poder editar/borrar solo los propios
             text: text,
             timestamp: Date.now()
         });
@@ -379,6 +380,23 @@ export const SocialFirebase = {
             this.letCommentsUnsubscribe();
             this.letCommentsUnsubscribe = null;
         }
+    },
+
+    async editComment(postId, commentId, newText) {
+        const user = auth.currentUser;
+        if (!user) return;
+        const ref = doc(db, "posts", postId, "comments", commentId);
+        await updateDoc(ref, { text: newText, editedAt: Date.now() });
+    },
+
+    async deleteComment(postId, commentId) {
+        const user = auth.currentUser;
+        if (!user) return;
+        const ref = doc(db, "posts", postId, "comments", commentId);
+        await deleteDoc(ref);
+        // Mantener el contador al día (nunca por debajo de 0 lo controla la UI/consulta).
+        const postRef = doc(db, "posts", postId);
+        await updateDoc(postRef, { commentsCount: increment(-1) });
     },
 
     async getPost(postId) {

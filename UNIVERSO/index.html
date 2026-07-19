@@ -1183,13 +1183,20 @@
                 } else {
                     container.innerHTML = '';
                     comments.forEach(c => {
+                        const isMine = c.authorUid && SocialFirebase.auth.currentUser && c.authorUid === SocialFirebase.auth.currentUser.uid;
+                        const commentActions = isMine ? `
+                                    <div style="margin-top: 6px; display: flex; gap: 14px;">
+                                        <span onclick="window.editComment('${escapeJsAttr(c.id)}')" style="cursor: pointer; color: #888; font-size: 0.72rem;"><i class="fas fa-pen"></i> Editar</span>
+                                        <span onclick="window.deleteComment('${escapeJsAttr(c.id)}')" style="cursor: pointer; color: #e0245e; font-size: 0.72rem;"><i class="fas fa-trash-alt"></i> Borrar</span>
+                                    </div>` : '';
                         container.insertAdjacentHTML('beforeend', `
                             <div style="display: flex; gap: 12px; margin-bottom: 20px; animation: fadeIn 0.3s ease;">
                                 <img src="${safeImageUrl(c.avatar)}" class="avatar" style="width: 32px; height: 32px; object-fit: contain; background: #000; border: 1px solid var(--accent-gold);">
                                 <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
                                     <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${escapeHtml(c.author)}</div>
-                                    <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${escapeHtml(c.text)}</div>
+                                    <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${escapeHtml(c.text)}${c.editedAt ? ' <span style="color:#555; font-size:0.7rem;">(editado)</span>' : ''}</div>
                                     <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
+                                    ${commentActions}
                                 </div>
                             </div>
                         `);
@@ -1208,6 +1215,32 @@
                 // renderFeed(); // No need to call renderFeed here, onFeedUpdate handles it
             }
         });
+
+        // Editar / borrar los ecos propios (la lista se refresca sola por onCommentsUpdate)
+        window.deleteComment = async (commentId) => {
+            if (!currentModalPostId) return;
+            if (!confirm('¿Borrar este eco?')) return;
+            try {
+                await SocialFirebase.deleteComment(currentModalPostId, commentId);
+            } catch (e) {
+                console.error(e);
+                alert('No se pudo borrar el eco.');
+            }
+        };
+
+        window.editComment = async (commentId) => {
+            if (!currentModalPostId) return;
+            const nuevo = prompt('Editar tu eco:');
+            if (nuevo === null) return; // canceló
+            const t = nuevo.trim();
+            if (!t) return;
+            try {
+                await SocialFirebase.editComment(currentModalPostId, commentId, t);
+            } catch (e) {
+                console.error(e);
+                alert('No se pudo editar el eco.');
+            }
+        };
 
         // Permitir enviar con Enter
         document.getElementById('commentInput').addEventListener('keypress', (e) => {

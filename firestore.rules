@@ -40,8 +40,11 @@ service cloud.firestore {
       // Ecos (comentarios)
       match /comments/{commentId} {
         allow read:   if signedIn();
-        allow create: if signedIn();
-        allow update, delete: if false;
+        allow create: if signedIn()
+                      && request.resource.data.authorUid == request.auth.uid;
+        // Editar/borrar: solo el autor (los comentarios antiguos sin authorUid no).
+        allow update, delete: if signedIn()
+                      && resource.data.authorUid == request.auth.uid;
       }
     }
 
