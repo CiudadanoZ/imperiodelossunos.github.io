@@ -993,6 +993,11 @@
                     <span><strong id="followingCount">12</strong> Siguiendo</span>
                     <span><strong id="followersCount">3</strong> Seguidores</span>
                 </div>
+
+                <!-- Solo aparece si la cuenta no tiene email real (cuentas antiguas) -->
+                <button id="linkEmailBtn" style="display:none; margin-top:12px; background:transparent; border:1px solid rgba(212,175,55,0.5); color:var(--accent-gold); padding:8px 14px; border-radius:20px; cursor:pointer; font-size:0.8rem;">
+                    <i class="fas fa-envelope"></i> Vincular email para recuperar la cuenta
+                </button>
             </div>
 
             <div class="profile-tabs">
@@ -1305,6 +1310,36 @@
                 } catch (error) {
                     console.error(error);
                     alert("Error al actualizar perfil.");
+                }
+            }
+        });
+
+        // --- VINCULAR EMAIL REAL (cuentas antiguas sin email) ---
+        SocialFirebase.auth.onAuthStateChanged((u) => {
+            const btn = document.getElementById('linkEmailBtn');
+            if (btn && u && !SocialFirebase.hasRealEmail()) btn.style.display = 'inline-block';
+        });
+
+        document.getElementById('linkEmailBtn').addEventListener('click', async () => {
+            const nuevo = prompt("Escribe tu email real. A partir de ahora iniciarás sesión con ÉL (ya no con tu @handle):");
+            if (nuevo === null) return;
+            const email = nuevo.trim();
+            if (!email.includes('@') || email.endsWith('@universo.com')) {
+                alert("Necesitas un email real y válido.");
+                return;
+            }
+            try {
+                await SocialFirebase.updateAuthEmail(email);
+                alert("¡Listo! Tu cuenta ya tiene email. Podrás recuperar la contraseña y entrar con " + email);
+                document.getElementById('linkEmailBtn').style.display = 'none';
+            } catch (error) {
+                console.error(error);
+                if (error.code === 'auth/requires-recent-login') {
+                    alert("Por seguridad, vuelve a iniciar sesión y prueba de nuevo.");
+                } else if (error.code === 'auth/email-already-in-use') {
+                    alert("Ese email ya está en uso por otra cuenta.");
+                } else {
+                    alert("No se pudo vincular el email.");
                 }
             }
         });

@@ -130,8 +130,8 @@
 
         <form id="loginForm">
             <div class="form-group">
-                <label>Nombre de Bardo (@handle)</label>
-                <input type="text" id="handle" placeholder="@noble_errante" required>
+                <label>Email o @handle</label>
+                <input type="text" id="handle" placeholder="tu@correo.com o @noble_errante" required>
             </div>
             <div class="form-group">
                 <label>Palabra de Poder (Contraseña)</label>
@@ -139,6 +139,10 @@
             </div>
             <button type="submit" class="btn-auth">Entrar al Reino</button>
         </form>
+
+        <div style="margin-top: 15px;">
+            <a href="#" id="forgotLink" style="color: #888; font-size: 0.8rem; text-decoration: none;">¿Olvidaste tu Palabra de Poder?</a>
+        </div>
 
         <div class="auth-footer">
             ¿Aún no tienes una leyenda? <a href="registro.html">Forja una nueva cuenta</a>
@@ -148,15 +152,21 @@
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
 
+        // Traduce lo que escribe el usuario al email de Firebase:
+        //  - un email real (contiene @ y no empieza por @) se usa tal cual  -> cuentas nuevas
+        //  - un @handle se traduce a handle@universo.com                    -> cuentas antiguas
+        function resolveEmail(input) {
+            const v = input.trim();
+            if (v.includes('@') && !v.startsWith('@')) return v; // email real
+            const cleanHandle = v.startsWith('@') ? v.substring(1) : v;
+            return cleanHandle + "@universo.com";
+        }
+
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const handle = document.getElementById('handle').value; // En un sistema real usaríamos email, aquí adaptaremos o pediremos email
             const password = document.getElementById('password').value;
             const errorMsg = document.getElementById('errorMsg');
-
-            // Firebase requiere email. Unificamos la lógica: quitamos el @ inicial si existe
-            let cleanHandle = handle.startsWith('@') ? handle.substring(1) : handle;
-            const email = cleanHandle.includes('.') ? handle : cleanHandle + "@universo.com";
+            const email = resolveEmail(document.getElementById('handle').value);
 
             try {
                 await SocialFirebase.login(email, password);
@@ -170,6 +180,30 @@
                 card.style.animation = 'none';
                 card.offsetHeight; // trigger reflow
                 card.style.animation = 'shake 0.4s';
+            }
+        });
+
+        // --- RECUPERAR CONTRASEÑA ---
+        document.getElementById('forgotLink').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const errorMsg = document.getElementById('errorMsg');
+            const email = prompt("Escribe el email de tu cuenta y te enviaremos un enlace para restablecer tu Palabra de Poder:");
+            if (email === null) return;
+            const clean = email.trim();
+            if (!clean || !clean.includes('@') || clean.endsWith('@universo.com')) {
+                errorMsg.textContent = "Necesitas un email real. Las cuentas antiguas sin email pueden vincular uno desde su perfil.";
+                errorMsg.style.display = 'block';
+                return;
+            }
+            try {
+                await SocialFirebase.resetPassword(clean);
+                errorMsg.style.color = '#17bf63';
+                errorMsg.textContent = "Si esa cuenta existe, recibirás un correo con el enlace.";
+                errorMsg.style.display = 'block';
+            } catch (error) {
+                console.error(error);
+                errorMsg.textContent = "No se pudo enviar el correo. Revisa el email.";
+                errorMsg.style.display = 'block';
             }
         });
 

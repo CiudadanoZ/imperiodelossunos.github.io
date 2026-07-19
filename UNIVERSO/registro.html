@@ -144,6 +144,10 @@
                     <label>Nombre de Bardo (@handle)</label>
                     <input type="text" id="handle" placeholder="@el_caballero" required>
                 </div>
+                <div class="form-group full-width">
+                    <label>Email (para recuperar tu cuenta)</label>
+                    <input type="email" id="email" placeholder="tu@correo.com" required>
+                </div>
                 <div class="form-group">
                     <label>Palabra de Poder</label>
                     <input type="password" id="password" placeholder="••••••••" required>
@@ -183,16 +187,20 @@
                 handle = '@' + handle;
             }
 
-            // Firebase requiere email. Usaremos el handle para generar uno ficticio
-            let cleanHandle = handle.startsWith('@') ? handle.substring(1) : handle;
-            const email = cleanHandle + "@universo.com";
+            // Ahora usamos el email REAL del usuario (permite recuperar la cuenta).
+            const email = document.getElementById('email').value.trim();
 
             try {
                 await SocialFirebase.register(name, email, password, handle, bio, location);
                 window.location.href = 'index.html';
             } catch (error) {
                 console.error(error);
-                errorMsg.textContent = "Error al forjar la leyenda: " + error.message;
+                let msg = "Error al forjar la leyenda.";
+                if (error.code === 'auth/email-already-in-use') msg = "Ese email ya tiene una cuenta.";
+                else if (error.code === 'auth/invalid-email') msg = "El email no es válido.";
+                else if (error.code === 'auth/weak-password') msg = "La contraseña es demasiado débil (mín. 6 caracteres).";
+                else if (error.message) msg = error.message; // p. ej. "@handle ya está en uso"
+                errorMsg.textContent = msg;
                 errorMsg.style.display = 'block';
             }
         });

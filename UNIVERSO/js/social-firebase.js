@@ -2,7 +2,7 @@
 // Configuración de Firebase para UNIVERSO
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, onSnapshot, doc, updateDoc, arrayUnion, arrayRemove, setDoc, getDoc, where, deleteDoc, runTransaction, limit, increment } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser, sendPasswordResetEmail, updateEmail } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
 // Configuración obtenida del usuario
 const firebaseConfig = {
@@ -119,6 +119,27 @@ export const SocialFirebase = {
 
     async logout() {
         return await signOut(auth);
+    },
+
+    // Envía el correo de restablecimiento de contraseña (solo sirve si el email
+    // de la cuenta es real; las cuentas antiguas usan handle@universo.com).
+    async resetPassword(email) {
+        return await sendPasswordResetEmail(auth, email);
+    },
+
+    // ¿La cuenta actual usa un email real o el sintético heredado?
+    hasRealEmail() {
+        const user = auth.currentUser;
+        return !!(user && user.email && !user.email.endsWith('@universo.com'));
+    },
+
+    // Vincula un email real a una cuenta existente (para habilitar la
+    // recuperación). Cambia el email de autenticación: a partir de ahí el
+    // usuario inicia sesión con ese email, no con @handle.
+    async updateAuthEmail(newEmail) {
+        const user = auth.currentUser;
+        if (!user) throw new Error("No hay sesión activa.");
+        await updateEmail(user, newEmail);
     },
 
     async getCurrentUserProfile() {
