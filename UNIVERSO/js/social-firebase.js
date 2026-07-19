@@ -142,12 +142,44 @@ export const SocialFirebase = {
         await updateEmail(user, newEmail);
     },
 
+    // Cache de UIDs bloqueados por el usuario actual (para filtrar feeds/comentarios).
+    _blockedUids: [],
+
     async getCurrentUserProfile() {
         const user = auth.currentUser;
         if (!user) return null;
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
-        return docSnap.exists() ? docSnap.data() : null;
+        const data = docSnap.exists() ? docSnap.data() : null;
+        if (data) this._blockedUids = Array.isArray(data.blocked) ? data.blocked : [];
+        return data;
+    },
+
+    // --- BLOQUEO DE USUARIOS ---
+    isBlocked(targetUid) {
+        return this._blockedUids.includes(targetUid);
+    },
+
+    async toggleBlock(targetUid) {
+        const user = auth.currentUser;
+        if (!user || !targetUid || user.uid === targetUid) return;
+        const userRef = doc(db, "users", user.uid);
+        if (this._blockedUids.includes(targetUid)) {
+            await updateDoc(userRef, { blocked: arrayRemove(targetUid) });
+            this._blockedUids = this._blockedUids.filter(u => u !== targetUid);
+        } else {
+            await updateDoc(userRef, { blocked: arrayUnion(targetUid) });
+            this._blockedUids = [...this._blockedUids, targetUid];
+        }
+    },
+
+    async getBlockedUsers() {
+        const out = [];
+        for (const uid of this._blockedUids) {
+            const snap = await getDoc(doc(db, "users", uid));
+            if (snap.exists()) out.push({ ...snap.data(), uid });
+        }
+        return out;
     },
 
     // --- LEYENDAS (POSTS) ---
@@ -199,6 +231,8 @@ export const SocialFirebase = {
                     posts = posts.filter(p => p.communityId === filterCommunityId); // Solo esta comunidad
                 }
             }
+            // Ocultar leyendas de usuarios bloqueados.
+            posts = posts.filter(p => !this._blockedUids.includes(p.authorUid));
             callback(posts, rawCount);
         });
     },
@@ -333,7 +367,7 @@ export const SocialFirebase = {
             }));
             
             posts.sort((a, b) => b.timestamp - a.timestamp);
-            callback(posts);
+            callback(posts.filter(p => !this._blockedUids.includes(p.authorUid)));
         }, (error) => {
             console.error("Error en onSavedFeedUpdate:", error);
         });
@@ -391,7 +425,9 @@ export const SocialFirebase = {
     onCommentsUpdate(postId, callback) {
         const q = query(collection(db, "posts", postId, "comments"), orderBy("timestamp", "asc"));
         this.letCommentsUnsubscribe = onSnapshot(q, (snapshot) => {
-            const comments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const comments = snapshot.docs
+                .map(doc => ({ id: doc.id, ...doc.data() }))
+                .filter(c => !this._blockedUids.includes(c.authorUid)); // ocultar bloqueados
             callback(comments);
         });
     },
@@ -483,6 +519,14 @@ export const SocialFirebase = {
         const snap = await getDocs(q);
         if (snap.empty) throw new Error("No existe ningún héroe con ese nombre.");
         const recipientUid = snap.docs[0].id;
+
+        // No permitir mensajes si hay bloqueo en cualquier sentido.
+        if (this._blockedUids.includes(recipientUid)) {
+            throw new Error("Has bloqueado a este usuario. Desbloquéalo para escribirle.");
+        }
+        if ((snap.docs[0].data().blocked || []).includes(senderUid)) {
+            throw new Error("No puedes enviar mensajes a este usuario.");
+        }
 
         const chatKey = this._getChatKey(profile.handle, targetHandle);
         await addDoc(collection(db, "messages"), {

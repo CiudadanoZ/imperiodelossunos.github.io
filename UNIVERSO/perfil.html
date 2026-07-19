@@ -998,6 +998,13 @@
                 <button id="linkEmailBtn" style="display:none; margin-top:12px; background:transparent; border:1px solid rgba(212,175,55,0.5); color:var(--accent-gold); padding:8px 14px; border-radius:20px; cursor:pointer; font-size:0.8rem;">
                     <i class="fas fa-envelope"></i> Vincular email para recuperar la cuenta
                 </button>
+
+                <div style="margin-top:12px;">
+                    <button id="blockedListBtn" style="background:transparent; border:1px solid rgba(255,255,255,0.15); color:#aaa; padding:8px 14px; border-radius:20px; cursor:pointer; font-size:0.8rem;">
+                        <i class="fas fa-ban"></i> Usuarios bloqueados
+                    </button>
+                    <div id="blockedListContainer" style="display:none; margin-top:10px; background:rgba(255,255,255,0.02); border-radius:10px; overflow:hidden;"></div>
+                </div>
             </div>
 
             <div class="profile-tabs">
@@ -1319,6 +1326,40 @@
             const btn = document.getElementById('linkEmailBtn');
             if (btn && u && !SocialFirebase.hasRealEmail()) btn.style.display = 'inline-block';
         });
+
+        // --- GESTIÓN DE USUARIOS BLOQUEADOS ---
+        async function renderBlockedList() {
+            const c = document.getElementById('blockedListContainer');
+            await SocialFirebase.getCurrentUserProfile(); // asegura la caché de bloqueados al día
+            const blocked = await SocialFirebase.getBlockedUsers();
+            if (blocked.length === 0) {
+                c.innerHTML = '<div style="color:#777; font-size:0.85rem; padding:12px;">No has bloqueado a nadie.</div>';
+                return;
+            }
+            c.innerHTML = blocked.map(u => `
+                <div style="display:flex; align-items:center; gap:10px; padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.05);">
+                    <img src="${safeImageUrl(u.avatar)}" style="width:30px; height:30px; border-radius:50%; object-fit:contain; background:#000;">
+                    <span style="flex-grow:1; font-size:0.85rem;">${escapeHtml(u.name)} <span style="color:#777;">${escapeHtml(u.handle)}</span></span>
+                    <button onclick="window.unblockUser('${escapeJsAttr(u.uid)}')" style="background:var(--accent-gold); border:none; color:#000; padding:4px 10px; border-radius:15px; font-size:0.72rem; cursor:pointer;">Desbloquear</button>
+                </div>`).join('');
+        }
+
+        document.getElementById('blockedListBtn').addEventListener('click', async () => {
+            const c = document.getElementById('blockedListContainer');
+            if (c.style.display === 'block') { c.style.display = 'none'; return; }
+            await renderBlockedList();
+            c.style.display = 'block';
+        });
+
+        window.unblockUser = async (uid) => {
+            try {
+                await SocialFirebase.toggleBlock(uid);
+                await renderBlockedList();
+            } catch (e) {
+                console.error(e);
+                alert('No se pudo desbloquear.');
+            }
+        };
 
         document.getElementById('linkEmailBtn').addEventListener('click', async () => {
             const nuevo = prompt("Escribe tu email real. A partir de ahora iniciarás sesión con ÉL (ya no con tu @handle):");

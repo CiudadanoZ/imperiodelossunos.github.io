@@ -1033,6 +1033,17 @@
             }
         };
 
+        window.blockUser = async function(uid, name) {
+            if (!confirm(`¿Bloquear a ${name}? Dejarás de ver sus leyendas y no podrá enviarte mensajes.`)) return;
+            try {
+                await SocialFirebase.toggleBlock(uid);
+                subscribeFeed(); // refresca el feed ya sin sus leyendas
+            } catch (e) {
+                console.error(e);
+                alert('No se pudo bloquear al usuario.');
+            }
+        };
+
         function renderFeed(posts) {
             const feedContainer = document.getElementById('legendsFeed');
             const searchQuery = document.getElementById('searchLegendsInput').value.toLowerCase();
@@ -1065,7 +1076,9 @@
                                 <span class="post-author">${escapeHtml(post.author)}</span>
                                 <span class="post-handle">${escapeHtml(post.handle)}</span>
                                 <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
-                                ${isAuthor ? `<i class="fas fa-trash-alt" style="margin-left:auto; color:#e0245e; cursor:pointer;" onclick="event.stopPropagation(); deletePost('${escapeJsAttr(post.id)}')" title="Borrar leyenda"></i>` : ''}
+                                ${isAuthor
+                                    ? `<i class="fas fa-trash-alt" style="margin-left:auto; color:#e0245e; cursor:pointer;" onclick="event.stopPropagation(); deletePost('${escapeJsAttr(post.id)}')" title="Borrar leyenda"></i>`
+                                    : (post.authorUid ? `<i class="fas fa-ban" style="margin-left:auto; color:#777; cursor:pointer;" onclick="event.stopPropagation(); blockUser('${escapeJsAttr(post.authorUid)}', '${escapeJsAttr(post.author)}')" title="Bloquear a este usuario"></i>` : '')}
                             </div>
                             <div class="post-text">${escapeHtml(post.text)}</div>
                             ${(post.image && post.image.includes('data:image')) ? `<img src="${safeImageUrl(post.image)}" alt="Media" class="post-image">` : ''}
