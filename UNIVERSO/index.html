@@ -1038,6 +1038,16 @@
             }
         };
 
+        window.pinLegend = async function(postId) {
+            try {
+                await SocialFirebase.pinPost(postId);
+                alert('Leyenda fijada en tu perfil.');
+            } catch (e) {
+                console.error(e);
+                alert('No se pudo fijar la leyenda.');
+            }
+        };
+
         window.quoteLegend = async function(postId) {
             const original = latestGlobalPosts.find(p => p.id === postId) || await SocialFirebase.getPost(postId);
             if (!original) return;
@@ -1096,7 +1106,10 @@
                                 <span class="post-handle">${escapeHtml(post.handle)}</span>
                                 <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
                                 ${isAuthor
-                                    ? `<i class="fas fa-trash-alt" style="margin-left:auto; color:#e0245e; cursor:pointer;" onclick="event.stopPropagation(); deletePost('${escapeJsAttr(post.id)}')" title="Borrar leyenda"></i>`
+                                    ? `<span style="margin-left:auto; display:flex; gap:12px;">
+                                        <i class="fas fa-thumbtack" style="color:#888; cursor:pointer;" onclick="event.stopPropagation(); pinLegend('${escapeJsAttr(post.id)}')" title="Fijar en tu perfil"></i>
+                                        <i class="fas fa-trash-alt" style="color:#e0245e; cursor:pointer;" onclick="event.stopPropagation(); deletePost('${escapeJsAttr(post.id)}')" title="Borrar leyenda"></i>
+                                       </span>`
                                     : (post.authorUid ? `<i class="fas fa-ban" style="margin-left:auto; color:#777; cursor:pointer;" onclick="event.stopPropagation(); blockUser('${escapeJsAttr(post.authorUid)}', '${escapeJsAttr(post.author)}')" title="Bloquear a este usuario"></i>` : '')}
                             </div>
                             <div class="post-text">${linkifyText(post.text)}</div>

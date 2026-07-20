@@ -1084,12 +1084,27 @@
         import { escapeHtml, escapeJsAttr, safeImageUrl, linkifyText, embedHtml, quotedBoxHtml } from './js/utils.js';
 
         // --- GESTIÓN DE PERFIL ---
+        let myPinnedId = null; // leyenda fijada del usuario
+
+        window.unpinLegend = async function () {
+            try {
+                await SocialFirebase.pinPost(null);
+                myPinnedId = null;
+                loadUserProfile();
+                renderMyFeed(currentPosts);
+            } catch (e) {
+                console.error(e);
+                alert('No se pudo quitar la leyenda fijada.');
+            }
+        };
+
         async function loadUserProfile() {
             const user = await SocialFirebase.getCurrentUserProfile();
             if (!user) {
                 window.location.href = 'login.html';
                 return;
             }
+            myPinnedId = user.pinnedPostId || null;
             document.querySelectorAll('.user-avatar-img').forEach(img => img.src = user.avatar);
             document.querySelectorAll('.user-name-text').forEach(el => el.textContent = user.name);
             document.querySelectorAll('.user-handle-text').forEach(el => el.textContent = user.handle);
@@ -1149,6 +1164,12 @@
                 );
             }
 
+            // 3. La leyenda fijada va primero (solo en la pestaña de Leyendas)
+            if (currentActiveTab === 'Leyendas' && myPinnedId) {
+                const idx = filtered.findIndex(p => p.id === myPinnedId);
+                if (idx > 0) filtered.unshift(filtered.splice(idx, 1)[0]);
+            }
+
             const feedContainer = document.getElementById('userLegendsFeed');
             feedContainer.innerHTML = '';
 
@@ -1162,10 +1183,12 @@
             }
 
             filtered.forEach(post => {
+                const isPinned = myPinnedId && post.id === myPinnedId;
                 const postHTML = `
-                    <article class="post">
+                    <article class="post" ${isPinned ? 'style="background: rgba(212,175,55,0.04);"' : ''}>
                         <img src="${safeImageUrl(post.avatar)}" alt="Avatar" class="avatar" style="object-fit: contain; background: #000;">
                         <div class="post-content">
+                            ${isPinned ? '<div style="color: var(--accent-gold); font-size: 0.75rem; margin-bottom: 6px;"><i class="fas fa-thumbtack"></i> Leyenda fijada <span onclick="event.stopPropagation(); window.unpinLegend()" style="color:#777; cursor:pointer; margin-left:8px;">(quitar)</span></div>' : ''}
                             <div class="post-header">
                                 <span class="post-author">${escapeHtml(post.author)}</span>
                                 ${SocialFirebase.isVerified(post.authorUid) ? '<i class="fas fa-circle-check" style="color: var(--accent-gold); font-size: 0.8rem;" title="Cuenta verificada"></i>' : ''}

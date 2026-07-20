@@ -166,6 +166,14 @@ export const SocialFirebase = {
         return data;
     },
 
+    // --- FIJAR LEYENDA EN EL PERFIL ---
+    // Guarda el id en el propio documento del usuario. Pasa null para desfijar.
+    async pinPost(postId) {
+        const user = auth.currentUser;
+        if (!user) throw new Error("No hay sesión activa");
+        await updateDoc(doc(db, "users", user.uid), { pinnedPostId: postId || null });
+    },
+
     // --- CUENTAS VERIFICADAS ---
     // Se marcan a mano poniendo verified:true en el documento del usuario desde
     // la consola de Firebase (las reglas impiden que uno se auto-verifique).
