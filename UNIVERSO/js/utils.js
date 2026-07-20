@@ -69,6 +69,16 @@ export function embedHtml(text) {
     if (m && !['videos', 'directory', 'p', 'settings'].includes(m[1].toLowerCase())) {
         return wrap(`https://player.twitch.tv/?channel=${m[1]}&parent=${encodeURIComponent(host)}&autoplay=false`);
     }
+
+    // GIF animado por enlace (Giphy, Tenor, etc.). Hace falta porque al subir un
+    // GIF la compresión lo pasa a JPEG y perdería la animación.
+    m = s.match(/https?:\/\/[^\s"'<>]+\.gif(?:\?[^\s"'<>]*)?/i);
+    if (m) {
+        const url = safeImageUrl(m[0]);
+        if (url) {
+            return `<img src="${url}" alt="GIF" style="max-width:100%; border-radius:12px; margin:12px 0; border:1px solid var(--glass-border);" loading="lazy">`;
+        }
+    }
     return '';
 }
 
