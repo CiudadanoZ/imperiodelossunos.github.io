@@ -1092,6 +1092,7 @@
                         <div class="post-content">
                             <div class="post-header">
                                 <span class="post-author">${escapeHtml(post.author)}</span>
+                                ${SocialFirebase.isVerified(post.authorUid) ? '<i class="fas fa-circle-check" style="color: var(--accent-gold); font-size: 0.8rem;" title="Cuenta verificada"></i>' : ''}
                                 <span class="post-handle">${escapeHtml(post.handle)}</span>
                                 <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
                                 ${isAuthor
@@ -1224,7 +1225,7 @@
                 <div style="display: flex; gap: 12px; margin-bottom: 16px; ${isReply ? 'margin-left: 40px;' : ''} animation: fadeIn 0.3s ease;">
                     <img src="${safeImageUrl(c.avatar)}" class="avatar" style="width: ${size}px; height: ${size}px; object-fit: contain; background: #000; border: 1px solid var(--accent-gold);">
                     <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
-                        <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${escapeHtml(c.author)}</div>
+                        <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${escapeHtml(c.author)}${SocialFirebase.isVerified(c.authorUid) ? ' <i class="fas fa-circle-check" style="font-size: 0.75rem;" title="Cuenta verificada"></i>' : ''}</div>
                         <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${linkifyText(c.text)}${c.editedAt ? ' <span style="color:#555; font-size:0.7rem;">(editado)</span>' : ''}</div>
                         <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
                         ${actions}
@@ -1486,7 +1487,9 @@
                 SocialFirebase.getCurrentUserProfile().then(p => {
                     myFollowing = Array.isArray(p?.following) ? p.following : [];
                 });
-                subscribeFeed();
+                // Cargamos las cuentas verificadas antes de pintar el feed para
+                // que las insignias salgan ya en el primer render.
+                SocialFirebase.loadVerifiedUsers().then(() => subscribeFeed());
                 // Escuchar notificaciones para el badge
                 SocialFirebase.onNotificationsUpdate(notifs => {
                     const hasUnread = notifs.some(n => !n.read);

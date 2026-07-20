@@ -1168,6 +1168,7 @@
                         <div class="post-content">
                             <div class="post-header">
                                 <span class="post-author">${escapeHtml(post.author)}</span>
+                                ${SocialFirebase.isVerified(post.authorUid) ? '<i class="fas fa-circle-check" style="color: var(--accent-gold); font-size: 0.8rem;" title="Cuenta verificada"></i>' : ''}
                                 <span class="post-handle">${escapeHtml(post.handle)}</span>
                                 <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
                             </div>
@@ -1215,6 +1216,7 @@
         SocialFirebase.auth.onAuthStateChanged(user => {
             if (user) {
                 loadUserProfile();
+                SocialFirebase.loadVerifiedUsers();
                 SocialFirebase.onFeedUpdate(posts => {
                     currentPosts = posts; // Guardamos para cambios de pestaña
                     renderMyFeed(posts);

@@ -166,6 +166,25 @@ export const SocialFirebase = {
         return data;
     },
 
+    // --- CUENTAS VERIFICADAS ---
+    // Se marcan a mano poniendo verified:true en el documento del usuario desde
+    // la consola de Firebase (las reglas impiden que uno se auto-verifique).
+    _verifiedUids: [],
+
+    async loadVerifiedUsers() {
+        try {
+            const q = query(collection(db, "users"), where("verified", "==", true));
+            const snap = await getDocs(q);
+            this._verifiedUids = snap.docs.map(d => d.id);
+        } catch (e) {
+            console.error("No se pudieron cargar las cuentas verificadas:", e);
+        }
+    },
+
+    isVerified(uid) {
+        return !!uid && this._verifiedUids.includes(uid);
+    },
+
     // --- BLOQUEO DE USUARIOS ---
     isBlocked(targetUid) {
         return this._blockedUids.includes(targetUid);

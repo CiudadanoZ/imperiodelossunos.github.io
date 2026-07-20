@@ -19,10 +19,14 @@ service cloud.firestore {
     // --- Perfiles de usuario ---
     // Cualquiera autenticado puede leer perfiles (buscador, aliados sugeridos,
     // seguidores...). Solo el propio usuario puede crear/editar su documento.
+    // Nadie puede auto-verificarse: el campo 'verified' solo se pone a mano
+    // desde la consola de Firebase (cuentas oficiales del estudio).
     match /users/{userId} {
       allow read:   if signedIn();
-      allow create: if signedIn() && request.auth.uid == userId;
-      allow update: if signedIn() && request.auth.uid == userId;
+      allow create: if signedIn() && request.auth.uid == userId
+                    && !('verified' in request.resource.data);
+      allow update: if signedIn() && request.auth.uid == userId
+                    && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['verified']);
       allow delete: if false;
     }
 
