@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Space Bridge — Roguelite de gestión en tiempo real de Imperio de los Sueños. Juega gratis en el navegador.">
-    <title>Space Bridge | Imperio de los Sueños</title>
+    <title>Toma el Mando | Imperio de los Sueños</title>
     <link rel="stylesheet" href="../style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,16 +24,11 @@
                 #050508;
             z-index: -1;
         }
-        .sb-hero h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 4rem;
-            letter-spacing: 4px;
-            background: linear-gradient(to right, #ffffff, var(--accent-gold), #ffffff);
-            background-size: 200% auto;
-            -webkit-background-clip: text; background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 5s linear infinite;
-            margin-bottom: 0.4rem;
+        .sb-logo {
+            width: 560px; max-width: 92%; height: auto;
+            margin: 0 auto 1rem;
+            filter: drop-shadow(0 8px 30px rgba(0,0,0,0.6));
+            animation: float 6s ease-in-out infinite;
         }
         .sb-hero .sub {
             color: var(--accent-gold);
@@ -127,7 +122,7 @@
     </header>
 
     <section class="sb-hero">
-        <h1>Space Bridge</h1>
+        <img src="../img/toma_el_mando.png" alt="Toma el Mando" class="sb-logo">
         <div class="sub">Roguelite de gestión en tiempo real</div>
         <p class="tagline">Mandas desde un puesto de control: repartes energía, das órdenes a tu tripulación, disparas y eliges el camino. Cinco zonas, muerte definitiva y un jefe final esperando al fondo. Dos mundos, el mismo panel.</p>
         <a href="#jugar" class="sb-cta"><i class="fas fa-play"></i> Jugar ahora</a>
