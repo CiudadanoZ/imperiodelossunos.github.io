@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="La Ciudadela de Valdoria — MMORPG 3D de fantasía oscura de Imperio de los Sueños. En desarrollo.">
+    <title>La Ciudadela de Valdoria | Imperio de los Sueños</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --ember: #e8622a; --ember-soft: #ffb070; }
+
+        .vd-hero {
+            position: relative; text-align: center;
+            padding: 8rem 5% 3.5rem; overflow: hidden;
+        }
+        .vd-hero::before {
+            content: ''; position: absolute; inset: 0; z-index: -1;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(232, 98, 42, 0.18), transparent 55%),
+                radial-gradient(ellipse at 50% 100%, rgba(120, 30, 10, 0.35), transparent 65%),
+                #0a0503;
+        }
+        .vd-logo {
+            width: 620px; max-width: 94%; height: auto; margin: 0 auto 1rem;
+            filter: drop-shadow(0 10px 40px rgba(0,0,0,0.7));
+            animation: float 6s ease-in-out infinite;
+        }
+        .vd-status {
+            display: inline-block; margin-bottom: 1.2rem;
+            border: 1px solid var(--ember); color: var(--ember-soft);
+            padding: 6px 18px; border-radius: 50px;
+            font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .vd-hero .pitch { color: #e5d8cf; max-width: 760px; margin: 0 auto 2rem; font-size: 1.15rem; line-height: 1.7; }
+        .vd-cta {
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 1.1rem 2.4rem; border-radius: 50px;
+            background: linear-gradient(45deg, var(--ember), #a8380f);
+            color: #fff; font-family: 'Cinzel', serif; font-weight: 700;
+            text-decoration: none; letter-spacing: 1px;
+            box-shadow: 0 5px 25px rgba(232, 98, 42, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .vd-cta:hover { transform: translateY(-4px); box-shadow: 0 8px 35px rgba(232, 98, 42, 0.65); }
+
+        .vd-tag {
+            text-align: center; color: var(--ember-soft); letter-spacing: 3px;
+            text-transform: uppercase; font-size: 0.85rem; margin-top: 0.5rem;
+        }
+
+        .vd-section { padding: 4rem 5%; max-width: 1150px; margin: 0 auto; }
+        .vd-section h2 { text-align: center; }
+
+        /* Rejilla de características */
+        .vd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.6rem; margin-top: 3rem; }
+        .vd-card {
+            background: rgba(20, 12, 8, 0.7); border: 1px solid rgba(232, 98, 42, 0.18);
+            border-radius: 14px; padding: 1.8rem; transition: transform 0.3s, border-color 0.3s;
+        }
+        .vd-card:hover { transform: translateY(-6px); border-color: rgba(232, 98, 42, 0.5); }
+        .vd-card i { font-size: 2rem; color: var(--ember); margin-bottom: 0.9rem; }
+        .vd-card h3 { color: #fff; font-size: 1.2rem; margin-bottom: 0.5rem; font-family: 'Cinzel', serif; }
+        .vd-card p { color: #b7a99f; font-size: 0.93rem; line-height: 1.6; }
+
+        /* Razas y clases */
+        .vd-pills { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 2.5rem; }
+        .vd-pill {
+            background: rgba(20, 12, 8, 0.7); border: 1px solid rgba(232, 98, 42, 0.2);
+            border-radius: 12px; padding: 14px 20px; min-width: 210px;
+        }
+        .vd-pill b { color: var(--ember-soft); display: block; margin-bottom: 3px; font-family: 'Cinzel', serif; }
+        .vd-pill span { color: #a99c92; font-size: 0.85rem; }
+
+        .vd-note { text-align: center; color: #8a7d73; margin-top: 2rem; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="../index.html" class="logo-text" style="text-decoration:none;">Imperio de los Sueños</a>
+        <nav id="mainNav">
+            <a href="../index.html#home">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="../launcher/index.html" class="nav-cta">Launcher</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="../UNIVERSO/index.html">Universo</a>
+            <a href="../index.html#about">Nosotros</a>
+        </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <section class="vd-hero">
+        <img src="../img/valdoria.png" alt="La Ciudadela de Valdoria" class="vd-logo">
+        <div class="vd-status"><i class="fas fa-hammer"></i> En desarrollo · Próximamente</div>
+        <p class="pitch">Un MMORPG 3D de vista cenital y fantasía oscura. Crea tu héroe, aparece en la plaza de la Ciudadela amurallada y adéntrate en un mundo persistente de llanuras, bosques, criptas y ciénagas repleto de criaturas, misiones y otros jugadores. Cuentas y personajes guardados en el servidor: entra desde cualquier equipo y continúa donde lo dejaste.</p>
+        <a href="https://discord.gg/WygZEc54A8" target="_blank" class="vd-cta"><i class="fab fa-discord"></i> Sigue el desarrollo</a>
+        <div class="vd-tag">MMORPG 3D · Fantasía oscura · Mundo persistente</div>
+    </section>
+
+    <section class="vd-section">
+        <h2 class="section-title">Un mundo vivo</h2>
+        <div class="vd-grid">
+            <div class="vd-card">
+                <i class="fas fa-fort-awesome"></i>
+                <h3>La Ciudadela</h3>
+                <p>Plaza amurallada con posada, forja, mercado y capilla. Zona segura: las criaturas no entran y aquí no hay JcJ. Tu refugio entre expedición y expedición.</p>
+            </div>
+            <div class="vd-card">
+                <i class="fas fa-tree"></i>
+                <h3>El exterior</h3>
+                <p>Llanuras, bosque denso, ruinas de un templo, el Lago de los Ciervos y la Ciénaga de los Ahogados. Lobos, jabalíes, osos, no-muertos y jefes como el Alfa Sombrío o el Rey del Fango.</p>
+            </div>
+            <div class="vd-card">
+                <i class="fas fa-dungeon"></i>
+                <h3>Las Criptas</h3>
+                <p>Mazmorras subterráneas de luz espectral con ratas, esqueletos guardianes y el temible Señor de la Cripta. Mejor en grupo. Además, criptas menores repartidas por el mundo.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="vd-section">
+        <h2 class="section-title">Crea tu héroe</h2>
+        <p style="text-align:center; color:#b7a99f; max-width:700px; margin:0 auto;">Combina <b style="color:var(--ember-soft)">raza</b> y <b style="color:var(--ember-soft)">especialización</b>: cada mezcla tiene su aspecto, su color de túnica y su forma de jugar.</p>
+        <div class="vd-pills">
+            <div class="vd-pill"><b>🧑 Humano</b><span>+10 de vida máxima</span></div>
+            <div class="vd-pill"><b>🧝 Elfo</b><span>+1 de daño · regeneración +50%</span></div>
+            <div class="vd-pill"><b>🪓 Enano</b><span>+2 de armadura</span></div>
+            <div class="vd-pill"><b>👹 Orco</b><span>+3 de daño · −10 de vida</span></div>
+        </div>
+        <div class="vd-pills">
+            <div class="vd-pill"><b>⚔️ Guerrero</b><span>Furia · aguante y golpes contundentes</span></div>
+            <div class="vd-pill"><b>🏹 Explorador</b><span>Vigor · ataque veloz y a distancia</span></div>
+            <div class="vd-pill"><b>✨ Sacerdote</b><span>Maná · curas y apoyo al grupo</span></div>
+        </div>
+        <p class="vd-note">Sube hasta nivel 15, reparte puntos en <b>dos ramas de talentos</b> por clase y desbloquea habilidades definitivas. Puedes reasignar tu build cuando quieras.</p>
+    </section>
+
+    <section class="vd-section">
+        <h2 class="section-title">Combate con profundidad</h2>
+        <div class="vd-grid">
+            <div class="vd-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Habilidades y recursos</h3>
+                <p>Barra de habilidades estilo Diablo/WoW con enfriamientos y coste de recurso: Furia que se acumula luchando, Vigor que fluye o Maná que hay que dosificar. Todo validado por el servidor.</p>
+            </div>
+            <div class="vd-card">
+                <i class="fas fa-shield-halved"></i>
+                <h3>El equipo importa</h3>
+                <p>El arma es tu fuente de poder y la armadura mitiga por porcentaje: siempre reduce algo, nunca te hace invulnerable. Progresar tu equipo es progresar de verdad.</p>
+            </div>
+            <div class="vd-card">
+                <i class="fas fa-skull"></i>
+                <h3>La muerte tiene precio</h3>
+                <p>Al caer pierdes experiencia y arrastras un "Alma Debilitada" que reduce tu daño durante 90 s, incluso si te desconectas. Una sacerdotisa puede purgarla... por oro.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="vd-section">
+        <h2 class="section-title">No estás solo</h2>
+        <div class="vd-grid">
+            <div class="vd-card"><i class="fas fa-users"></i><h3>Grupos de caza</h3><p>Uníos para compartir botín y abatir a los jefes más duros.</p></div>
+            <div class="vd-card"><i class="fas fa-shield"></i><h3>Gremios</h3><p>Funda tu clan, invita miembros, ponle lema y usa el chat de gremio entre reinos.</p></div>
+            <div class="vd-card"><i class="fas fa-swords"></i><h3>JcJ opcional</h3><p>Actívalo si quieres pelea entre jugadores. Nunca dentro de la Ciudadela, y sin perder objetos.</p></div>
+            <div class="vd-card"><i class="fas fa-handshake"></i><h3>Comercio</h3><p>Intercambios cara a cara con confirmación por ambas partes y ejecución atómica en el servidor.</p></div>
+            <div class="vd-card"><i class="fas fa-gavel"></i><h3>Casa de subastas</h3><p>Vende aunque estés desconectado y recoge tus ganancias al volver.</p></div>
+            <div class="vd-card"><i class="fas fa-horse"></i><h3>Monturas y viaje rápido</h3><p>Corceles, lobos huargo y piedras rúnicas para cruzar el mundo en un instante.</p></div>
+            <div class="vd-card"><i class="fas fa-fish"></i><h3>Pesca y cocina</h3><p>Pesca en el lago y cocina en las hogueras platos que curan mucho más.</p></div>
+            <div class="vd-card"><i class="fas fa-globe"></i><h3>Varios reinos</h3><p>Valdoria y Penumbra, cada uno con sus criaturas y su comunidad. Hasta 5 personajes por cuenta.</p></div>
+        </div>
+    </section>
+
+    <section class="vd-section" style="text-align:center; padding-bottom:5rem;">
+        <h2 class="section-title">Aún no ha abierto sus puertas</h2>
+        <p style="color:#b7a99f; max-width:640px; margin:1.5rem auto 2rem;">La Ciudadela de Valdoria está en pleno desarrollo. Es un MMORPG en línea con servidor propio, así que se anunciará cuándo y cómo se podrá entrar. Únete a la comunidad para enterarte el primero.</p>
+        <a href="https://discord.gg/WygZEc54A8" target="_blank" class="vd-cta"><i class="fab fa-discord"></i> Únete al Discord</a>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Sobre el Estudio</h3>
+                <p>Imperio de los Sueños es un estudio de desarrollo de videojuegos independiente, apasionado y dedicado a crear experiencias con atmósferas envolventes y sistemas de juego profundos.</p>
+            </div>
+            <div class="socials">
+                <a href="https://x.com/Oscar31741727" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/WygZEc54A8" aria-label="Discord" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../menu.js"></script>
+</body>
+</html>
