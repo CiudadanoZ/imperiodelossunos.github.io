@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cargando…</title>
+<link rel="stylesheet" href="css/base.css?v=5">
+<!-- Recoge los errores de carga en window.__err para poder verlos desde la consola. -->
+<script>window.__err=[];addEventListener('error',e=>__err.push((e.message||'')+' @ '+(e.filename||'').split('/').pop()+':'+e.lineno));</script>
+</head>
+<body>
+
+<div id="crt">
+
+  <header id="barra">
+    <div class="marca"><span id="marca-nom"></span><small id="marca-sub"></small></div>
+    <div class="lecturas">
+      <span class="lectura"><i id="lbl-casco"></i><b id="lec-casco">—</b></span>
+      <span class="lectura"><i id="lbl-vital"></i><b id="lec-oxigeno">—</b></span>
+      <span class="lectura"><i id="lbl-combustible"></i><b id="lec-combustible">—</b></span>
+      <span class="lectura"><i id="lbl-municion"></i><b id="lec-misiles">—</b></span>
+      <span class="lectura"><i id="lbl-moneda"></i><b id="lec-chatarra">—</b></span>
+      <span class="lectura"><i id="lbl-region"></i><b id="lec-sector">—</b></span>
+      <span class="lectura" id="caja-acoso"><i id="lbl-perseguidor"></i><b id="lec-acoso">—</b></span>
+    </div>
+    <div class="controles">
+      <button class="btn-mini" id="btn-sonido" title="Silenciar">♪</button>
+      <button class="btn-mini" id="btn-ayuda"  title="Manual">?</button>
+      <button class="btn-mini" id="btn-menu"   title="Volver al menú">⌂</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="ventanal">
+      <canvas id="lienzo"></canvas>
+      <div id="marco-ventanal"></div>
+
+      <div id="hud-enemigo" class="oculto">
+        <div class="hud-nombre" id="enemigo-nombre">—</div>
+        <div class="hud-barra"><label>INTEGRIDAD</label><div class="barra"><span id="enemigo-casco"></span></div><b id="enemigo-casco-txt"></b></div>
+        <div class="hud-escudos" id="enemigo-escudos"></div>
+        <div class="hud-sub" id="enemigo-subsistemas"></div>
+        <div class="hud-arma" id="enemigo-arma"></div>
+      </div>
+
+      <div id="objetivo-panel" class="oculto">
+        <span>APUNTAR A:</span>
+        <button class="btn-obj activo" data-objetivo="casco"></button>
+        <button class="btn-obj" data-objetivo="armas"></button>
+        <button class="btn-obj" data-objetivo="motores"></button>
+      </div>
+
+      <div id="rotulo-estado"></div>
+      <div id="avisos"></div>
+    </section>
+
+    <aside id="lateral">
+      <div class="modulo">
+        <h2><span id="h-tripulacion"></span> <small id="tripulacion-cuenta"></small></h2>
+        <div id="lista-tripulacion" class="scroll"></div>
+      </div>
+      <div class="modulo crece">
+        <h2><span id="h-registro"></span></h2>
+        <div id="registro" class="scroll"></div>
+      </div>
+    </aside>
+  </main>
+
+  <footer id="consola">
+    <div class="bloque">
+      <h2><span id="h-energia"></span> <span id="energia-libre"></span></h2>
+      <div id="rejilla-energia"></div>
+      <div id="lista-sistemas"></div>
+    </div>
+    <div class="bloque estrecho">
+      <h2><span id="h-armas"></span></h2>
+      <div id="lista-armas"></div>
+    </div>
+    <div class="bloque estrecho">
+      <h2><span id="h-ordenes"></span></h2>
+      <div id="lista-ordenes"></div>
+    </div>
+  </footer>
+
+</div>
+
+<div id="modal" class="oculto">
+  <div id="modal-caja">
+    <h3 id="modal-titulo"></h3>
+    <div id="modal-cuerpo"></div>
+    <div id="modal-opciones"></div>
+  </div>
+</div>
+
+<script src="js/campanas/valkiria.js?v=5"></script>
+<script src="js/campanas/yermo.js?v=5"></script>
+<script src="js/campana.js?v=5"></script>
+<script src="js/audio.js?v=5"></script>
+<script src="js/juego.js?v=5"></script>
+<script src="js/interfaz.js?v=5"></script>
+<script src="js/main.js?v=5"></script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Space Bridge — Roguelite de gestión en tiempo real de Imperio de los Sueños. Juega gratis en el navegador.">
+    <title>Space Bridge | Imperio de los Sueños</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sb-hero {
+            position: relative;
+            padding: 9rem 5% 3rem;
+            text-align: center;
+            overflow: hidden;
+        }
+        .sb-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(45, 220, 130, 0.10), transparent 55%),
+                radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.12), transparent 60%),
+                #050508;
+            z-index: -1;
+        }
+        .sb-hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            letter-spacing: 4px;
+            background: linear-gradient(to right, #ffffff, var(--accent-gold), #ffffff);
+            background-size: 200% auto;
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 5s linear infinite;
+            margin-bottom: 0.4rem;
+        }
+        .sb-hero .sub {
+            color: var(--accent-gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .sb-hero .tagline {
+            color: #dfdfdf; max-width: 720px; margin: 0 auto 2rem; font-size: 1.15rem;
+        }
+        .sb-cta {
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 1.1rem 2.6rem; border-radius: 50px;
+            background: linear-gradient(45deg, var(--accent-gold), #b8860b);
+            color: #050505; font-family: 'Cinzel', serif; font-weight: 700;
+            text-decoration: none; letter-spacing: 1px;
+            box-shadow: 0 5px 25px rgba(212, 175, 55, 0.45);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .sb-cta:hover { transform: translateY(-4px); box-shadow: 0 8px 35px rgba(212, 175, 55, 0.65); }
+
+        /* Zona de juego */
+        .sb-play { padding: 2rem 5% 4rem; max-width: 1200px; margin: 0 auto; }
+        .sb-frame-wrap {
+            position: relative;
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        .sb-frame-wrap iframe {
+            display: block; width: 100%; height: 72vh; min-height: 560px; border: 0;
+        }
+        .sb-frame-wrap:fullscreen iframe { height: 100vh; }
+        .sb-toolbar {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 12px; flex-wrap: wrap; margin-bottom: 12px;
+        }
+        .sb-toolbar .hint { color: #888; font-size: 0.85rem; }
+        .sb-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 0.6rem 1.2rem; border-radius: 8px;
+            border: 1px solid var(--accent-gold); color: var(--accent-gold);
+            background: transparent; cursor: pointer; text-decoration: none;
+            font-family: 'Montserrat', sans-serif; font-size: 0.85rem; transition: all 0.3s;
+        }
+        .sb-btn:hover { background: var(--accent-gold); color: #000; }
+
+        /* Campañas */
+        .sb-campaigns { padding: 3rem 5% 5rem; max-width: 1100px; margin: 0 auto; }
+        .sb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2.5rem; }
+        .sb-card {
+            border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem;
+            background: rgba(15, 15, 22, 0.8); transition: transform 0.3s, border-color 0.3s;
+        }
+        .sb-card:hover { transform: translateY(-6px); }
+        .sb-card.valk { border-top: 3px solid #2ddc82; }
+        .sb-card.yunq { border-top: 3px solid #e0a020; }
+        .sb-card h3 { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #fff; margin-bottom: 0.3rem; }
+        .sb-card .kind { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
+        .sb-card.valk .kind { color: #2ddc82; }
+        .sb-card.yunq .kind { color: #e0a020; }
+        .sb-card p { color: #bbb; line-height: 1.7; font-size: 0.95rem; }
+
+        .sb-how { max-width: 800px; margin: 0 auto; }
+        .sb-how ol { color: #bbb; line-height: 1.9; padding-left: 1.2rem; }
+        .sb-how ol b { color: var(--accent-gold); }
+
+        @media (max-width: 768px) {
+            .sb-hero h1 { font-size: 2.4rem; }
+            .sb-frame-wrap iframe { height: 80vh; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="../index.html" class="logo-text" style="text-decoration:none;">Imperio de los Sueños</a>
+        <nav id="mainNav">
+            <a href="../index.html#home">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="../launcher/index.html" class="nav-cta">Launcher</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="../UNIVERSO/index.html">Universo</a>
+            <a href="../index.html#about">Nosotros</a>
+        </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <section class="sb-hero">
+        <h1>Space Bridge</h1>
+        <div class="sub">Roguelite de gestión en tiempo real</div>
+        <p class="tagline">Mandas desde un puesto de control: repartes energía, das órdenes a tu tripulación, disparas y eliges el camino. Cinco zonas, muerte definitiva y un jefe final esperando al fondo. Dos mundos, el mismo panel.</p>
+        <a href="#jugar" class="sb-cta"><i class="fas fa-play"></i> Jugar ahora</a>
+    </section>
+
+    <section class="sb-play" id="jugar">
+        <div class="sb-toolbar">
+            <span class="hint"><i class="fas fa-desktop"></i> Se juega mejor en pantalla grande. Dentro del juego, la tecla <kbd>?</kbd> abre el manual.</span>
+            <div style="display:flex; gap:10px;">
+                <button class="sb-btn" id="fsBtn"><i class="fas fa-expand"></i> Pantalla completa</button>
+                <a class="sb-btn" href="game/index.html" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square"></i> Abrir en pestaña nueva</a>
+            </div>
+        </div>
+        <div class="sb-frame-wrap" id="frameWrap">
+            <iframe id="gameFrame" src="game/index.html" title="Space Bridge" allow="fullscreen; autoplay" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <section class="sb-campaigns">
+        <h2 class="section-title">Dos campañas</h2>
+        <div class="sb-grid">
+            <div class="sb-card valk">
+                <h3>◈ Valkiria</h3>
+                <div class="kind">Nave · Ciencia ficción · Fósforo verde</div>
+                <p>Eres el capitán de un carguero reconvertido que lleva datos robados a la Orden Negra. Cinco sectores hasta la flota que puede usarlos, con su acorazado insignia, el <b style="color:#2ddc82;">NIDHOGG</b>, saliendo a buscarte. Por el ventanal ves estrellas en perspectiva y la nave hostil.</p>
+            </div>
+            <div class="sb-card yunq">
+                <h3>▰ El Yunque</h3>
+                <div class="kind">Convoy · Postapocalíptico · Fósforo ámbar</div>
+                <p>Conduces un transporte minero blindado que lleva en el remolque la Simiente, el último banco de semillas sin contaminar. Cinco regiones hasta el valle donde todavía llueve, y su fortaleza rodante, <b style="color:#e0a020;">EL MARISCAL</b>, en la puerta. Por el parabrisas ves la carretera venir hacia ti.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="sb-campaigns sb-how">
+        <h2 class="section-title">Cómo se juega</h2>
+        <ol style="margin-top:2.5rem;">
+            <li><b>Eliges camino</b>: cada salto/tramo cuesta 1 de combustible.</li>
+            <li>Al llegar hay un <b>combate</b>, un evento, un puerto o algo peor.</li>
+            <li><b>Repartes la energía</b> del reactor entre los seis sistemas.</li>
+            <li><b>Das órdenes</b>: puestos de combate, defensa, equipos de reparación.</li>
+            <li><b>Disparas</b> eligiendo a qué parte del enemigo apuntas.</li>
+            <li>Con el botín <b>mejoras</b> y sigues. Al final de la quinta zona, el jefe.</li>
+        </ol>
+        <p style="color:#888; margin-top:1.5rem; text-align:center;">La partida se guarda sola. Al morir se borra: es un roguelite, no hay marcha atrás.</p>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Sobre el Estudio</h3>
+                <p>Imperio de los Sueños es un estudio de desarrollo de videojuegos independiente, apasionado y dedicado a crear experiencias con atmósferas envolventes y sistemas de juego profundos.</p>
+            </div>
+            <div class="socials">
+                <a href="https://x.com/Oscar31741727" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/WygZEc54A8" aria-label="Discord" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../menu.js"></script>
+    <script>
+        // Pantalla completa del marco del juego.
+        document.getElementById('fsBtn').addEventListener('click', () => {
+            const wrap = document.getElementById('frameWrap');
+            if (!document.fullscreenElement) {
+                (wrap.requestFullscreen || wrap.webkitRequestFullscreen || function(){}).call(wrap);
+            } else {
+                document.exitFullscreen();
+            }
+        });
+    </script>
+</body>
+</html>

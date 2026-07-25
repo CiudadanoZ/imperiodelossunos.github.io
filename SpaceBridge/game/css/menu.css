@@ -1,0 +1,111 @@
+/* ============================================================
+   MENÚ — selector de campaña.
+   ============================================================ */
+
+:root{
+  --fosforo:#5cffb1; --fosforo-mate:#2f9c6b; --borde:#1d5c3f; --tinta:#04180f;
+  --acento:#ffb340;
+  --tipo:"Courier New","Consolas",monospace;
+}
+
+*{ box-sizing:border-box; }
+
+html,body{
+  margin:0; height:100%;
+  background:#000; color:#cfe8dc;
+  font-family:var(--tipo); font-size:14px;
+  overflow:auto;
+}
+body::after{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:90;
+  background:repeating-linear-gradient(to bottom,
+    rgba(0,0,0,0) 0 2px, rgba(0,0,0,.30) 3px 4px);
+  mix-blend-mode:multiply;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:91;
+  background:radial-gradient(ellipse at center, rgba(255,255,255,.04) 0%, rgba(0,0,0,.6) 100%);
+}
+
+#envoltorio{
+  min-height:100%; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:28px 20px; gap:22px;
+  background:radial-gradient(ellipse at 50% 40%, #0a1410 0%, #030504 70%, #000 100%);
+}
+
+header.cabecera{ text-align:center; }
+header.cabecera h1{
+  margin:0; font-size:26px; letter-spacing:12px; font-weight:bold;
+  color:#8affc9; text-shadow:0 0 18px rgba(92,255,177,.35);
+}
+header.cabecera p{
+  margin:8px 0 0; font-size:11px; letter-spacing:3px; color:#4d8f74;
+}
+header.cabecera .linea{
+  width:min(720px,80vw); height:1px; margin:14px auto 0;
+  background:linear-gradient(to right, transparent, #2f9c6b, transparent);
+}
+
+#tarjetas{ display:flex; gap:20px; flex-wrap:wrap; justify-content:center; width:100%; max-width:1080px; }
+
+.tarjeta{
+  flex:1 1 420px; max-width:520px;
+  border:1px solid var(--borde); background:var(--panel);
+  display:flex; flex-direction:column;
+  cursor:pointer; position:relative;
+  transition:transform .16s, box-shadow .16s, border-color .16s;
+  text-align:left; padding:0; color:inherit;
+  font-family:inherit;
+}
+.tarjeta:hover, .tarjeta:focus-visible{
+  transform:translateY(-4px);
+  border-color:var(--fosforo);
+  box-shadow:0 0 34px color-mix(in srgb, var(--fosforo) 22%, transparent);
+  outline:none;
+}
+
+.vista{ display:block; width:100%; height:150px; background:#000; border-bottom:1px solid var(--borde); }
+
+.t-cuerpo{ padding:14px 16px 16px; display:flex; flex-direction:column; gap:7px; flex:1; }
+.t-cabeza{ display:flex; align-items:baseline; gap:10px; }
+.t-emblema{ font-size:20px; color:var(--fosforo); text-shadow:0 0 12px var(--fosforo); }
+.t-titulo{ font-size:20px; letter-spacing:5px; color:var(--fosforo); margin:0; font-weight:bold; }
+.t-sub{ font-size:11px; letter-spacing:2px; color:var(--fosforo-mate); }
+.t-genero{
+  font-size:9px; letter-spacing:2px; color:var(--tinta); background:var(--fosforo-mate);
+  padding:3px 7px; align-self:flex-start;
+}
+.t-gancho{ font-size:12px; line-height:1.55; color:#cfe8dc; opacity:.88; margin:2px 0 0; }
+.t-botones{ margin-top:auto; padding-top:6px; display:flex; gap:8px; flex-wrap:wrap; }
+.t-jugar, .t-nueva{
+  border:1px solid var(--fosforo); color:var(--fosforo);
+  background:transparent; padding:7px 16px; font-size:12px; letter-spacing:3px;
+  font-family:inherit; cursor:pointer;
+}
+.t-nueva{ border-color:var(--fosforo-mate); color:var(--fosforo-mate); letter-spacing:2px; }
+.tarjeta:hover .t-jugar{ background:var(--fosforo); color:var(--tinta); }
+.t-jugar:hover, .t-nueva:hover{ background:var(--fosforo); color:var(--tinta) !important; }
+.t-nueva.avisando{ border-color:#ff7a5a; color:#ff7a5a; letter-spacing:1px; }
+.t-nueva.avisando:hover{ background:#ff7a5a; color:#150505 !important; }
+.t-guardado{
+  font-size:10px; letter-spacing:1px; color:var(--acento); opacity:.85; padding-top:6px;
+}
+.t-tecla{
+  position:absolute; top:8px; right:10px; z-index:2;
+  font-size:10px; letter-spacing:1px; color:var(--fosforo);
+  background:rgba(0,0,0,.6); border:1px solid var(--borde); padding:2px 6px;
+}
+
+footer.pie{
+  text-align:center; font-size:11px; color:#3f6d5b; line-height:1.7; max-width:760px;
+}
+footer.pie b{ color:#5f9c84; font-weight:normal; }
+footer.pie kbd{
+  border:1px solid #2a5a47; padding:0 4px; border-radius:2px; font-family:inherit; color:#7fc0a4;
+}
+
+@media (max-width:900px){
+  .tarjeta{ flex:1 1 100%; }
+  header.cabecera h1{ font-size:20px; letter-spacing:7px; }
+}
