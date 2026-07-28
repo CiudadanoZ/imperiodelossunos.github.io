@@ -163,9 +163,12 @@
     transform: translateY(30px);
 }
 
-.feature-card:nth-child(1) { transition-delay: 0.1s; }
-.feature-card:nth-child(2) { transition-delay: 0.3s; }
-.feature-card:nth-child(3) { transition-delay: 0.5s; }
+.feature-card:nth-child(1) { transition-delay: 0.05s; }
+.feature-card:nth-child(2) { transition-delay: 0.15s; }
+.feature-card:nth-child(3) { transition-delay: 0.25s; }
+.feature-card:nth-child(4) { transition-delay: 0.35s; }
+.feature-card:nth-child(5) { transition-delay: 0.45s; }
+.feature-card:nth-child(6) { transition-delay: 0.55s; }
 
 .feature-card.visible {
     opacity: 1;
@@ -197,6 +200,96 @@
     line-height: 1.6;
 }
 
+/* Etiquetas bajo el lore del hero */
+.hero-tags {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: -1.5rem 0 3rem;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    opacity: 0;
+    animation: fadeIn 1s forwards 1s;
+}
+
+.hero-tags i { color: #666; font-style: normal; }
+
+/* Titulo dentro de la seccion de sistemas */
+.features-section .section-title { margin-bottom: 4rem; }
+
+/* Seccion Ascension (El Trono de la Eternidad) */
+.ascension-section {
+    padding: 7rem 5%;
+    background:
+        radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08), transparent 65%),
+        #020204;
+    text-align: center;
+    border-top: 1px solid rgba(212, 175, 55, 0.12);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+.ascension-inner { max-width: 780px; margin: 0 auto; }
+
+.ascension-icon {
+    font-size: 2.6rem;
+    color: var(--accent-gold);
+    margin-bottom: 1.2rem;
+    text-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+}
+
+.ascension-section h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.4rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.ascension-quote {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--accent-gold);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.ascension-desc { color: #aaa; line-height: 1.8; font-size: 1rem; }
+
+/* Seccion Temporada */
+.season-section {
+    padding: 6rem 5%;
+    background: linear-gradient(135deg, #0b0614 0%, #1c0f2e 55%, #0b0614 100%);
+    text-align: center;
+}
+
+.season-inner { max-width: 720px; margin: 0 auto; }
+
+.season-label {
+    display: inline-block;
+    border: 1px solid rgba(145, 70, 255, 0.6);
+    color: #b98cff;
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1.4rem;
+}
+
+.season-section h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.1rem;
+    color: #fff;
+    margin-bottom: 1.2rem;
+}
+
+.season-section p { color: #bfaed6; line-height: 1.8; }
+
 @keyframes slowZoom {
     0% { transform: scale(1.05); }
     100% { transform: scale(1.15); }
@@ -207,4 +300,8 @@
     .lore-text { font-size: 1.1rem; }
     .trailer-container { padding-top: 5rem; }
     .game-desc { font-size: 1.1rem; }
+    .hero-tags { font-size: 0.7rem; gap: 8px; margin-top: -2rem; }
+    .ascension-section h2 { font-size: 1.7rem; }
+    .ascension-quote { font-size: 1.05rem; }
+    .season-section h2 { font-size: 1.5rem; }
 }
