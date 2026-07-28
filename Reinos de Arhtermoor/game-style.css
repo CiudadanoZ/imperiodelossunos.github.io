@@ -290,6 +290,105 @@
 
 .season-section p { color: #bfaed6; line-height: 1.8; }
 
+/* Seccion Gachapon */
+.gacha-section {
+    padding: 6rem 5% 8rem;
+    background: #020204;
+    text-align: center;
+}
+
+.gacha-section .section-title { margin-bottom: 2rem; }
+
+.gacha-intro {
+    color: #aaa;
+    max-width: 640px;
+    margin: 0 auto 3.5rem;
+    line-height: 1.8;
+}
+
+.gacha-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.8rem;
+    max-width: 1250px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.gacha-card {
+    background: rgba(10, 10, 15, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.gacha-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(212, 175, 55, 0.35);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.55);
+}
+
+.gacha-tag {
+    align-self: flex-start;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.gacha-tag.general { border: 1px solid rgba(212, 175, 55, 0.5); color: var(--accent-gold); }
+.gacha-tag.event { border: 1px solid rgba(224, 90, 90, 0.55); color: #ff9d9d; }
+.gacha-tag.season { border: 1px solid rgba(145, 70, 255, 0.6); color: #b98cff; }
+
+.gacha-card h3 {
+    font-family: 'Cinzel', serif;
+    color: #fff;
+    font-size: 1.25rem;
+    margin-bottom: 0.6rem;
+}
+
+.gacha-featured {
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.7;
+}
+
+.gacha-desc {
+    color: #999;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    flex-grow: 1;
+    margin-bottom: 1.2rem;
+}
+
+.gacha-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 0.9rem;
+    font-size: 0.75rem;
+    color: #888;
+    letter-spacing: 0.5px;
+}
+
+.gacha-meta i { color: var(--accent-gold); margin-right: 4px; }
+
+.gacha-note {
+    color: #777;
+    font-size: 0.85rem;
+    margin-top: 2.5rem;
+    font-style: italic;
+}
+
 @keyframes slowZoom {
     0% { transform: scale(1.05); }
     100% { transform: scale(1.15); }
