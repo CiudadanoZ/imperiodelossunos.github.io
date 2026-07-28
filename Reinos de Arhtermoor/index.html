@@ -9,7 +9,7 @@
     <!-- CSS Principal para utilidades y consistencia -->
     <link rel="stylesheet" href="../style.css">
     <!-- CSS Específico del juego -->
-    <link rel="stylesheet" href="game-style.css">
+    <link rel="stylesheet" href="game-style.css?v=2">
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap"
         rel="stylesheet">
@@ -145,46 +145,124 @@
 
     <section class="gacha-section">
         <h2 class="section-title">Gachapón de Tripulantes</h2>
-        <p class="gacha-intro">Recluta aliados legendarios en la Tienda y asígnalos a tu barco para multiplicar tus
-            estadísticas. Cuatro bandos te esperan:</p>
-        <div class="gacha-grid">
-            <div class="gacha-card">
-                <span class="gacha-tag general">Bando General</span>
-                <h3>Tripulación de Aethermoor</h3>
-                <p class="gacha-featured">👴 El Anciano · 🧙‍♀️ La Archimaga · ⚔️ Darius</p>
-                <p class="gacha-desc">El bando de siempre: desde el Marinero Novato hasta el legendario Darius,
-                    invencible en cubierta.</p>
-                <div class="gacha-meta"><span><i class="fas fa-coins"></i> 5.000 oro/tirada</span><span><i
-                            class="fas fa-star"></i> 5% legendario</span></div>
+        <p class="gacha-intro">Recluta aliados en la Tienda y asígnalos a tu barco para multiplicar tus estadísticas.
+            Cuatro bandos te esperan.</p>
+
+        <div class="gacha-carousel">
+            <button class="gacha-arrow prev" id="gachaPrev" aria-label="Bando anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="gacha-viewport">
+                <div class="gacha-track" id="gachaTrack">
+
+                    <!-- 1. Bando General -->
+                    <article class="gacha-slide">
+                        <div class="gacha-art gacha-art--general">
+                            <i class="fas fa-anchor"></i>
+                            <span>Tripulación<br>de Aethermoor</span>
+                        </div>
+                        <div class="gacha-info">
+                            <span class="gacha-tag general">Bando permanente</span>
+                            <h3>Tripulación de Aethermoor</h3>
+                            <p class="gacha-desc">El bando de siempre: desde el Marinero Novato hasta el legendario
+                                Darius, invencible en cubierta.</p>
+                            <ul class="gacha-drops">
+                                <li class="leg"><span class="ico">👴</span><b>El Anciano</b><em>Legendario</em></li>
+                                <li class="leg"><span class="ico">🧙‍♀️</span><b>La Archimaga</b><em>Legendario</em></li>
+                                <li class="leg"><span class="ico">⚔️</span><b>Darius</b><em>Legendario</em></li>
+                                <li class="epi"><span class="ico">⚓</span><b>Capitán de C. Esperanza</b><em>Épico</em></li>
+                            </ul>
+                            <div class="gacha-meta">
+                                <span><i class="fas fa-coins"></i> 5.000 oro</span>
+                                <span><i class="fas fa-dice"></i> x10 por 50.000</span>
+                                <span class="rate"><i class="fas fa-star"></i> 5% legendario</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 2. Deidades y Humanos -->
+                    <article class="gacha-slide">
+                        <div class="gacha-art">
+                            <img src="img/gacha_deidades.jpg" data-carousel alt="Gachapón Deidades y Humanos">
+                        </div>
+                        <div class="gacha-info">
+                            <span class="gacha-tag event">Evento · 4º Aniversario</span>
+                            <h3>Deidades y Humanos</h3>
+                            <p class="gacha-desc">Los señores de The Shadow World cruzan a Aethermoor: deidades,
+                                guerreros de otra dimensión y reliquias del abismo.</p>
+                            <ul class="gacha-drops">
+                                <li class="leg"><span class="ico">👑</span><b>La Dama de la Soledad</b><em>Legendario</em></li>
+                                <li class="leg"><span class="ico">🌑</span><b>El Rey Sombra</b><em>Legendario</em></li>
+                                <li class="epi"><span class="ico">⚔️</span><b>Nozhar</b><em>Épico</em></li>
+                                <li class="epi"><span class="ico">🗡️</span><b>Hoja de Sombra</b><em>Épico</em></li>
+                            </ul>
+                            <div class="gacha-meta">
+                                <span><i class="fas fa-coins"></i> 50.000 oro</span>
+                                <span><i class="fas fa-dice"></i> x10 por 100.000</span>
+                                <span class="rate"><i class="fas fa-star"></i> 2% legendario</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 3. El Clan de los 300 -->
+                    <article class="gacha-slide">
+                        <div class="gacha-art">
+                            <img src="img/gacha_clan300.jpg" data-carousel alt="Gachapón El Clan de los 300">
+                        </div>
+                        <div class="gacha-info">
+                            <span class="gacha-tag event">Evento · 4º Aniversario</span>
+                            <h3>El Clan de los 300</h3>
+                            <p class="gacha-desc">La rebelión de los desfavorecidos contra la ciudad de riquezas.
+                                Trescientos corazones que laten como uno.</p>
+                            <ul class="gacha-drops">
+                                <li class="leg"><span class="ico">🗡️</span><b>Orson Pein</b><em>Legendario</em></li>
+                                <li class="leg"><span class="ico">🥷</span><b>La Ladrona</b><em>Legendario</em></li>
+                                <li class="leg"><span class="ico">🚩</span><b>Estandarte de los 300</b><em>Legendario</em></li>
+                                <li class="epi"><span class="ico">🛡️</span><b>Clan de los 300</b><em>Épico</em></li>
+                            </ul>
+                            <div class="gacha-meta">
+                                <span><i class="fas fa-coins"></i> 50.000 oro</span>
+                                <span><i class="fas fa-dice"></i> x10 por 100.000</span>
+                                <span class="rate"><i class="fas fa-star"></i> 2% legendario</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 4. El Aquelarre del Cuervo -->
+                    <article class="gacha-slide">
+                        <div class="gacha-art">
+                            <img src="img/gacha_aquelarre.jpg" data-carousel alt="Gachapón El Aquelarre del Cuervo">
+                        </div>
+                        <div class="gacha-info">
+                            <span class="gacha-tag season">Mitad de Temporada 4</span>
+                            <h3>El Aquelarre del Cuervo</h3>
+                            <p class="gacha-desc">Brujas de Nóxalis y cazadores de Malleus, aliados a la fuerza contra
+                                un mal mayor: el Devorador de Fe.</p>
+                            <ul class="gacha-drops">
+                                <li class="leg"><span class="ico">👑</span><b>Morgwyn</b><em>Legendario</em></li>
+                                <li class="leg"><span class="ico">✝️</span><b>Hermana Clara</b><em>Legendario</em></li>
+                                <li class="leg"><span class="ico">🪶</span><b>Báculo del Cuervo</b><em>Legendario</em></li>
+                                <li class="epi"><span class="ico">🏹</span><b>Gran Cazador</b><em>Épico</em></li>
+                            </ul>
+                            <div class="gacha-meta">
+                                <span><i class="fas fa-coins"></i> 50.000 oro</span>
+                                <span><i class="fas fa-dice"></i> x10 por 100.000</span>
+                                <span class="rate"><i class="fas fa-star"></i> 2% legendario</span>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
             </div>
-            <div class="gacha-card">
-                <span class="gacha-tag event">Evento · 4º Aniversario</span>
-                <h3>Deidades y Humanos</h3>
-                <p class="gacha-featured">👑 La Dama de la Soledad · 🌑 El Rey Sombra</p>
-                <p class="gacha-desc">Los señores de The Shadow World cruzan a Aethermoor: deidades, guerreros de otra
-                    dimensión y reliquias del abismo.</p>
-                <div class="gacha-meta"><span><i class="fas fa-coins"></i> 50.000 oro/tirada</span><span><i
-                            class="fas fa-star"></i> 2% legendario</span></div>
-            </div>
-            <div class="gacha-card">
-                <span class="gacha-tag event">Evento · 4º Aniversario</span>
-                <h3>El Clan de los 300</h3>
-                <p class="gacha-featured">🗡️ Orson Pein · 🥷 La Ladrona · 🚩 Estandarte de los 300</p>
-                <p class="gacha-desc">La rebelión de los desfavorecidos contra la ciudad de riquezas. Trescientos
-                    corazones que laten como uno.</p>
-                <div class="gacha-meta"><span><i class="fas fa-coins"></i> 50.000 oro/tirada</span><span><i
-                            class="fas fa-star"></i> 2% legendario</span></div>
-            </div>
-            <div class="gacha-card">
-                <span class="gacha-tag season">Mitad de Temporada 4</span>
-                <h3>El Aquelarre del Cuervo</h3>
-                <p class="gacha-featured">👑 Morgwyn, la Gran Maga · ✝️ Hermana Clara · 🪶 Báculo del Cuervo</p>
-                <p class="gacha-desc">La soberana del aquelarre de Nóxalis y la monja que protege a los inocentes,
-                    aliadas contra un mal mayor.</p>
-                <div class="gacha-meta"><span><i class="fas fa-coins"></i> 50.000 oro/tirada</span><span><i
-                            class="fas fa-star"></i> 2% legendario</span></div>
-            </div>
+
+            <button class="gacha-arrow next" id="gachaNext" aria-label="Siguiente bando">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
+
+        <div class="gacha-dots" id="gachaDots"></div>
+
         <p class="gacha-note">Todas las tiradas se pagan con oro del juego. Los bandos de evento rotan: ¡recluta a sus
             legendarios antes de que zarpen!</p>
     </section>
@@ -243,6 +321,52 @@
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.feature-card, .game-desc, .video-wrapper').forEach(el => observer.observe(el));
+
+            // --- Carrusel de gachapones ---
+            const track = document.getElementById('gachaTrack');
+            if (track) {
+                const slides = track.children.length;
+                const dotsBox = document.getElementById('gachaDots');
+                let index = 0;
+
+                // Crear un punto por bando
+                for (let i = 0; i < slides; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = 'gacha-dot' + (i === 0 ? ' active' : '');
+                    dot.setAttribute('aria-label', 'Ver bando ' + (i + 1));
+                    dot.addEventListener('click', () => goTo(i));
+                    dotsBox.appendChild(dot);
+                }
+
+                function goTo(i) {
+                    index = (i + slides) % slides; // da la vuelta en los extremos
+                    track.style.transform = 'translateX(-' + (index * 100) + '%)';
+                    dotsBox.querySelectorAll('.gacha-dot').forEach((d, n) => {
+                        d.classList.toggle('active', n === index);
+                    });
+                }
+
+                document.getElementById('gachaPrev').addEventListener('click', () => goTo(index - 1));
+                document.getElementById('gachaNext').addEventListener('click', () => goTo(index + 1));
+
+                // Flechas del teclado cuando el carrusel está a la vista
+                document.addEventListener('keydown', (e) => {
+                    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+                    const r = track.getBoundingClientRect();
+                    if (r.top > window.innerHeight || r.bottom < 0) return;
+                    goTo(e.key === 'ArrowLeft' ? index - 1 : index + 1);
+                });
+
+                // Deslizar con el dedo en móvil
+                let x0 = null;
+                track.addEventListener('touchstart', e => { x0 = e.changedTouches[0].clientX; }, { passive: true });
+                track.addEventListener('touchend', e => {
+                    if (x0 === null) return;
+                    const dx = e.changedTouches[0].clientX - x0;
+                    if (Math.abs(dx) > 45) goTo(dx > 0 ? index - 1 : index + 1);
+                    x0 = null;
+                }, { passive: true });
+            }
         });
     </script>
     <script src="../menu.js"></script>
