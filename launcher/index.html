@@ -157,6 +157,37 @@
         }
         .notify-link:hover { border-color: var(--accent-gold); }
 
+        /* Aviso de SmartScreen (instalador sin firmar) */
+        .install-note {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            text-align: left;
+            max-width: 620px;
+            margin-top: 1rem;
+            padding: 1rem 1.3rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--accent-gold);
+            border-radius: 10px;
+        }
+
+        .install-note i {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .install-note p {
+            color: #9a9a9a;
+            font-size: 0.85rem;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        .install-note b { color: #ccc; }
+
         /* Características */
         .features-section {
             padding: 7rem 5%;
@@ -273,6 +304,14 @@
             </a>
             <p class="platform-note">Windows 10/11 · Próximamente más plataformas</p>
             <p class="platform-note">¿Quieres el aviso de lanzamiento? <a href="https://discord.gg/WygZEc54A8" target="_blank" class="notify-link">Únete a nuestro Discord</a></p>
+
+            <div class="install-note">
+                <i class="fas fa-shield-halved"></i>
+                <p><b>Al instalarlo, Windows mostrará un aviso.</b> Como somos un estudio independiente, el
+                    instalador aún no está firmado con un certificado digital y SmartScreen avisa por precaución.
+                    Pulsa <b>Más información</b> y luego <b>Ejecutar de todas formas</b>. El archivo se descarga
+                    directamente desde nuestro repositorio oficial en GitHub.</p>
+            </div>
         </div>
     </section>
 
