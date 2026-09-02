@@ -749,18 +749,6 @@ footer {
     box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
 }
 
-.event-link {
-    color: #bbb;
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    transition: color 0.3s;
-}
-
-.event-link:hover { color: var(--accent-gold); }
-.event-link span { display: inline-block; transition: transform 0.25s ease; }
-.event-link:hover span { transform: translateX(4px); }
-
 @media (max-width: 768px) {
     .event-banner { padding: 3.5rem 5%; }
     .event-banner h2 { font-size: 1.55rem; }
