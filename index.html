@@ -38,6 +38,46 @@
         </div>
     </section>
 
+    <!-- =====================================================================
+         APARTADO TEMPORAL · Guerrilla Game Festival 2026
+         Se oculta SOLO automáticamente cuando termine el evento (11/09/2026).
+         Para quitarlo antes: borra esta <section> y el bloque CSS marcado
+         "EVENTO TEMPORAL" en style.css.
+         ===================================================================== -->
+    <section class="event-banner" id="eventoGGF">
+        <div class="event-inner">
+            <span class="event-badge"><i class="fas fa-location-dot"></i> Nos vemos en Madrid</span>
+            <h2>Llevamos <span>The Shadow World</span> al Guerrilla Game Festival</h2>
+            <p class="event-lead">Estaremos en la <b>6ª edición</b> del festival de jóvenes creadores de videojuegos,
+                con un stand donde podrás probar el juego y charlar con nosotros. <b>Los dos días.</b></p>
+
+            <div class="event-facts">
+                <div class="event-fact">
+                    <i class="fas fa-calendar-days"></i>
+                    <span><b>10 y 11 de septiembre</b><small>2026 · Los dos días</small></span>
+                </div>
+                <div class="event-fact">
+                    <i class="fas fa-building-columns"></i>
+                    <span><b>Creative Campus</b><small>Escuela de Diseño · Universidad Europea</small></span>
+                </div>
+                <div class="event-fact">
+                    <i class="fas fa-map-location-dot"></i>
+                    <span><b>Madrid</b><small>C/ María de Molina 39</small></span>
+                </div>
+            </div>
+
+            <div class="event-cta">
+                <a href="https://www.eventbrite.es/e/guerrilla-game-festival-6a-edicion-tickets-1992114032698"
+                   target="_blank" rel="noopener" class="event-btn">
+                    <i class="fas fa-ticket"></i> Consigue tu entrada
+                </a>
+                <a href="https://guerrillagamefestival.es/" target="_blank" rel="noopener" class="event-link">
+                    Web del festival <span aria-hidden="true">&rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <section id="games" class="games-section">
         <h2 class="section-title">Nuestros Juegos</h2>
         <div class="games-grid">
@@ -127,5 +167,16 @@
 
     <script src="script.js"></script>
     <script src="menu.js"></script>
+
+    <!-- EVENTO TEMPORAL: oculta el aviso del festival cuando termine (borrar junto con la sección) -->
+    <script>
+        (function () {
+            var seccion = document.getElementById('eventoGGF');
+            if (!seccion) return;
+            // El evento acaba el 11/09/2026; se oculta a partir del día 12.
+            var fin = new Date(2026, 8, 12, 0, 0, 0); // mes 8 = septiembre
+            if (Date.now() >= fin.getTime()) seccion.remove();
+        })();
+    </script>
 </body>
 </html>
