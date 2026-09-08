@@ -653,7 +653,36 @@ footer {
     overflow: hidden;
 }
 
-.event-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+.event-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+}
+
+/* Cartel oficial del festival */
+.event-poster {
+    display: block;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.event-poster:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 25px rgba(212, 175, 55, 0.2);
+}
+
+.event-poster img { width: 100%; height: auto; display: block; }
+
+/* Columna de texto */
+.event-text { text-align: left; }
 
 .event-badge {
     display: inline-flex;
@@ -690,10 +719,9 @@ footer {
 /* Datos del evento */
 .event-facts {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
 }
 
 .event-fact {
@@ -722,7 +750,6 @@ footer {
 .event-cta {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 1.5rem;
     flex-wrap: wrap;
 }
@@ -747,6 +774,18 @@ footer {
 .event-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+}
+
+@media (max-width: 900px) {
+    .event-inner {
+        grid-template-columns: 1fr;
+        gap: 2.2rem;
+        justify-items: center;
+    }
+    .event-poster { max-width: 330px; }
+    .event-text { text-align: center; }
+    .event-cta { justify-content: center; }
+    .event-fact { width: 100%; }
 }
 
 @media (max-width: 768px) {
