@@ -59,48 +59,24 @@
             margin: 0 auto 2.5rem;
         }
 
-        /* Cuenta atrás */
-        .countdown-label {
+        /* Distintivo de disponible */
+        .release-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.6rem 1.4rem;
+            margin-bottom: 2.2rem;
+            border-radius: 50px;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 3px;
-            font-size: 0.85rem;
-            color: var(--accent-gold);
-            margin-bottom: 1rem;
         }
 
-        .countdown {
-            display: flex;
-            gap: 1.2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 2.5rem;
-        }
-
-        .count-box {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.2rem 1.4rem;
-            min-width: 92px;
-            backdrop-filter: blur(10px);
-        }
-
-        .count-box .num {
-            font-family: 'Cinzel', serif;
-            font-size: 2.6rem;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1;
-        }
-
-        .count-box .lbl {
-            display: block;
-            margin-top: 0.5rem;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #999;
-        }
+        .release-badge i { font-size: 0.7rem; }
 
         .download-area {
             display: flex;
@@ -122,13 +98,6 @@
             text-decoration: none;
             font-size: 1rem;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .btn-download.locked {
-            background: rgba(255, 255, 255, 0.06);
-            color: #8a8a8a;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            cursor: not-allowed;
         }
 
         .btn-download.ready {
@@ -262,8 +231,6 @@
         @media (max-width: 768px) {
             .launcher-hero h1 { font-size: 2.4rem; }
             .launcher-hero .tagline { font-size: 1.05rem; }
-            .count-box { min-width: 70px; padding: 1rem; }
-            .count-box .num { font-size: 1.9rem; }
         }
     </style>
 </head>
@@ -288,22 +255,16 @@
         <h1>Launcher de Imperio de los Sueños</h1>
         <p class="tagline">Un único portal para todos nuestros mundos. Descarga, actualiza y juega a todos los títulos del estudio desde un solo lugar.</p>
 
-        <p class="countdown-label">Lanzamiento · 20 de agosto de 2026</p>
-        <div class="countdown" id="countdown">
-            <div class="count-box"><div class="num" id="cd-days">--</div><span class="lbl">Días</span></div>
-            <div class="count-box"><div class="num" id="cd-hours">--</div><span class="lbl">Horas</span></div>
-            <div class="count-box"><div class="num" id="cd-mins">--</div><span class="lbl">Minutos</span></div>
-            <div class="count-box"><div class="num" id="cd-secs">--</div><span class="lbl">Segundos</span></div>
-        </div>
+        <p class="release-badge"><i class="fas fa-circle-check"></i> Ya disponible · Versión 1.0.0</p>
 
         <div class="download-area">
-            <!-- Cuando el launcher esté disponible, sustituye el href "#" por la URL real del instalador
-                 y el script lo activará automáticamente al llegar la fecha de lanzamiento. -->
-            <a href="#" class="btn-download locked" id="downloadBtn" aria-disabled="true">
-                <i class="fas fa-lock"></i> Disponible el 20 de agosto
+            <!-- Para publicar una versión nueva basta con cambiar este href por la URL de la release. -->
+            <a href="https://github.com/CiudadanoZ/imperiodelossunos.github.io/releases/download/v1.0.0/LauncherIS-Global-Setup-1.0.0.exe"
+               class="btn-download ready" id="downloadBtn">
+                <i class="fas fa-download"></i> Descargar ahora
             </a>
-            <p class="platform-note">Windows 10/11 · Próximamente más plataformas</p>
-            <p class="platform-note">¿Quieres el aviso de lanzamiento? <a href="https://discord.gg/WygZEc54A8" target="_blank" class="notify-link">Únete a nuestro Discord</a></p>
+            <p class="platform-note">Windows 10/11 · 104 MB · Próximamente más plataformas</p>
+            <p class="platform-note">¿Dudas o quieres avisos de nuevas versiones? <a href="https://discord.gg/WygZEc54A8" target="_blank" class="notify-link">Únete a nuestro Discord</a></p>
 
             <div class="install-note">
                 <i class="fas fa-shield-halved"></i>
@@ -368,50 +329,5 @@
     </footer>
 
     <script src="../menu.js"></script>
-    <script>
-        // Fecha de lanzamiento del launcher: 20 de agosto de 2026
-        const launchDate = new Date('2026-08-20T00:00:00').getTime();
-        const elDays = document.getElementById('cd-days');
-        const elHours = document.getElementById('cd-hours');
-        const elMins = document.getElementById('cd-mins');
-        const elSecs = document.getElementById('cd-secs');
-        const downloadBtn = document.getElementById('downloadBtn');
-        // URL real del instalador (rellénala cuando esté lista). Si sigue siendo '#', el botón
-        // mostrará "Descargar ahora" pero no enlazará a ningún archivo.
-        const DOWNLOAD_URL = 'https://github.com/CiudadanoZ/imperiodelossunos.github.io/releases/download/v1.0.0/LauncherIS-Global-Setup-1.0.0.exe';
-
-        function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-        function unlockDownload() {
-            downloadBtn.classList.remove('locked');
-            downloadBtn.classList.add('ready');
-            downloadBtn.removeAttribute('aria-disabled');
-            downloadBtn.href = DOWNLOAD_URL;
-            downloadBtn.innerHTML = '<i class="fas fa-download"></i> Descargar ahora';
-        }
-
-        function tick() {
-            const diff = launchDate - Date.now();
-            if (diff <= 0) {
-                elDays.textContent = '0';
-                elHours.textContent = elMins.textContent = elSecs.textContent = '00';
-                unlockDownload();
-                clearInterval(timer);
-                return;
-            }
-            elDays.textContent = Math.floor(diff / 86400000);
-            elHours.textContent = pad(Math.floor((diff % 86400000) / 3600000));
-            elMins.textContent = pad(Math.floor((diff % 3600000) / 60000));
-            elSecs.textContent = pad(Math.floor((diff % 60000) / 1000));
-        }
-
-        const timer = setInterval(tick, 1000);
-        tick();
-
-        // Evita la navegación mientras el botón está bloqueado
-        downloadBtn.addEventListener('click', (e) => {
-            if (downloadBtn.classList.contains('locked') || DOWNLOAD_URL === '#') e.preventDefault();
-        });
-    </script>
 </body>
 </html>

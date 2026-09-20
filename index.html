@@ -82,6 +82,71 @@
         </div>
     </section>
 
+    <!-- =====================================================================
+         LANZAMIENTO · The Shadow World: Origin (20 de octubre de 2026)
+         La cuenta atrás se convierte sola en "Ya disponible" al llegar la fecha,
+         así que nunca se queda marcando cero. Cuando publiques el juego, cambia
+         el href del botón .origin-btn--main por el enlace de descarga.
+         ===================================================================== -->
+    <section class="origin-section" id="tswOrigin">
+        <div class="origin-inner">
+            <div class="origin-art">
+                <img src="img/tsw-origin.jpg"
+                     alt="Ilustración de The Shadow World: Origin. El Rey Brujo coronado se alza entre un reino de luz dorada y una ciudadela en llamas, mientras dos héroes contemplan la escena.">
+            </div>
+
+            <div class="origin-info">
+                <span class="origin-badge"><i class="fas fa-book-skull"></i> Nueva entrega</span>
+                <h2>The Shadow World: <span>Origin</span></h2>
+                <p class="origin-tagline">¿Una última aventura?</p>
+                <p class="origin-lead">
+                    Antes de que el Rey Brujo rompiera su sello, alguien escribió la primera página.
+                    <b>Origin</b> vuelve al principio de todo: a los Ancianos Eruditos, al libro prohibido
+                    y a la decisión que condenó al mundo mucho antes de que existieran héroes para salvarlo.
+                </p>
+
+                <p class="origin-when"><i class="fas fa-calendar-day"></i> Lanzamiento · <b>20 de octubre de 2026</b></p>
+
+                <div class="origin-countdown" id="originCountdown" aria-live="polite">
+                    <div class="origin-box"><span class="num" id="og-days">--</span><span class="lbl">Días</span></div>
+                    <div class="origin-box"><span class="num" id="og-hours">--</span><span class="lbl">Horas</span></div>
+                    <div class="origin-box"><span class="num" id="og-mins">--</span><span class="lbl">Minutos</span></div>
+                    <div class="origin-box"><span class="num" id="og-secs">--</span><span class="lbl">Segundos</span></div>
+                </div>
+
+                <div class="origin-cta">
+                    <a href="TSW_web/index.html" class="origin-btn origin-btn--main" id="originMainBtn">
+                        <i class="fas fa-scroll"></i> Conoce The Shadow World
+                    </a>
+                    <a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener" class="origin-btn origin-btn--ghost">
+                        <i class="fab fa-discord"></i> Avísame del lanzamiento
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="origin-features">
+            <article class="origin-feature">
+                <i class="fas fa-feather-pointed"></i>
+                <h3>El origen del libro</h3>
+                <p>La historia anterior a la historia: cómo los Ancianos Eruditos forjaron el grimorio
+                   que acabaría devorando el mundo, y por qué decidieron sellarlo en lugar de destruirlo.</p>
+            </article>
+            <article class="origin-feature">
+                <i class="fas fa-chess-king"></i>
+                <h3>Tres mundos, un mismo abismo</h3>
+                <p>El reino de luz, la ciudadela ardiente y las ruinas que quedan entre ambos.
+                   Tres caras de una misma corrupción y un solo rey coronado esperando en el centro.</p>
+            </article>
+            <article class="origin-feature">
+                <i class="fas fa-hourglass-end"></i>
+                <h3>¿Una última aventura?</h3>
+                <p>Cuatro años después del primer capítulo, la saga se acerca a su cierre.
+                   Todo lo que empezó con una página escrita en magia prohibida termina aquí.</p>
+            </article>
+        </div>
+    </section>
+
     <section id="games" class="games-section">
         <h2 class="section-title">Nuestros Juegos</h2>
         <div class="games-grid">
@@ -171,6 +236,43 @@
 
     <script src="script.js"></script>
     <script src="menu.js"></script>
+
+    <!-- Cuenta atrás de The Shadow World: Origin -->
+    <script>
+        (function () {
+            var caja = document.getElementById('originCountdown');
+            if (!caja) return;
+
+            var lanzamiento = new Date(2026, 9, 20, 0, 0, 0).getTime(); // mes 9 = octubre
+            var dias = document.getElementById('og-days');
+            var horas = document.getElementById('og-hours');
+            var mins = document.getElementById('og-mins');
+            var segs = document.getElementById('og-secs');
+            var reloj;
+
+            function dosDigitos(n) { return n < 10 ? '0' + n : '' + n; }
+
+            // Al llegar la fecha la cuenta atrás desaparece y deja un aviso de "Ya disponible",
+            // para que nunca se quede marcando ceros.
+            function yaDisponible() {
+                clearInterval(reloj);
+                caja.className = 'origin-live';
+                caja.innerHTML = '<i class="fas fa-circle-check"></i> Ya disponible';
+            }
+
+            function actualizar() {
+                var resto = lanzamiento - Date.now();
+                if (resto <= 0) { yaDisponible(); return; }
+                dias.textContent = Math.floor(resto / 86400000);
+                horas.textContent = dosDigitos(Math.floor((resto % 86400000) / 3600000));
+                mins.textContent = dosDigitos(Math.floor((resto % 3600000) / 60000));
+                segs.textContent = dosDigitos(Math.floor((resto % 60000) / 1000));
+            }
+
+            actualizar();
+            reloj = setInterval(actualizar, 1000);
+        })();
+    </script>
 
     <!-- EVENTO TEMPORAL: oculta el aviso del festival cuando termine (borrar junto con la sección) -->
     <script>

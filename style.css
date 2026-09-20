@@ -795,3 +795,271 @@ footer {
     .event-fact { width: 100%; min-width: 0; }
 }
 /* ===================== FIN EVENTO TEMPORAL ===================== */
+
+/* =====================================================================
+   LANZAMIENTO · The Shadow World: Origin
+   Apartado destacado del próximo lanzamiento (20/10/2026).
+   Para retirarlo cuando deje de ser novedad, borra este bloque, la
+   <section id="tswOrigin"> de index.html y su script de cuenta atrás.
+   ===================================================================== */
+.origin-section {
+    position: relative;
+    padding: 6rem 2rem;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.10), transparent 55%),
+        radial-gradient(circle at 85% 30%, rgba(155, 25, 25, 0.16), transparent 55%),
+        linear-gradient(180deg, #08060a 0%, #120a10 55%, #08060a 100%);
+    border-top: 1px solid rgba(212, 175, 55, 0.18);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+    overflow: hidden;
+}
+
+.origin-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 3.5rem;
+    align-items: center;
+}
+
+/* --- Ilustración --- */
+.origin-art {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.origin-art:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 70px rgba(155, 25, 25, 0.45);
+}
+
+.origin-art img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- Texto --- */
+.origin-info { text-align: left; }
+
+.origin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0.5rem 1.2rem;
+    margin-bottom: 1.4rem;
+    border-radius: 50px;
+    background: rgba(155, 25, 25, 0.18);
+    border: 1px solid rgba(220, 70, 60, 0.45);
+    color: #e8846f;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.origin-info h2 {
+    font-size: 2.6rem;
+    line-height: 1.15;
+    margin-bottom: 0.3rem;
+    color: #fff;
+}
+
+.origin-info h2 span {
+    background: linear-gradient(90deg, var(--accent-gold), #f0d98a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.origin-tagline {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #c9a227;
+    margin-bottom: 1.5rem;
+}
+
+.origin-lead {
+    color: #c3c3c8;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    margin-bottom: 1.8rem;
+}
+
+.origin-lead b { color: #ededf0; }
+
+.origin-when {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: #9a9aa2;
+    margin-bottom: 1.2rem;
+}
+
+.origin-when i { color: var(--accent-gold); }
+.origin-when b { color: #fff; }
+
+/* --- Cuenta atrás --- */
+.origin-countdown {
+    display: flex;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.2rem;
+}
+
+.origin-box {
+    flex: 1 1 80px;
+    min-width: 80px;
+    padding: 1rem 0.6rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+}
+
+.origin-box .num {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 2.1rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+}
+
+.origin-box .lbl {
+    display: block;
+    margin-top: 0.45rem;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #8b8b93;
+}
+
+/* Sustituye a la cuenta atrás cuando llega el día del lanzamiento */
+.origin-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.7rem 1.5rem;
+    margin-bottom: 2.2rem;
+    border-radius: 50px;
+    background: rgba(212, 175, 55, 0.14);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+/* --- Botones --- */
+.origin-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.origin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.9rem 1.8rem;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+}
+
+.origin-btn--main {
+    background: linear-gradient(45deg, var(--accent-gold), #b8860b);
+    color: #0a0a0a;
+    box-shadow: 0 6px 22px rgba(212, 175, 55, 0.35);
+}
+
+.origin-btn--main:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.55);
+}
+
+.origin-btn--ghost {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #ddd;
+}
+
+.origin-btn--ghost:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.09);
+}
+
+/* --- Tres claves de la entrega --- */
+.origin-features {
+    max-width: 1180px;
+    margin: 4rem auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.origin-feature {
+    padding: 1.8rem 1.6rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-top: 2px solid rgba(212, 175, 55, 0.5);
+    border-radius: 12px;
+    transition: transform 0.35s ease, background 0.35s ease;
+}
+
+.origin-feature:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.origin-feature i {
+    font-size: 1.5rem;
+    color: var(--accent-gold);
+    margin-bottom: 0.9rem;
+}
+
+.origin-feature h3 {
+    font-size: 1.12rem;
+    color: #fff;
+    margin-bottom: 0.6rem;
+}
+
+.origin-feature p {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: #9a9aa2;
+}
+
+@media (max-width: 900px) {
+    .origin-section { padding: 4rem 1.3rem; }
+    .origin-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .origin-info { text-align: center; }
+    .origin-info h2 { font-size: 2rem; }
+    .origin-when,
+    .origin-countdown,
+    .origin-cta { justify-content: center; }
+    .origin-box { flex: 1 1 70px; min-width: 70px; }
+    .origin-box .num { font-size: 1.7rem; }
+    .origin-features { margin-top: 3rem; }
+}
+
+@media (max-width: 480px) {
+    .origin-info h2 { font-size: 1.65rem; }
+    .origin-btn { width: 100%; justify-content: center; }
+}
+/* ============== FIN LANZAMIENTO · The Shadow World: Origin ============== */
