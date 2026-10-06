@@ -3,37 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="La Ciudadela de Valdoria — MMORPG 3D de fantasía oscura de Imperio de los Sueños. En desarrollo.">
+    <meta name="description" content="La Ciudadela de Valdoria — MMORPG de fantasía oscura en pixel art de Imperio de los Sueños. Un continente vivo, mazmorras sin fondo y botín aleatorio. Juega gratis en el navegador.">
     <title>La Ciudadela de Valdoria | Imperio de los Sueños</title>
-    <link rel="stylesheet" href="../style.css?v=4">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="La Ciudadela de Valdoria | Imperio de los Sueños">
+    <meta property="og:description" content="MMORPG de fantasía oscura en pixel art. Un continente vivo, seis comarcas, mazmorras sin fondo y botín aleatorio. Gratis en el navegador.">
+    <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/valdoria/ciudadela.jpg">
+    <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/Valdoria/index.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="La Ciudadela de Valdoria">
+    <meta name="twitter:description" content="MMORPG de fantasía oscura en pixel art. Gratis en el navegador.">
+    <meta name="twitter:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/valdoria/ciudadela.jpg">
+
+    <link rel="stylesheet" href="../style.css?v=5">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --ember: #e8622a; --ember-soft: #ffb070; }
+        :root { --ember: #e8622a; --ember-soft: #ffb070; --oro: #f2dc9a; }
 
+        /* ------------------------------------------------------------ Portada */
         .vd-hero {
             position: relative; text-align: center;
             padding: 8rem 5% 3.5rem; overflow: hidden;
         }
+        /* Una toma real del juego de fondo, oscurecida para que se lea el texto */
         .vd-hero::before {
+            content: ''; position: absolute; inset: 0; z-index: -2;
+            background: url('../img/valdoria/ciudadela.jpg') center 35% / cover no-repeat;
+            opacity: 0.5;
+        }
+        .vd-hero::after {
             content: ''; position: absolute; inset: 0; z-index: -1;
             background:
-                radial-gradient(circle at 50% 0%, rgba(232, 98, 42, 0.18), transparent 55%),
-                radial-gradient(ellipse at 50% 100%, rgba(120, 30, 10, 0.35), transparent 65%),
-                #0a0503;
+                radial-gradient(circle at 50% 0%, rgba(232, 98, 42, 0.22), transparent 55%),
+                linear-gradient(180deg, rgba(10,5,3,0.75) 0%, rgba(10,5,3,0.55) 45%, #0a0503 100%);
         }
         .vd-logo {
             width: 620px; max-width: 94%; height: auto; margin: 0 auto 1rem;
-            filter: drop-shadow(0 10px 40px rgba(0,0,0,0.7));
+            filter: drop-shadow(0 10px 40px rgba(0,0,0,0.85));
             animation: float 6s ease-in-out infinite;
         }
         .vd-status {
             display: inline-block; margin-bottom: 1.2rem;
             border: 1px solid var(--ember); color: var(--ember-soft);
             padding: 6px 18px; border-radius: 50px;
+            background: rgba(10, 5, 3, 0.6);
             font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
         }
-        .vd-hero .pitch { color: #e5d8cf; max-width: 760px; margin: 0 auto 2rem; font-size: 1.15rem; line-height: 1.7; }
+        .vd-hero .pitch {
+            color: #ece1d9; max-width: 780px; margin: 0 auto 2rem;
+            font-size: 1.15rem; line-height: 1.75;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+        }
         .vd-cta {
             display: inline-flex; align-items: center; gap: 12px;
             padding: 1.1rem 2.4rem; border-radius: 50px;
@@ -48,12 +70,71 @@
         .vd-tag {
             text-align: center; color: var(--ember-soft); letter-spacing: 3px;
             text-transform: uppercase; font-size: 0.85rem; margin-top: 0.5rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
         }
 
         .vd-section { padding: 4rem 5%; max-width: 1150px; margin: 0 auto; }
         .vd-section h2 { text-align: center; }
+        .vd-intro { text-align: center; color: #b7a99f; max-width: 760px; margin: 1.5rem auto 0; line-height: 1.8; }
+        .vd-intro b { color: var(--ember-soft); }
 
-        /* Rejilla de características */
+        /* ------------------------------------------------- Aviso de actualización */
+        .vd-update {
+            position: relative;
+            padding: 4.5rem 5%;
+            background:
+                linear-gradient(180deg, rgba(10,5,3,0.94), rgba(14,8,5,0.9)),
+                url('../img/valdoria/continente.jpg') center / cover no-repeat;
+            border-top: 1px solid rgba(242, 220, 154, 0.18);
+            border-bottom: 1px solid rgba(242, 220, 154, 0.18);
+        }
+        .vd-update-inner { max-width: 1150px; margin: 0 auto; }
+        .vd-badge {
+            display: inline-flex; align-items: center; gap: 9px;
+            padding: 0.45rem 1.2rem; border-radius: 50px;
+            background: rgba(242, 220, 154, 0.12); border: 1px solid rgba(242, 220, 154, 0.45);
+            color: var(--oro); font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 3px;
+        }
+        .vd-update h2 { text-align: left; font-size: 2.3rem; color: #fff; margin: 1rem 0 0.4rem; }
+        .vd-update h2 span {
+            background: linear-gradient(90deg, var(--oro), #e8b24a);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .vd-update .sub { color: #b7a99f; margin-bottom: 2.5rem; }
+
+        .vd-news { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.3rem; }
+        .vd-new {
+            padding: 1.5rem 1.6rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(242, 220, 154, 0.16);
+            border-top: 2px solid rgba(242, 220, 154, 0.5);
+            border-radius: 10px;
+        }
+        .vd-new h3 { font-family: 'Cinzel', serif; font-size: 1.08rem; color: var(--oro); margin-bottom: 0.5rem; }
+        .vd-new p { color: #a99c92; font-size: 0.9rem; line-height: 1.7; }
+
+        /* Cifras del juego */
+        /* Cuatro y cuatro: con auto-fit quedaban siete y una huerfana */
+        .vd-figures {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 1rem; margin-top: 2.5rem;
+        }
+        .vd-figure {
+            text-align: center; padding: 1.1rem 0.6rem;
+            background: rgba(0,0,0,0.35); border: 1px solid rgba(242, 220, 154, 0.16);
+            border-radius: 10px;
+        }
+        .vd-figure b { display: block; font-family: 'Cinzel', serif; font-size: 1.9rem; color: #fff; line-height: 1; }
+        .vd-figure span { display: block; margin-top: 0.4rem; font-size: 0.72rem; color: #8a7d73; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        .vd-systems {
+            margin-top: 1.8rem; text-align: center;
+            color: #8a7d73; font-size: 0.88rem; line-height: 1.9;
+        }
+        .vd-systems b { color: #c6b8ac; font-weight: 600; }
+
+        /* ---------------------------------------------------- Rejilla de tarjetas */
         .vd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.6rem; margin-top: 3rem; }
         .vd-card {
             background: rgba(20, 12, 8, 0.7); border: 1px solid rgba(232, 98, 42, 0.18);
@@ -63,6 +144,31 @@
         .vd-card i { font-size: 2rem; color: var(--ember); margin-bottom: 0.9rem; }
         .vd-card h3 { color: #fff; font-size: 1.2rem; margin-bottom: 0.5rem; font-family: 'Cinzel', serif; }
         .vd-card p { color: #b7a99f; font-size: 0.93rem; line-height: 1.6; }
+
+        /* Tarjeta con captura del juego */
+        .vd-shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.6rem; margin-top: 3rem; }
+        .vd-shot {
+            background: rgba(20, 12, 8, 0.7); border: 1px solid rgba(232, 98, 42, 0.18);
+            border-radius: 14px; overflow: hidden; transition: transform 0.35s, border-color 0.35s;
+        }
+        .vd-shot:hover { transform: translateY(-6px); border-color: rgba(232, 98, 42, 0.5); }
+        .vd-shot img {
+            width: 100%; height: auto; display: block;
+            border-bottom: 1px solid rgba(232, 98, 42, 0.18);
+        }
+        .vd-shot-txt { padding: 1.5rem 1.6rem; }
+        .vd-shot-txt h3 { color: #fff; font-size: 1.2rem; margin-bottom: 0.5rem; font-family: 'Cinzel', serif; }
+        .vd-shot-txt p { color: #b7a99f; font-size: 0.93rem; line-height: 1.65; }
+
+        /* Comarcas */
+        .vd-lands { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+        .vd-land {
+            padding: 1.1rem 1.3rem; border-radius: 10px;
+            background: rgba(20, 12, 8, 0.6); border: 1px solid rgba(232, 98, 42, 0.15);
+            border-left: 3px solid var(--ember);
+        }
+        .vd-land b { display: block; color: var(--ember-soft); font-family: 'Cinzel', serif; margin-bottom: 0.2rem; }
+        .vd-land span { color: #a99c92; font-size: 0.85rem; line-height: 1.6; }
 
         /* Razas y clases */
         .vd-pills { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 2.5rem; }
@@ -74,6 +180,65 @@
         .vd-pill span { color: #a99c92; font-size: 0.85rem; }
 
         .vd-note { text-align: center; color: #8a7d73; margin-top: 2rem; font-size: 0.9rem; }
+        .vd-note b { color: #c6b8ac; }
+
+        /* ---------------------------------------------------------- Galería */
+        .vd-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.1rem; margin-top: 3rem; }
+        .vd-gallery figure {
+            margin: 0; border-radius: 12px; overflow: hidden; background: #000;
+            border: 1px solid rgba(232, 98, 42, 0.18);
+        }
+        .vd-gallery img { width: 100%; height: auto; display: block; transition: transform 0.5s ease; }
+        .vd-gallery figure:hover img { transform: scale(1.05); }
+        .vd-gallery figcaption {
+            padding: 0.65rem 1rem; background: rgba(0,0,0,0.6);
+            color: #a99c92; font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase;
+        }
+
+        /* ------------------------------------------------------------ Acto II */
+        .vd-next { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 3rem; align-items: center; margin-top: 3rem; }
+        .vd-map {
+            border-radius: 14px; overflow: hidden;
+            border: 1px solid rgba(232, 98, 42, 0.25);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+        .vd-map img { width: 100%; height: auto; display: block; }
+        .vd-places { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+        .vd-places li {
+            display: flex; gap: 14px; align-items: flex-start;
+            padding: 0.7rem 0; border-bottom: 1px solid rgba(232, 98, 42, 0.12);
+        }
+        .vd-places li:last-child { border-bottom: 0; }
+        .vd-places .num {
+            flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+            background: rgba(242, 220, 154, 0.15); border: 1px solid rgba(242, 220, 154, 0.5);
+            color: var(--oro); font-size: 0.8rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .vd-places b { color: #ece1d9; font-family: 'Cinzel', serif; }
+
+        /* Avisos */
+        .vd-warn {
+            display: flex; gap: 14px; align-items: flex-start;
+            max-width: 1150px; margin: 0 auto; padding: 1.2rem 1.5rem;
+            background: rgba(232, 98, 42, 0.07); border: 1px solid rgba(232, 98, 42, 0.28);
+            border-radius: 10px; color: #a99c92; font-size: 0.87rem; line-height: 1.7;
+        }
+        .vd-warn i { color: var(--ember); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+        .vd-warn b { color: #ece1d9; }
+
+        @media (max-width: 900px) {
+            .vd-next { grid-template-columns: 1fr; gap: 2.2rem; }
+            .vd-map { max-width: 420px; margin: 0 auto; }
+        }
+        @media (max-width: 620px) {
+            .vd-figures { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .vd-update h2 { font-size: 1.7rem; }
+            .vd-figure b { font-size: 1.6rem; }
+            .vd-cta { width: 100%; justify-content: center; }
+        }
     </style>
 </head>
 <body>
@@ -92,39 +257,108 @@
         </button>
     </header>
 
+    <!-- =========================================================== PORTADA -->
     <section class="vd-hero">
         <img src="../img/valdoria.png" alt="La Ciudadela de Valdoria" class="vd-logo">
         <div class="vd-status"><i class="fas fa-circle" style="color:#3fb950; font-size:0.55rem; vertical-align:middle;"></i> Servidor en línea · Juega gratis en el navegador</div>
-        <p class="pitch">Un MMORPG 3D de vista cenital y fantasía oscura. Crea tu héroe, aparece en la plaza de la Ciudadela amurallada y adéntrate en un mundo persistente de llanuras, bosques, criptas y ciénagas repleto de criaturas, misiones y otros jugadores. Cuentas y personajes guardados en el servidor: entra desde cualquier equipo y continúa donde lo dejaste.</p>
+        <p class="pitch">Un MMORPG de fantasía oscura dibujado a mano en pixel art. Crea tu héroe, aparece en la plaza de la Ciudadela amurallada y recorre un continente entero de praderas, bosques, ciénagas y cumbres heladas, con criaturas, misiones, mazmorras y otros jugadores. Tu cuenta vive en el servidor: entra desde cualquier equipo y sigue donde lo dejaste.</p>
         <a href="https://ciudadela-valdoria.onrender.com" target="_blank" rel="noopener" class="vd-cta"><i class="fas fa-play"></i> Jugar ahora</a>
-        <p style="margin-top:1rem;"><a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener" style="color:#8a7d73; text-decoration:none; font-size:0.85rem;"><i class="fab fa-discord"></i> Únete al Discord</a></p>
-        <div class="vd-tag">MMORPG 3D · Fantasía oscura · Mundo persistente</div>
+        <p style="margin-top:1rem;"><a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener" style="color:#c6b8ac; text-decoration:none; font-size:0.85rem;"><i class="fab fa-discord"></i> Únete al Discord</a></p>
+        <div class="vd-tag">MMORPG · Pixel art · Fantasía oscura · Mundo persistente</div>
     </section>
 
-    <section class="vd-section">
-        <h2 class="section-title">Un mundo vivo</h2>
-        <div class="vd-grid">
-            <div class="vd-card">
-                <i class="fas fa-fort-awesome"></i>
-                <h3>La Ciudadela</h3>
-                <p>Plaza amurallada con posada, forja, mercado y capilla. Zona segura: las criaturas no entran y aquí no hay JcJ. Tu refugio entre expedición y expedición.</p>
+    <!-- ================================================ NUEVA ACTUALIZACIÓN -->
+    <section class="vd-update">
+        <div class="vd-update-inner">
+            <span class="vd-badge"><i class="fas fa-bolt"></i> La mayor actualización hasta la fecha</span>
+            <h2>Nueva actualización: <span>El Continente</span></h2>
+            <p class="sub">El juego entero, redibujado y ampliado.</p>
+
+            <div class="vd-news">
+                <article class="vd-new">
+                    <h3>Nuevo estilo pixel art</h3>
+                    <p>Héroes, NPCs, 19 criaturas, monturas y todo el escenario dibujados a mano, al estilo de los RPG de 16 bits.</p>
+                </article>
+                <article class="vd-new">
+                    <h3>Un continente vivo</h3>
+                    <p>Adiós al mundo redondo: costa con cabos, fiordos e islotes, mar con oleaje, caminos y miles de detalles en cada bioma.</p>
+                </article>
+                <article class="vd-new">
+                    <h3>Las Profundidades</h3>
+                    <p>Una mazmorra sin fondo bajo la Ciudadela. Cada piso, más duro; sus guardianes guardan el set abisal.</p>
+                </article>
+                <article class="vd-new">
+                    <h3>Botín aleatorio</h3>
+                    <p>75 objetos, 13 afijos con 4 grados de calidad y 6 poderes legendarios: ningún objeto sale igual que otro.</p>
+                </article>
+                <article class="vd-new">
+                    <h3>Ecos y la forja de Bramm</h3>
+                    <p>Sigue progresando tras el nivel 15 con 9 Ecos. Bramm retempla y reforja los afijos de tu equipo.</p>
+                </article>
+                <article class="vd-new">
+                    <h3>Combate más profundo</h3>
+                    <p>Crítico, daño crítico, velocidad de ataque, bloqueo y reducción de daño. Y un 91 % menos de tráfico de red.</p>
+                </article>
             </div>
-            <div class="vd-card">
-                <i class="fas fa-tree"></i>
-                <h3>El exterior</h3>
-                <p>Llanuras, bosque denso, ruinas de un templo, el Lago de los Ciervos y la Ciénaga de los Ahogados. Lobos, jabalíes, osos, no-muertos y jefes como el Alfa Sombrío o el Rey del Fango.</p>
+
+            <div class="vd-figures">
+                <div class="vd-figure"><b>6</b><span>comarcas</span></div>
+                <div class="vd-figure"><b>19</b><span>tipos de criatura</span></div>
+                <div class="vd-figure"><b>6+1</b><span>jefes + el Coloso</span></div>
+                <div class="vd-figure"><b>3+1</b><span>criptas + Profundidades</span></div>
+                <div class="vd-figure"><b>4</b><span>razas</span></div>
+                <div class="vd-figure"><b>3</b><span>clases</span></div>
+                <div class="vd-figure"><b>+20</b><span>misiones</span></div>
+                <div class="vd-figure"><b>8</b><span>piedras rúnicas</span></div>
             </div>
-            <div class="vd-card">
-                <i class="fas fa-dungeon"></i>
-                <h3>Las Criptas</h3>
-                <p>Mazmorras subterráneas de luz espectral con ratas, esqueletos guardianes y el temible Señor de la Cripta. Mejor en grupo. Además, criptas menores repartidas por el mundo.</p>
-            </div>
+
+            <p class="vd-systems">Y además: <b>Grupos · Gremios · Subastas · Comercio · JcJ · Clasificaciones · Pesca · Cocina · Artesanía · Encargos diarios y semanales · 3 monturas · 2 reinos</b></p>
         </div>
     </section>
 
+    <!-- ======================================================= UN MUNDO VIVO -->
+    <section class="vd-section">
+        <h2 class="section-title">Un continente, seis comarcas</h2>
+        <p class="vd-intro">El mundo no es un prado plano: el terreno tiene <b>altura real</b>. Se sube a las Cumbres y se baja a la Ciénaga, y cuanto más te alejas de la muralla, más peligroso es lo que encuentras.</p>
+
+        <div class="vd-shots">
+            <article class="vd-shot">
+                <img src="../img/valdoria/ciudadela.jpg" alt="Vista aérea de la Ciudadela de Valdoria amurallada, con sus torres, la puerta sur y la fuente central." loading="lazy">
+                <div class="vd-shot-txt">
+                    <h3>La Ciudadela</h3>
+                    <p>Plaza amurallada con posada, forja, mercado, capilla, establo y tablón de encargos. Zona segura: las criaturas no entran y aquí no hay JcJ.</p>
+                </div>
+            </article>
+            <article class="vd-shot">
+                <img src="../img/valdoria/continente.jpg" alt="El continente de Valdoria visto desde el mar, con su costa, el lago y la Ciudadela al fondo." loading="lazy">
+                <div class="vd-shot-txt">
+                    <h3>El continente</h3>
+                    <p>Costa con cabos, fiordos e islotes, mar con oleaje y caminos que cruzan el reino. Ocho piedras rúnicas para viajar entre lo que ya has descubierto.</p>
+                </div>
+            </article>
+            <article class="vd-shot">
+                <img src="../img/valdoria/cripta.jpg" alt="El Señor de la Cripta en su trono, flanqueado por dos esqueletos guardianes bajo luz espectral." loading="lazy">
+                <div class="vd-shot-txt">
+                    <h3>Bajo tierra</h3>
+                    <p>Tres criptas de luz espectral con sus jefes, y <b style="color:var(--ember-soft)">Las Profundidades</b>: una mazmorra sin fondo bajo la Ciudadela donde cada piso es más duro que el anterior.</p>
+                </div>
+            </article>
+        </div>
+
+        <div class="vd-lands">
+            <div class="vd-land"><b>Praderas del Sur</b><span>La ruta de inicio: el camino de la puerta, el Alfa Sombrío y el círculo de piedras.</span></div>
+            <div class="vd-land"><b>Llanura de Valdoria</b><span>Llana y abierta, con la colina y la cripta de Nyra.</span></div>
+            <div class="vd-land"><b>Bosque del Oeste</b><span>Arbolado, territorio de jabalíes y Cripta del Bosque.</span></div>
+            <div class="vd-land"><b>Colinas del Norte</b><span>Onduladas, con el Lago de los Ciervos y las Ruinas de los osos.</span></div>
+            <div class="vd-land"><b>Ciénaga de los Ahogados</b><span>Hondonada encharcada de ahogados, chamanes y el Rey del Fango.</span></div>
+            <div class="vd-land"><b>Cumbres Heladas</b><span>Meseta nevada. Lo más duro del juego: trolls de hielo y el Jarl.</span></div>
+        </div>
+    </section>
+
+    <!-- ======================================================= CREA TU HÉROE -->
     <section class="vd-section">
         <h2 class="section-title">Crea tu héroe</h2>
-        <p style="text-align:center; color:#b7a99f; max-width:700px; margin:0 auto;">Combina <b style="color:var(--ember-soft)">raza</b> y <b style="color:var(--ember-soft)">especialización</b>: cada mezcla tiene su aspecto, su color de túnica y su forma de jugar.</p>
+        <p class="vd-intro">Combina <b>raza</b> y <b>especialización</b>: cada mezcla tiene su aspecto, su color de túnica y su forma de jugar.</p>
         <div class="vd-pills">
             <div class="vd-pill"><b>🧑 Humano</b><span>+10 de vida máxima</span></div>
             <div class="vd-pill"><b>🧝 Elfo</b><span>+1 de daño · regeneración +50%</span></div>
@@ -136,49 +370,109 @@
             <div class="vd-pill"><b>🏹 Explorador</b><span>Vigor · ataque veloz y a distancia</span></div>
             <div class="vd-pill"><b>✨ Sacerdote</b><span>Maná · curas y apoyo al grupo</span></div>
         </div>
-        <p class="vd-note">Sube hasta nivel 15, reparte puntos en <b>dos ramas de talentos</b> por clase y desbloquea habilidades definitivas. Puedes reasignar tu build cuando quieras.</p>
+        <p class="vd-note">Sube hasta <b>nivel 15</b> repartiendo puntos en dos ramas de talentos por clase, con habilidades definitivas al final de cada rama. Al llegar al techo, la experiencia sigue contando: se convierte en <b>Ecos</b>, nueve mejoras permanentes que no se agotan nunca. Y puedes reasignar tu build cuando quieras.</p>
     </section>
 
+    <!-- ========================================================== EL COMBATE -->
     <section class="vd-section">
         <h2 class="section-title">Combate con profundidad</h2>
+        <div class="vd-shots">
+            <article class="vd-shot">
+                <img src="../img/valdoria/combate.jpg" alt="Tres héroes luchando contra una manada de lobos, con los números de daño flotando sobre las criaturas." loading="lazy">
+                <div class="vd-shot-txt">
+                    <h3>Tiempo real, servidor autoritativo</h3>
+                    <p>La IA de las criaturas, el daño, la armadura y hasta tu vida viven en el servidor. Crítico, daño crítico, velocidad de ataque, bloqueo y reducción de daño: el combate ya no es solo pegar.</p>
+                </div>
+            </article>
+            <article class="vd-shot">
+                <img src="../img/valdoria/coloso.jpg" alt="El Coloso de Valdoria, un jefe de mundo gigantesco, frente a tres héroes diminutos." loading="lazy">
+                <div class="vd-shot-txt">
+                    <h3>Jefes que exigen un grupo</h3>
+                    <p>Seis jefes repartidos por las comarcas y, cada cierto tiempo, el <b style="color:var(--ember-soft)">Coloso de Valdoria</b> despierta al sur con un anuncio a todo el reino: 3000 de vida y botín repartido entre todos los que participen.</p>
+                </div>
+            </article>
+        </div>
         <div class="vd-grid">
             <div class="vd-card">
                 <i class="fas fa-bolt"></i>
                 <h3>Habilidades y recursos</h3>
-                <p>Barra de habilidades estilo Diablo/WoW con enfriamientos y coste de recurso: Furia que se acumula luchando, Vigor que fluye o Maná que hay que dosificar. Todo validado por el servidor.</p>
+                <p>Tres habilidades base por clase más dos definitivas por talentos. Cada clase gestiona su recurso: <b style="color:var(--ember-soft)">Furia</b> que se acumula luchando, <b style="color:var(--ember-soft)">Vigor</b> que se regenera rápido o <b style="color:var(--ember-soft)">Maná</b> que hay que dosificar.</p>
             </div>
             <div class="vd-card">
-                <i class="fas fa-shield-halved"></i>
-                <h3>El equipo importa</h3>
-                <p>El arma es tu fuente de poder y la armadura mitiga por porcentaje: siempre reduce algo, nunca te hace invulnerable. Progresar tu equipo es progresar de verdad.</p>
+                <i class="fas fa-dice-d20"></i>
+                <h3>Botín aleatorio</h3>
+                <p>75 objetos base con 13 afijos en cuatro grados de calidad y seis poderes legendarios. Ningún objeto sale igual que otro, y Bramm puede retemplar y reforjar los afijos del que ya tienes.</p>
             </div>
             <div class="vd-card">
                 <i class="fas fa-skull"></i>
                 <h3>La muerte tiene precio</h3>
-                <p>Al caer pierdes experiencia y arrastras un "Alma Debilitada" que reduce tu daño durante 90 s, incluso si te desconectas. Una sacerdotisa puede purgarla... por oro.</p>
+                <p>Pierdes el 10% de la experiencia del nivel y arrastras <b style="color:var(--ember-soft)">Alma Debilitada</b> 90 segundos: un 30% menos de daño, incluso si te desconectas. La Sacerdotisa Mira puede purgarla por 30 de oro.</p>
             </div>
         </div>
     </section>
 
+    <!-- ======================================================== NO ESTÁS SOLO -->
     <section class="vd-section">
         <h2 class="section-title">No estás solo</h2>
         <div class="vd-grid">
-            <div class="vd-card"><i class="fas fa-users"></i><h3>Grupos de caza</h3><p>Uníos para compartir botín y abatir a los jefes más duros.</p></div>
-            <div class="vd-card"><i class="fas fa-shield"></i><h3>Gremios</h3><p>Funda tu clan, invita miembros, ponle lema y usa el chat de gremio entre reinos.</p></div>
-            <div class="vd-card"><i class="fas fa-swords"></i><h3>JcJ opcional</h3><p>Actívalo si quieres pelea entre jugadores. Nunca dentro de la Ciudadela, y sin perder objetos.</p></div>
+            <div class="vd-card"><i class="fas fa-users"></i><h3>Grupos de caza</h3><p>Uníos para compartir botín y crédito de misiones, y abatir a los jefes más duros.</p></div>
+            <div class="vd-card"><i class="fas fa-shield"></i><h3>Gremios</h3><p>Funda tu clan por 500 de oro, invita miembros, ponle lema y usa el chat de gremio entre reinos.</p></div>
+            <div class="vd-card"><i class="fas fa-khanda"></i><h3>JcJ opcional</h3><p>Actívalo si quieres pelea entre jugadores. Nunca dentro de la Ciudadela, y sin perder objetos.</p></div>
             <div class="vd-card"><i class="fas fa-handshake"></i><h3>Comercio</h3><p>Intercambios cara a cara con confirmación por ambas partes y ejecución atómica en el servidor.</p></div>
-            <div class="vd-card"><i class="fas fa-gavel"></i><h3>Casa de subastas</h3><p>Vende aunque estés desconectado y recoge tus ganancias al volver.</p></div>
-            <div class="vd-card"><i class="fas fa-horse"></i><h3>Monturas y viaje rápido</h3><p>Corceles, lobos huargo y piedras rúnicas para cruzar el mundo en un instante.</p></div>
-            <div class="vd-card"><i class="fas fa-fish"></i><h3>Pesca y cocina</h3><p>Pesca en el lago y cocina en las hogueras platos que curan mucho más.</p></div>
-            <div class="vd-card"><i class="fas fa-globe"></i><h3>Varios reinos</h3><p>Valdoria y Penumbra, cada uno con sus criaturas y su comunidad. Hasta 5 personajes por cuenta.</p></div>
+            <div class="vd-card"><i class="fas fa-gavel"></i><h3>Casa de subastas</h3><p>Vende aunque estés desconectado y recoge tus ganancias al volver, menos un 5% de comisión.</p></div>
+            <div class="vd-card"><i class="fas fa-horse"></i><h3>Monturas y viaje rápido</h3><p>Corceles, lobos huargo y corceles espectrales, más ocho piedras rúnicas repartidas por el continente.</p></div>
+            <div class="vd-card"><i class="fas fa-fish"></i><h3>Pesca, cocina y artesanía</h3><p>Pesca en el lago, cocina en las hogueras y forja equipo con los materiales que sueltan las criaturas.</p></div>
+            <div class="vd-card"><i class="fas fa-clipboard-list"></i><h3>Encargos diarios</h3><p>Tres encargos al día para todo el reino, más los semanales: el progreso repetible cuando agotas las misiones.</p></div>
         </div>
     </section>
 
-    <section class="vd-section" style="text-align:center; padding-bottom:5rem;">
+    <!-- ============================================================= GALERÍA -->
+    <section class="vd-section">
+        <h2 class="section-title">El reino por dentro</h2>
+        <p class="vd-intro">Capturas tomadas con el propio motor del juego.</p>
+        <div class="vd-gallery">
+            <figure><img src="../img/valdoria/plaza.jpg" alt="La plaza de la Ciudadela al anochecer, con la fuente, los faroles y los NPCs." loading="lazy"><figcaption>La plaza de la Ciudadela</figcaption></figure>
+            <figure><img src="../img/valdoria/bosque.jpg" alt="El Bosque del Oeste, con jabalíes y el campamento del Ermitaño Baldur." loading="lazy"><figcaption>Bosque del Oeste</figcaption></figure>
+            <figure><img src="../img/valdoria/cienaga.jpg" alt="La Ciénaga de los Ahogados, con ahogados y un chamán entre los juncos." loading="lazy"><figcaption>Ciénaga de los Ahogados</figcaption></figure>
+            <figure><img src="../img/valdoria/cumbres.jpg" alt="Las Cumbres Heladas, con lobos de escarcha y un troll de hielo entre pinos nevados." loading="lazy"><figcaption>Cumbres Heladas</figcaption></figure>
+            <figure><img src="../img/valdoria/alfa-sombrio.jpg" alt="El Alfa Sombrío, jefe de la llanura, recibiendo un golpe de un héroe." loading="lazy"><figcaption>El Alfa Sombrío</figcaption></figure>
+            <figure><img src="../img/valdoria/monturas.jpg" alt="Un héroe cabalgando por la costa del continente." loading="lazy"><figcaption>Monturas</figcaption></figure>
+        </div>
+    </section>
+
+    <!-- ============================================================= ACTO II -->
+    <section class="vd-section">
+        <h2 class="section-title">Lo que viene: el Acto II</h2>
+        <p class="vd-intro">El continente se abre al mar. La próxima gran actualización lleva a Valdoria a la costa este, con un <b>puerto</b>, un <b>camino nuevo</b> y una <b>barca</b> que zarpa hacia las islas.</p>
+        <div class="vd-next">
+            <div class="vd-map">
+                <img src="../img/valdoria/mapa-acto2.jpg" alt="Mapa del continente de Valdoria con los cinco lugares del Acto II señalados en la costa este: Puerto Gaviota, Calas de los Saqueadores, El Faro Hundido, Isla de la Campana y Roca de las Sirenas." loading="lazy">
+            </div>
+            <div>
+                <ol class="vd-places">
+                    <li><span class="num">1</span><div><b>Puerto Gaviota</b><br><span style="color:#a99c92; font-size:0.88rem;">El nuevo puerto de la costa este, donde atraca la barca.</span></div></li>
+                    <li><span class="num">2</span><div><b>Calas de los Saqueadores</b><br><span style="color:#a99c92; font-size:0.88rem;">Al sur del puerto, conectadas por el camino nuevo.</span></div></li>
+                    <li><span class="num">3</span><div><b>El Faro Hundido</b><br><span style="color:#a99c92; font-size:0.88rem;">En el extremo norte del continente.</span></div></li>
+                    <li><span class="num">4</span><div><b>Isla de la Campana</b><br><span style="color:#a99c92; font-size:0.88rem;">Mar adentro, solo se llega en barca.</span></div></li>
+                    <li><span class="num">5</span><div><b>Roca de las Sirenas</b><br><span style="color:#a99c92; font-size:0.88rem;">La más lejana, al sureste de la costa.</span></div></li>
+                </ol>
+                <p class="vd-note" style="text-align:left; margin-top:1.5rem;">Trabajo en curso: lo que decidas ahora seguirá contando cuando llegue.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================ ENTRA -->
+    <section class="vd-section" style="text-align:center; padding-bottom:3rem;">
         <h2 class="section-title">Entra en la Ciudadela</h2>
-        <p style="color:#b7a99f; max-width:640px; margin:1.5rem auto 2rem;">Crea tu cuenta, forja tu héroe y aparece en la plaza de Valdoria. Gratis y directo en el navegador, con tu progreso guardado en el servidor.</p>
+        <p class="vd-intro" style="margin-bottom:2.5rem;">Gratis, sin instalar nada y sin descargas: crea tu cuenta y en un minuto estás en la plaza. Hasta <b>cinco personajes</b> por cuenta y dos reinos, Valdoria y Penumbra.</p>
         <a href="https://ciudadela-valdoria.onrender.com" target="_blank" rel="noopener" class="vd-cta"><i class="fas fa-play"></i> Jugar ahora</a>
-        <p class="vd-note">La primera carga puede tardar hasta un minuto mientras el servidor despierta. Se juega mejor en ordenador.</p>
+    </section>
+
+    <section class="vd-section" style="padding-top:0;">
+        <div class="vd-warn">
+            <i class="fas fa-circle-info"></i>
+            <p style="margin:0;"><b>El juego está en alpha y el servidor es gratuito.</b> Si llevaba un rato sin nadie dentro, la primera carga puede tardar medio minuto en despertar. Se juega con ratón y teclado: no está pensado para móvil.</p>
+        </div>
     </section>
 
     <footer id="about">

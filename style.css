@@ -266,11 +266,14 @@ nav a:hover::after {
 }
 
 .section-title {
-    font-size: 3.5rem;
+    /* Escala con el ancho: a 3.5rem fijos, un titulo largo como
+       "Combate con profundidad" se salia de la pantalla en el movil. */
+    font-size: clamp(1.9rem, 6.5vw, 3.5rem);
     text-align: center;
     margin-bottom: 5rem;
     color: var(--text-light);
     position: relative;
+    overflow-wrap: break-word;
 }
 
 .section-title::after {
