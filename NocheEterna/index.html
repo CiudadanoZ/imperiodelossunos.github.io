@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="La Noche Eterna — Juego narrativo en pixel art de Imperio de los Sueños. Nueva Berlín, 2040: de día sellas destinos en el Ministerio de Registro, de noche conspiras con la resistencia. Demo jugable gratis en el navegador.">
+    <title>La Noche Eterna | Imperio de los Sueños</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="La Noche Eterna | Imperio de los Sueños">
+    <meta property="og:description" content="Nueva Berlín, 2040. De día sellas destinos. De noche, los cambias. Demo jugable gratis en el navegador.">
+    <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/noche-eterna/cabecera.png">
+    <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/NocheEterna/index.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="La Noche Eterna | Imperio de los Sueños">
+    <meta name="twitter:description" content="Nueva Berlín, 2040. De día sellas destinos. De noche, los cambias.">
+    <meta name="twitter:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/noche-eterna/cabecera.png">
+
+    <link rel="stylesheet" href="../style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ne-rojo: #a8252b;
+            --ne-rojo-claro: #d4565c;
+            --ne-crema: #e8dcc0;
+            --ne-negro: #08080b;
+        }
+
+        /* El pixel art no debe suavizarse al escalar */
+        .pixel { image-rendering: pixelated; image-rendering: crisp-edges; }
+
+        .ne-mono {
+            font-family: 'VT323', monospace;
+            letter-spacing: 2px;
+        }
+
+        /* ---------------------------------------------------------- Portada */
+        .ne-hero {
+            position: relative;
+            padding: 8.5rem 5% 3.5rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .ne-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 10%, rgba(168, 37, 43, 0.22), transparent 60%),
+                radial-gradient(circle at 50% 100%, rgba(232, 220, 192, 0.05), transparent 55%),
+                var(--ne-negro);
+            z-index: -1;
+        }
+
+        .ne-cabecera {
+            width: 960px;
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto 2rem;
+            display: block;
+            border-radius: 10px;
+            border: 1px solid rgba(232, 220, 192, 0.14);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .ne-cita {
+            font-family: 'VT323', monospace;
+            font-size: 1.45rem;
+            color: var(--ne-crema);
+            opacity: 0.8;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        .ne-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1.1rem 2.6rem;
+            border-radius: 6px;
+            background: var(--ne-rojo);
+            color: var(--ne-crema);
+            font-family: 'VT323', monospace;
+            font-size: 1.35rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid rgba(232, 220, 192, 0.3);
+            box-shadow: 0 6px 28px rgba(168, 37, 43, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+        }
+
+        .ne-cta:hover {
+            transform: translateY(-4px);
+            background: #bd2a31;
+            box-shadow: 0 10px 38px rgba(168, 37, 43, 0.75);
+        }
+
+        .ne-cta--fantasma {
+            background: transparent;
+            color: var(--ne-crema);
+            border-color: rgba(232, 220, 192, 0.35);
+            box-shadow: none;
+        }
+
+        .ne-cta--fantasma:hover {
+            background: rgba(232, 220, 192, 0.08);
+            box-shadow: none;
+        }
+
+        .ne-botonera {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ------------------------------------------------------ Zona de juego */
+        .ne-play {
+            padding: 2rem 5% 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ne-barra {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .ne-barra .pista {
+            color: #8a8a90;
+            font-size: 0.85rem;
+        }
+
+        .ne-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: 1px solid var(--ne-rojo-claro);
+            color: var(--ne-rojo-claro);
+            background: transparent;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .ne-btn:hover {
+            background: var(--ne-rojo);
+            border-color: var(--ne-rojo);
+            color: var(--ne-crema);
+        }
+
+        .ne-marco {
+            position: relative;
+            border: 1px solid rgba(232, 220, 192, 0.14);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+        }
+
+        .ne-marco iframe {
+            display: block;
+            width: 100%;
+            height: 72vh;
+            min-height: 540px;
+            border: 0;
+        }
+
+        .ne-marco:fullscreen iframe { height: 100vh; }
+
+        /* ------------------------------------------------------ Bloques de texto */
+        .ne-seccion {
+            padding: 4.5rem 5%;
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+
+        .ne-seccion--borde { border-top: 1px solid rgba(232, 220, 192, 0.1); }
+
+        .ne-rotulo {
+            font-family: 'VT323', monospace;
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--ne-rojo-claro);
+            margin-bottom: 0.6rem;
+        }
+
+        .ne-seccion h2 {
+            font-size: 2.1rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .ne-seccion p {
+            color: #b4b4bb;
+            line-height: 1.85;
+            margin-bottom: 1.1rem;
+        }
+
+        .ne-seccion p b { color: var(--ne-crema); }
+
+        /* Frase destacada a lápiz */
+        .ne-lapiz {
+            display: block;
+            margin: 2rem auto;
+            padding: 1.3rem 1.8rem;
+            max-width: 560px;
+            text-align: center;
+            font-family: 'VT323', monospace;
+            font-size: 1.8rem;
+            color: var(--ne-crema);
+            letter-spacing: 2px;
+            background: rgba(168, 37, 43, 0.12);
+            border: 1px dashed rgba(232, 220, 192, 0.35);
+            border-radius: 6px;
+        }
+
+        /* Día / Noche, en dos columnas con captura */
+        .ne-dual {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+            gap: 2.5rem;
+            margin-top: 1rem;
+        }
+
+        .ne-panel {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(232, 220, 192, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.35s ease, border-color 0.35s ease;
+        }
+
+        .ne-panel:hover {
+            transform: translateY(-5px);
+            border-color: rgba(168, 37, 43, 0.5);
+        }
+
+        .ne-panel img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid rgba(232, 220, 192, 0.1);
+        }
+
+        .ne-panel-txt { padding: 1.7rem 1.6rem; }
+        .ne-panel-txt h3 { font-size: 1.3rem; color: #fff; margin-bottom: 0.4rem; }
+        .ne-panel-txt p { font-size: 0.93rem; margin-bottom: 0.9rem; }
+        .ne-panel-txt p:last-child { margin-bottom: 0; }
+
+        /* Elenco */
+        .ne-elenco-img {
+            width: 100%;
+            max-width: 860px;
+            height: auto;
+            display: block;
+            margin: 0 auto 2.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(232, 220, 192, 0.14);
+        }
+
+        .ne-fichas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.3rem;
+        }
+
+        .ne-ficha {
+            padding: 1.4rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(232, 220, 192, 0.1);
+            border-left: 3px solid var(--ne-rojo);
+            border-radius: 8px;
+        }
+
+        .ne-ficha h4 {
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: var(--ne-crema);
+            margin-bottom: 0.4rem;
+        }
+
+        .ne-ficha p {
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: #9a9aa2;
+            margin: 0;
+        }
+
+        /* Lista de características */
+        .ne-lista {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .ne-lista li {
+            position: relative;
+            padding: 1.2rem 1.4rem 1.2rem 3.2rem;
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(232, 220, 192, 0.09);
+            border-radius: 8px;
+            color: #9a9aa2;
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        .ne-lista li b {
+            display: block;
+            color: var(--ne-crema);
+            margin-bottom: 0.25rem;
+        }
+
+        .ne-lista li::before {
+            content: '\25C9';
+            position: absolute;
+            left: 1.3rem;
+            top: 1.15rem;
+            color: var(--ne-rojo-claro);
+            font-size: 0.85rem;
+        }
+
+        /* Galería de capturas */
+        .ne-galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .ne-galeria figure {
+            margin: 0;
+            border: 1px solid rgba(232, 220, 192, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .ne-galeria img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .ne-galeria figure:hover img { transform: scale(1.04); }
+
+        .ne-galeria figcaption {
+            padding: 0.7rem 1rem;
+            font-family: 'VT323', monospace;
+            font-size: 1.05rem;
+            letter-spacing: 2px;
+            color: #8a8a90;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* La demo */
+        .ne-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .ne-caja {
+            padding: 1.8rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(232, 220, 192, 0.1);
+            border-radius: 12px;
+        }
+
+        .ne-caja h3 {
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ne-caja h3 i { color: var(--ne-rojo-claro); }
+
+        .ne-caja ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ne-caja li {
+            padding: 0.45rem 0 0.45rem 1.2rem;
+            position: relative;
+            color: #9a9aa2;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .ne-caja li::before {
+            content: '\00B7';
+            position: absolute;
+            left: 0.3rem;
+            color: var(--ne-rojo-claro);
+            font-weight: 700;
+        }
+
+        .ne-caja b { color: var(--ne-crema); }
+
+        kbd {
+            display: inline-block;
+            padding: 1px 7px;
+            border-radius: 4px;
+            background: rgba(232, 220, 192, 0.1);
+            border: 1px solid rgba(232, 220, 192, 0.25);
+            font-family: 'VT323', monospace;
+            font-size: 1rem;
+            color: var(--ne-crema);
+        }
+
+        /* Avisos */
+        .ne-aviso {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 1.2rem 1.5rem;
+            background: rgba(168, 37, 43, 0.08);
+            border: 1px solid rgba(168, 37, 43, 0.3);
+            border-radius: 10px;
+            color: #9a9aa2;
+            font-size: 0.87rem;
+            line-height: 1.7;
+        }
+
+        .ne-aviso i { color: var(--ne-rojo-claro); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+        .ne-aviso b { color: var(--ne-crema); }
+
+        /* Cierre */
+        .ne-cierre {
+            text-align: center;
+            padding: 4rem 5% 5rem;
+            border-top: 1px solid rgba(232, 220, 192, 0.1);
+        }
+
+        .ne-cierre p { color: #9a9aa2; margin-bottom: 0.8rem; }
+
+        .ne-cierre .firma {
+            font-family: 'VT323', monospace;
+            font-size: 2.1rem;
+            letter-spacing: 6px;
+            color: var(--ne-rojo-claro);
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .ne-hero { padding-top: 7rem; }
+            .ne-cita { font-size: 1.15rem; }
+            .ne-lapiz { font-size: 1.35rem; }
+            .ne-seccion h2 { font-size: 1.6rem; }
+            .ne-marco iframe { height: 70vh; min-height: 420px; }
+            .ne-cta { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="../index.html" class="logo-text" style="text-decoration:none;">Imperio de los Sueños</a>
+        <nav id="mainNav">
+            <a href="../index.html#home">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="../launcher/index.html" class="nav-cta">Launcher</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="../UNIVERSO/index.html">Universo</a>
+            <a href="../index.html#about">Nosotros</a>
+        </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- ============================================================ PORTADA -->
+    <section class="ne-hero">
+        <img src="../img/noche-eterna/cabecera.png" alt="La Noche Eterna · Nueva Berlín, 2040. De día sellas destinos. De noche, los cambias." class="ne-cabecera pixel">
+        <p class="ne-cita">«Hace nueve años que el sol no sale en esta ciudad. No de verdad.»</p>
+        <div class="ne-botonera">
+            <a href="#jugar" class="ne-cta"><i class="fas fa-play"></i> Jugar la demo</a>
+            <a href="LaNocheEterna-windows.zip" class="ne-cta ne-cta--fantasma" download>
+                <i class="fab fa-windows"></i> Descargar para Windows
+            </a>
+        </div>
+    </section>
+
+    <!-- ========================================================= EL JUEGO -->
+    <section class="ne-play" id="jugar">
+        <div class="ne-barra">
+            <span class="pista"><i class="fas fa-desktop"></i> Se juega con ratón y teclado. No está pensado para móvil.</span>
+            <div style="display:flex; gap:10px;">
+                <button class="ne-btn" id="fsBtn"><i class="fas fa-expand"></i> Pantalla completa</button>
+                <a class="ne-btn" href="game/index.html" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square"></i> Abrir en pestaña nueva</a>
+            </div>
+        </div>
+        <div class="ne-marco" id="frameWrap">
+            <iframe id="gameFrame" src="game/index.html" title="La Noche Eterna · Capítulo 1" allow="fullscreen; autoplay"></iframe>
+        </div>
+    </section>
+
+    <!-- ====================================================== EL ESCENARIO -->
+    <section class="ne-seccion ne-seccion--borde">
+        <p class="ne-rotulo">Nueva Berlín · 2040</p>
+        <h2>La Orden del Sol Negro gobierna el planeta</h2>
+        <p>Controla la luz, la información y la definición misma de quién merece vivir. Madrid ya no existe:
+            ahora se llama <b>Nueva Berlín</b>, y pronunciar su antiguo nombre es delito.</p>
+        <p>Eres <b>Elías Vogt</b>, archivero de tercera clase del Ministerio de Registro. Nunca has tenido
+            familia. Ni amigos. Ni a nadie. Tienes una costumbre que no le has contado a nadie: memorizas
+            los expedientes. Los nombres. Las caras.</p>
+        <p>Una mañana, en el margen de un expediente, alguien ha escrito a lápiz una frase prohibida:</p>
+        <span class="ne-lapiz">«¿Recuerdas Madrid?»</span>
+    </section>
+
+    <!-- ======================================================= DÍA Y NOCHE -->
+    <section class="ne-seccion">
+        <p class="ne-rotulo">Dos juegos que se alimentan</p>
+        <h2>De día sellas destinos. De noche, los cambias</h2>
+        <div class="ne-dual">
+            <article class="ne-panel">
+                <img src="../img/noche-eterna/02-el-ministerio.jpg" alt="El Ministerio de Registro: a la izquierda las directivas del día, a la derecha un expediente con los botones de aprobar, rechazar y memorizar.">
+                <div class="ne-panel-txt">
+                    <h3>De día · El Ministerio</h3>
+                    <p>Compara cada expediente con las directivas del día y decide: <b>aprobar</b> o <b>rechazar</b>.
+                        Raciones, viajes y reubicaciones a las Colonias del Este, de las que nadie vuelve.</p>
+                    <p>Cumplir las normas es fácil. Salvar a alguien hace subir tu <b>sospecha</b>. Y el <b>Ojo</b>
+                        del techo nunca parpadea: memoriza lo que ves cuando no te mira, porque por la noche esa
+                        información vale más que el pan.</p>
+                </div>
+            </article>
+
+            <article class="ne-panel">
+                <img src="../img/noche-eterna/04-los-insomnes.jpg" alt="El sótano de la relojería, donde se reúne la célula de la resistencia conocida como los Insomnes.">
+                <div class="ne-panel-txt">
+                    <h3>De noche · Los Insomnes</h3>
+                    <p>Cuando suenan las sirenas del toque de queda, bajas al sótano de una relojería cerrada.
+                        Allí te espera la última célula de la resistencia y un plan imposible: dentro de siete
+                        días el Canciller estará en <b>La Aguja</b>.</p>
+                    <p>Planea operaciones, elige quién se juega la vida en cada una, compra coartadas en el
+                        mercado negro y decide a quién dejas entrar. Cada noche llegan caras nuevas, y
+                        <b>no todas son lo que dicen ser</b>.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- =========================================================== ELENCO -->
+    <section class="ne-seccion ne-seccion--borde">
+        <p class="ne-rotulo">El elenco</p>
+        <h2>Cinco personas y un nombre que falta</h2>
+        <img src="../img/noche-eterna/elenco.png" alt="Los personajes principales de La Noche Eterna en pixel art." class="ne-elenco-img pixel">
+        <div class="ne-fichas">
+            <div class="ne-ficha">
+                <h4>Mara</h4>
+                <p>La enfermera que dirige la célula.</p>
+            </div>
+            <div class="ne-ficha">
+                <h4>Ruth</h4>
+                <p>La falsificadora que recuerda Madrid mejor que nadie.</p>
+            </div>
+            <div class="ne-ficha">
+                <h4>Chispa</h4>
+                <p>Un hacker de diecinueve años cuyo expediente acabas de sellar... o no.</p>
+            </div>
+            <div class="ne-ficha">
+                <h4>Brandt</h4>
+                <p>Tu supervisor, que te vigila con una paciencia que da miedo.</p>
+            </div>
+            <div class="ne-ficha">
+                <h4>El Relojero</h4>
+                <p>El líder que desapareció dos semanas antes de que llegaras. ¿Dónde está? ¿Y por qué sabe tu nombre?</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================ LO QUE ENCONTRARÁS -->
+    <section class="ne-seccion">
+        <p class="ne-rotulo">Lo que encontrarás</p>
+        <h2>Siete días hasta el Día del Sol</h2>
+        <ul class="ne-lista">
+            <li><b>Una historia oscura que decides tú</b>Cada sello, cada palabra y cada silencio cuentan... y alguien los recordará días después.</li>
+            <li><b>Dos juegos que se alimentan</b>Lo que memorizas en el Ministerio sirve para desenmascarar traidores en el sótano.</li>
+            <li><b>Un asalto final</b>Cuenta todo lo que conseguiste durante la semana.</li>
+            <li><b>Tres finales</b>Y un destino distinto para cada personaje.</li>
+            <li><b>Nadie está a salvo</b>Capturados, reubicados, traicionados. Tus compañeros pueden caer, y tú también.</li>
+            <li><b>Pixel art y música</b>Hechos con un motor propio.</li>
+        </ul>
+
+        <div class="ne-galeria">
+            <figure>
+                <img src="../img/noche-eterna/03-la-auditoria.jpg" alt="Una auditoría sorpresa en el Ministerio de Registro.">
+                <figcaption>La auditoría</figcaption>
+            </figure>
+            <figure>
+                <img src="../img/noche-eterna/06-aspirantes.jpg" alt="Pantalla de aspirantes: nuevas caras que piden entrar en la célula.">
+                <figcaption>Aspirantes</figcaption>
+            </figure>
+            <figure>
+                <img src="../img/noche-eterna/07-operaciones.jpg" alt="Tablero de operaciones nocturnas de la resistencia.">
+                <figcaption>Operaciones</figcaption>
+            </figure>
+            <figure>
+                <img src="../img/noche-eterna/08-el-dia-del-sol.jpg" alt="El Día del Sol, el asalto final contra La Aguja.">
+                <figcaption>El Día del Sol</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- ============================================================= DEMO -->
+    <section class="ne-seccion ne-seccion--borde">
+        <p class="ne-rotulo">La demo</p>
+        <h2>Capítulo 1 · Siete días, completo y gratis</h2>
+        <p>Seis días en el Ministerio, seis noches con la resistencia y el Día del Sol.
+            Una partida dura entre <b>una y dos horas</b>.</p>
+
+        <div class="ne-demo">
+            <div class="ne-caja">
+                <h3><i class="fas fa-circle-info"></i> Qué incluye</h3>
+                <ul>
+                    <li>El <b>Capítulo 1 completo</b>, con sus tres finales.</li>
+                    <li>Juega <b>aquí mismo en el navegador</b> o descarga la versión de Windows.</li>
+                    <li><b>Guardado automático</b> al empezar cada día y cada noche.</li>
+                    <li>Idioma: español.</li>
+                </ul>
+            </div>
+
+            <div class="ne-caja">
+                <h3><i class="fas fa-keyboard"></i> Controles</h3>
+                <ul>
+                    <li><kbd>Clic</kbd> <kbd>Espacio</kbd> <kbd>Enter</kbd> — avanzar el diálogo.</li>
+                    <li><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>… — elegir una opción.</li>
+                    <li><kbd>A</kbd> <kbd>R</kbd> <kbd>M</kbd> <kbd>F</kbd> — aprobar, rechazar, memorizar o falsificar un expediente.</li>
+                </ul>
+            </div>
+
+            <div class="ne-caja">
+                <h3><i class="fab fa-windows"></i> Versión para Windows</h3>
+                <ul>
+                    <li>Descomprime el zip y abre <b>LaNocheEterna.exe</b>.</li>
+                    <li>No hace falta instalar nada: es un solo archivo.</li>
+                    <li>La partida se guarda aparte del navegador.</li>
+                </ul>
+                <a href="LaNocheEterna-windows.zip" class="ne-btn" style="margin-top:1rem;" download>
+                    <i class="fas fa-download"></i> Descargar (166 KB)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================== AVISOS -->
+    <section class="ne-seccion" style="padding-top:0;">
+        <div class="ne-aviso" style="margin-bottom:1rem;">
+            <i class="fas fa-shield-halved"></i>
+            <p style="margin:0;"><b>Al abrir el .exe, Windows mostrará un aviso.</b> El juego aún no está firmado
+                digitalmente, así que SmartScreen avisa por precaución. Pulsa <b>Más información</b> y luego
+                <b>Ejecutar de todas formas</b>.</p>
+        </div>
+        <div class="ne-aviso">
+            <i class="fas fa-triangle-exclamation"></i>
+            <p style="margin:0;"><b>Aviso de contenido.</b> Régimen totalitario, represión política,
+                deportaciones, violencia sin imágenes explícitas y pérdida.</p>
+        </div>
+    </section>
+
+    <!-- =========================================================== CIERRE -->
+    <section class="ne-cierre">
+        <p>Un juego de <b style="color:var(--ne-crema);">Imperio de los Sueños</b>.</p>
+        <p>El <b style="color:var(--ne-crema);">Capítulo 2</b> ya está en desarrollo: nuevas zonas más allá de
+            Nueva Berlín y respuestas sobre el pasado de Elías. Todo lo que decidas en esta demo contará.</p>
+        <p class="firma">Recuerdo el sol.</p>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Sobre el Estudio</h3>
+                <p>Imperio de los Sueños es un estudio de desarrollo de videojuegos independiente, apasionado y dedicado a crear experiencias con atmósferas envolventes y sistemas de juego profundos.</p>
+            </div>
+            <div class="socials">
+                <a href="https://x.com/Oscar31741727" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/WygZEc54A8" aria-label="Discord" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../menu.js"></script>
+    <script>
+        // Pantalla completa del marco del juego.
+        document.getElementById('fsBtn').addEventListener('click', function () {
+            var wrap = document.getElementById('frameWrap');
+            if (!document.fullscreenElement) {
+                (wrap.requestFullscreen || wrap.webkitRequestFullscreen || function () {}).call(wrap);
+            } else {
+                document.exitFullscreen();
+            }
+        });
+    </script>
+</body>
+</html>
