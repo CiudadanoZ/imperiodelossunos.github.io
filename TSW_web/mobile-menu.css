@@ -92,3 +92,123 @@
         font-size: 15px;
     }
 }
+
+/* =====================================================================
+   ACABADO DEL PANEL LATERAL
+   El menú salta antes (1100px) para que la barra no se apelotone, y el
+   panel deja de ser una lista suelta sobre un rectángulo plano.
+   ===================================================================== */
+
+@media (max-width: 1100px) {
+    .nav-toggle { display: block; }
+
+    nav.main-nav {
+        display: flex !important;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: min(80vw, 310px);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        padding: 96px 20px 28px;
+        background:
+            radial-gradient(circle at 100% 0%, rgba(255, 221, 102, 0.1), transparent 55%),
+            linear-gradient(180deg, rgba(6, 17, 34, 0.99), rgba(3, 8, 18, 0.99));
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-left: 1px solid rgba(255, 221, 102, 0.22);
+        box-shadow: -22px 0 50px rgba(0, 0, 0, 0.6);
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        z-index: 110;
+        overflow-y: auto;
+    }
+
+    nav.main-nav.open { transform: translateX(0); }
+
+    /* Cada entrada, una fila con su barra dorada al pasar por encima */
+    nav.main-nav a {
+        position: relative;
+        width: 100%;
+        padding: 13px 14px;
+        border-radius: 8px;
+        font-size: 13.5px;
+        letter-spacing: 0.12em;
+        color: #c5cfeb;
+        border-left: 2px solid transparent;
+        transition: background 0.25s ease, color 0.25s ease,
+                    border-color 0.25s ease, padding-left 0.25s ease;
+    }
+
+    /* Aquí no queremos el subrayado del escritorio */
+    nav.main-nav a::after { display: none; }
+
+    nav.main-nav a:hover,
+    nav.main-nav a.is-active {
+        background: rgba(255, 221, 102, 0.09);
+        border-left-color: var(--color-dorado, #ffdd66);
+        color: #fff;
+        padding-left: 20px;
+    }
+
+    /* El enlace de vuelta al estudio se separa al final */
+    nav.main-nav a.nav-home {
+        margin-top: 14px;
+        padding-top: 18px;
+        padding-left: 14px;
+        margin-left: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0 0 8px 8px;
+        font-size: 12.5px;
+    }
+
+    nav.main-nav a.nav-home::before { display: none; }
+
+    /* Velo oscuro detrás del panel */
+    nav.main-nav.open::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        right: min(80vw, 310px);
+        background: rgba(2, 5, 12, 0.6);
+        z-index: -1;
+    }
+}
+
+/* El botón de la hamburguesa, a juego con la barra */
+.nav-toggle {
+    width: 44px;
+    height: 38px;
+    border-radius: 8px;
+    border-color: rgba(255, 221, 102, 0.28);
+    background: rgba(255, 255, 255, 0.04);
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+}
+
+.nav-toggle:hover {
+    border-color: rgba(255, 221, 102, 0.7);
+    background: rgba(255, 221, 102, 0.1);
+    transform: translateY(-1px);
+}
+
+.nav-toggle:focus-visible {
+    outline: 2px solid var(--color-dorado, #ffdd66);
+    outline-offset: 3px;
+}
+
+.nav-toggle span {
+    background: #e2d7b4;
+    width: 19px;
+    height: 2px;
+}
+
+.nav-toggle span:nth-child(1) { top: 12px; }
+.nav-toggle span:nth-child(2) { top: 18px; }
+.nav-toggle span:nth-child(3) { top: 24px; }
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1),
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { top: 18px; }
+
+.nav-toggle[aria-expanded="true"] span { background: var(--color-dorado, #ffdd66); }
