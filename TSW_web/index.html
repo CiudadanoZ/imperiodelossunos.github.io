@@ -961,6 +961,338 @@
             .universe-section h2 { font-size: 25px; }
             .universe-lead { margin-bottom: 38px; }
         }
+
+        /* =================================================================
+           LAVADO DE CARA · secciones nuevas y retoques
+           ================================================================= */
+
+        /* --------------------------------------------------- Origin */
+        .origin-update {
+            position: relative;
+            padding: 86px 24px;
+            background:
+                radial-gradient(circle at 18% 25%, rgba(168, 37, 43, 0.20), transparent 55%),
+                radial-gradient(circle at 85% 70%, rgba(58, 163, 255, 0.12), transparent 55%),
+                linear-gradient(180deg, #01030a 0%, #0a0611 55%, #01030a 100%);
+            border-top: 1px solid rgba(255, 221, 102, 0.18);
+            border-bottom: 1px solid rgba(255, 221, 102, 0.18);
+        }
+
+        .origin-wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+            gap: 48px;
+            align-items: center;
+        }
+
+        .origin-art img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 221, 102, 0.3);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+            transition: transform 0.45s ease;
+        }
+
+        .origin-art:hover img { transform: translateY(-6px); }
+
+        .origin-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 11px;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: #e8846f;
+            border: 1px solid rgba(220, 70, 60, 0.45);
+            background: rgba(168, 37, 43, 0.14);
+            border-radius: 999px;
+            padding: 7px 18px;
+            margin-bottom: 18px;
+        }
+
+        .origin-txt h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 34px;
+            line-height: 1.2;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .origin-txt h2 span {
+            background: linear-gradient(90deg, var(--color-dorado), #f6e9b4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .origin-claim {
+            font-family: 'Cinzel', serif;
+            font-style: italic;
+            color: var(--color-dorado);
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
+
+        .origin-date {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            color: #9aa4c4;
+            margin-bottom: 26px;
+        }
+
+        .origin-date b { color: #fff; }
+        .origin-date .dot { color: var(--color-dorado); font-size: 10px; }
+
+        /* En una sola columna: la caja de texto es estrecha y con auto-fit
+           salían dos columnas y un bloque huérfano debajo. */
+        .origin-cols {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        .origin-col {
+            padding: 20px 20px 18px;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-top: 2px solid rgba(255, 221, 102, 0.5);
+            border-radius: 10px;
+        }
+
+        .origin-col h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            color: var(--color-dorado);
+            margin-bottom: 10px;
+        }
+
+        .origin-col ul { list-style: none; padding: 0; margin: 0; }
+
+        .origin-col li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 9px;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: #c3cbe4;
+        }
+
+        .origin-col li:last-child { margin-bottom: 0; }
+
+        .origin-col li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.6em;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--color-dorado);
+            box-shadow: 0 0 7px rgba(255, 221, 102, 0.7);
+        }
+
+        .origin-col li b { color: #eef2ff; font-weight: 600; }
+
+        .origin-pill {
+            display: inline-block;
+            margin-left: 5px;
+            padding: 1px 8px;
+            border-radius: 999px;
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #96a0bd;
+        }
+
+        .origin-pill.ya {
+            background: rgba(255, 221, 102, 0.16);
+            border-color: rgba(255, 221, 102, 0.5);
+            color: var(--color-dorado);
+        }
+
+        .origin-thanks {
+            display: flex;
+            gap: 13px;
+            align-items: flex-start;
+            margin-top: 26px;
+            padding: 16px 20px;
+            background: rgba(255, 221, 102, 0.07);
+            border: 1px solid rgba(255, 221, 102, 0.28);
+            border-radius: 10px;
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: #c3cbe4;
+        }
+
+        .origin-thanks .heart { color: #d4566a; font-size: 15px; flex-shrink: 0; }
+        .origin-thanks b { color: var(--color-dorado); }
+
+        /* ------------------------------------------- Personajes (retoque) */
+        .character-desc p { margin-bottom: 11px; }
+        .character-desc p:last-child { margin-bottom: 0; }
+        .character-desc em { color: #cfd9ff; font-style: italic; }
+
+        /* --------------------------------------------------- Dónde jugar */
+        .play-section {
+            padding: 86px 24px;
+            background: radial-gradient(circle at top, #050b18, #01030a);
+            text-align: center;
+        }
+
+        .play-grid {
+            max-width: 900px;
+            margin: 42px auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .play-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            padding: 30px 22px;
+            background: var(--color-tarjeta);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 14px;
+            text-decoration: none;
+            transition: transform 0.3s, border-color 0.3s, background 0.3s;
+        }
+
+        .play-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(58, 163, 255, 0.5);
+            background: rgba(8, 18, 38, 0.95);
+        }
+
+        .play-card .ico {
+            font-size: 30px;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .play-card .ico img { width: 30px; height: 30px; object-fit: contain; display: block; }
+
+        .play-card b {
+            font-family: 'Cinzel', serif;
+            font-size: 17px;
+            color: #fff;
+        }
+
+        .play-card span { font-size: 12.5px; color: #8c94b1; }
+
+        .play-note {
+            margin-top: 26px;
+            font-size: 13px;
+            color: #8c94b1;
+        }
+
+        /* ------------------------------------------------- Pie de página */
+        .site-footer {
+            background: #02050b;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 54px 24px 0;
+        }
+
+        .footer-grid {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 38px;
+            padding-bottom: 38px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-dorado);
+            margin-bottom: 14px;
+        }
+
+        .footer-col p {
+            font-size: 13.5px;
+            line-height: 1.75;
+            color: #8c94b1;
+        }
+
+        .footer-col ul { list-style: none; padding: 0; margin: 0; }
+        .footer-col li { margin-bottom: 9px; }
+
+        .footer-col a {
+            font-size: 13.5px;
+            color: #b6bed6;
+            text-decoration: none;
+            transition: color 0.25s;
+        }
+
+        .footer-col a:hover { color: var(--color-azul-claro); }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .footer-social a {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b6bed6;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            background: var(--color-azul-boton);
+            border-color: var(--color-azul-boton);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 18px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: #717995;
+        }
+
+        .footer-bottom a { color: #8c94b1; text-decoration: none; }
+        .footer-bottom a:hover { color: var(--color-azul-claro); }
+
+        @media (max-width: 900px) {
+            .origin-wrap { grid-template-columns: 1fr; gap: 34px; }
+            .origin-txt h2 { font-size: 26px; }
+            .origin-update, .play-section { padding: 60px 18px; }
+            .footer-bottom { justify-content: center; text-align: center; }
+        }
+
     </style>
     <link rel="stylesheet" href="mobile-menu.css">
 </head>
@@ -978,13 +1310,13 @@
 
             <nav class="main-nav" id="mainNav">
                 <a href="#inicio">Inicio</a>
+                <a href="#origin">Origin</a>
                 <a href="#juego">El juego</a>
                 <a href="#personajes">Personajes</a>
                 <a href="#media">Media</a>
-                <a href="#universo">Aniversario</a>
-                <a href="../Biblioteca/index.html">Libros</a>
-                <a href="../UNIVERSO/index.html">Universo</a>
+                <a href="#universo">Universo</a>
                 <a href="blog.html">Blog</a>
+                <a href="../index.html">Imperio de los Sueños</a>
             </nav>
 
             <div class="auth-area">
@@ -1001,7 +1333,7 @@
     <!-- HERO PRINCIPAL -->
     <section id="inicio" class="hero">
         <div class="hero-content">
-            <div class="hero-badge">Celebrando el 4º Aniversario</div>
+            <div class="hero-badge">Nueva actualización · 20 de octubre</div>
             <div class="hero-logo">
                 <img src="img/logo-completo.png" alt="The Shadow World">
             </div>
@@ -1081,6 +1413,56 @@
     </div>
 
     <!-- HISTORIA -->
+    <!-- ======================================================= ORIGIN -->
+    <section id="origin" class="origin-update">
+        <div class="origin-wrap">
+            <a class="origin-art" href="../index.html#tswOrigin">
+                <img src="../img/tsw-origin.jpg" loading="lazy"
+                     alt="Ilustración de The Shadow World: Origin. El Rey Brujo coronado se alza entre un reino de luz y una ciudadela en llamas.">
+            </a>
+            <div class="origin-txt">
+                <span class="origin-eyebrow">Nueva mega actualización</span>
+                <h2>The Shadow World: <span>Origin</span></h2>
+                <p class="origin-claim">¿Una última aventura?</p>
+                <p class="origin-date"><span class="dot">◆</span> Lanzamiento <b>20 de octubre de 2026</b></p>
+
+                <div class="origin-cols">
+                    <div class="origin-col">
+                        <h3>Mejoras gráficas y de juego</h3>
+                        <ul>
+                            <li>Nuevo sombreado e iluminación.</li>
+                            <li>Movimiento del personaje mejorado.</li>
+                            <li>Arreglada la aventurera, la jugadora femenina.</li>
+                            <li>Nueva interfaz en menús y submenús.</li>
+                        </ul>
+                    </div>
+                    <div class="origin-col">
+                        <h3>Temporada 1 y correcciones</h3>
+                        <ul>
+                            <li>Nuevas misiones diarias y semanales para la <b>Temporada 1</b>.</li>
+                            <li>Arreglados bugs como habitaciones o misiones sin salida.</li>
+                            <li>Correcciones ortográficas en todo el juego.</li>
+                        </ul>
+                    </div>
+                    <div class="origin-col">
+                        <h3>Los tres actos, de nuevo</h3>
+                        <ul>
+                            <li>La batalla contra el <b>Rey Sombra</b><span class="origin-pill ya">Remake</span></li>
+                            <li>La batalla contra la <b>Hija de la Oscuridad</b><span class="origin-pill">Próximamente</span></li>
+                            <li>La batalla final contra el <b>Rey Brujo</b><span class="origin-pill">Próximamente</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p class="origin-thanks">
+                    <span class="heart">♥</span>
+                    <span>Muchas de estas mejoras las hemos detectado y decidido añadir gracias a vuestro apoyo
+                    en la <b>Guerrilla Game 2026</b>. ¡Gracias!</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
     <section id="juego" class="content-section">
         <div class="section-header">
             <h2>La historia</h2>
@@ -1143,17 +1525,12 @@
                 </div>
                 <div class="character-name">El Anciano</div>
                 <div class="character-role">Uno del clan de los ancianos eruditos</div>
-                <p class="character-desc">
-                    Fue el aprendiz de Nozar, el fundador de Santuario.
-                    Bajo su tutela, aprendió los secretos más profundos de la hechicería ancestral.
-
-                    Fue el creador del Libro Mágico, un artefacto único, capaz de albergar en su interior todo tipo de magia conocida.
-
-                    Pero aquella mezcla imposible de poderes selló su destino.
-
-                    Lo que debía ser un instrumento para el bien…
-                    se transformó en su peor pesadilla.
-                </p>
+                <div class="character-desc">
+                    <p>Fue el aprendiz de Nozar, el fundador de Santuario. Bajo su tutela, aprendió los secretos más profundos de la hechicería ancestral.</p>
+                    <p>Fue el creador del Libro Mágico, un artefacto único, capaz de albergar en su interior todo tipo de magia conocida.</p>
+                    <p>Pero aquella mezcla imposible de poderes selló su destino.</p>
+                    <p>Lo que debía ser un instrumento para el bien… se transformó en su peor pesadilla.</p>
+                </div>
             </article>
 
             <article class="character-card">
@@ -1162,23 +1539,13 @@
                 </div>
                 <div class="character-name">La Dama de la Soledad</div>
                 <div class="character-role">Arcángel caído</div>
-                <p class="character-desc">
-                    Antiguamente, fue guardiana de la luz,
-                    una protectora sagrada en los días previos a la Primera Guerra Santa.
-
-                    Pero la violencia del conflicto
-                    corrompió lentamente su esencia.
-
-                    Como castigo, fue desterrada de la Ciudad Onírica
-                    y enviada al mundo de los humanos.
-
-                    Allí colaboró con Nozar
-                    y con los ancianos de Santuario…
-                    creyendo aún que podía redimirse.
-
-                    Hasta que la violencia, una vez más,
-                    terminó por corromperla por completo.
-                </p>
+                <div class="character-desc">
+                    <p>Antiguamente, fue guardiana de la luz, una protectora sagrada en los días previos a la Primera Guerra Santa.</p>
+                    <p>Pero la violencia del conflicto corrompió lentamente su esencia.</p>
+                    <p>Como castigo, fue desterrada de la Ciudad Onírica y enviada al mundo de los humanos.</p>
+                    <p>Allí colaboró con Nozar y con los ancianos de Santuario… creyendo aún que podía redimirse.</p>
+                    <p>Hasta que la violencia, una vez más, terminó por corromperla por completo.</p>
+                </div>
             </article>
 
             <article class="character-card">
@@ -1187,23 +1554,12 @@
                 </div>
                 <div class="character-name">El Rey Brujo</div>
                 <div class="character-role">Un ser creado por el Libro Mágico</div>
-                <p class="character-desc">
-                    Es un ser creado por la mismísima oscuridad.
-                    Una entidad forjada a partir de la mezcla de todo el poder y conocimiento
-                    que alguna vez fue encerrado en el Libro Mágico.
-
-                    Su voluntad es clara:
-                    sembrar la oscuridad por todo el planeta
-                    y acabar con todos los que se interpongan en su camino.
-
-                    Pero su odio más profundo está reservado para ellos…
-                    el clan de los Ancianos Eruditos,
-                    quienes lo encerraron y lo condenaron al olvido.
-
-                    Con el paso del tiempo,
-                    unirá fuerzas con la Dama de la Soledad,
-                    sellando una alianza que marcará el destino del mundo.
-                </p>
+                <div class="character-desc">
+                    <p>Es un ser creado por la mismísima oscuridad. Una entidad forjada a partir de la mezcla de todo el poder y conocimiento que alguna vez fue encerrado en el Libro Mágico.</p>
+                    <p>Su voluntad es clara: sembrar la oscuridad por todo el planeta y acabar con todos los que se interpongan en su camino.</p>
+                    <p>Pero su odio más profundo está reservado para ellos… el clan de los Ancianos Eruditos, quienes lo encerraron y lo condenaron al olvido.</p>
+                    <p>Con el paso del tiempo, unirá fuerzas con la Dama de la Soledad, sellando una alianza que marcará el destino del mundo.</p>
+                </div>
             </article>
         </div>
     </section>
@@ -1294,8 +1650,78 @@
         </div>
     </div>
 
-    <footer>
-        © 2026 The Shadow World. Todos los derechos reservados.
+    <!-- =================================================== DÓNDE JUGAR -->
+    <section class="play-section">
+        <div class="section-header">
+            <h2>Dónde jugar</h2>
+            <p>Gratis y para Windows. Descárgalo desde donde prefieras.</p>
+        </div>
+        <div class="play-grid">
+            <a class="play-card" href="https://la-cueva-friki.itch.io/the-shadow-world" target="_blank" rel="noopener noreferrer">
+                <span class="ico">🎮</span>
+                <b>itch.io</b>
+                <span>Descarga directa</span>
+            </a>
+            <a class="play-card" href="https://apps.microsoft.com/detail/9mx7h1h8124t?hl=es-ES&amp;gl=ES" target="_blank" rel="noopener noreferrer">
+                <span class="ico"><img src="img/Logotipo_Microsoft_Store.png" alt=""></span>
+                <b>Microsoft Store</b>
+                <span>Windows 10 y 11</span>
+            </a>
+            <a class="play-card" href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener noreferrer">
+                <span class="ico">💬</span>
+                <b>Discord</b>
+                <span>Novedades y soporte</span>
+            </a>
+        </div>
+        <p class="play-note">Próximamente, más plataformas.</p>
+    </section>
+
+    <!-- ====================================================== PIE DE PÁGINA -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>The Shadow World</h4>
+                <p>Un JRPG de fantasía oscura donde un libro prohibido desata la corrupción sobre el mundo.
+                   Cuatro años de historia, y la saga aún no ha dicho su última palabra.</p>
+                <div class="footer-social">
+                    <a href="https://x.com/Oscar31741727" target="_blank" rel="noopener" aria-label="Twitter">𝕏</a>
+                    <a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener" aria-label="Discord">●</a>
+                    <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>El juego</h4>
+                <ul>
+                    <li><a href="#origin">Origin · la actualización</a></li>
+                    <li><a href="#juego">La historia</a></li>
+                    <li><a href="#personajes">Personajes</a></li>
+                    <li><a href="#media">Media</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>El universo</h4>
+                <ul>
+                    <li><a href="../index.html">Imperio de los Sueños</a></li>
+                    <li><a href="../UNIVERSO/index.html">UNIVERSO · la red social</a></li>
+                    <li><a href="../Biblioteca/index.html">Biblioteca</a></li>
+                    <li><a href="../Reinos de Arhtermoor/index.html">Reinos de Aethermoor</a></li>
+                    <li><a href="../launcher/index.html">Launcher</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Jugar</h4>
+                <ul>
+                    <li><a href="https://la-cueva-friki.itch.io/the-shadow-world" target="_blank" rel="noopener">Descargar en itch.io</a></li>
+                    <li><a href="https://apps.microsoft.com/detail/9mx7h1h8124t?hl=es-ES&amp;gl=ES" target="_blank" rel="noopener">Microsoft Store</a></li>
+                    <li><a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener">Discord del estudio</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 The Shadow World · <a href="../index.html">Imperio de los Sueños</a></span>
+            <span>Todos los derechos reservados.</span>
+        </div>
     </footer>
 
     <script>
