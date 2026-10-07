@@ -4,12 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Reinos de Aethermoor - Una aventura épica y oscura de Imperio de los Sueños.">
+    <meta name="description" content="Reinos de Aethermoor — RPG idle de fantasía oscura de Imperio de los Sueños. Diez mundos, 69 criaturas y la Temporada 5: La Era de la Peste. Gratis en navegador, Windows y Android.">
     <title>Reinos de Aethermoor | Imperio de los Sueños</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Reinos de Aethermoor | Imperio de los Sueños">
+    <meta property="og:description" content="RPG idle de fantasía oscura. Diez mundos, 69 criaturas y la Temporada 5: La Era de la Peste. Gratis en navegador, Windows y Android.">
+    <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/Reinos%20de%20Arhtermoor/img/gacha_deidades.jpg">
+    <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/Reinos%20de%20Arhtermoor/index.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Reinos de Aethermoor">
+    <meta name="twitter:description" content="RPG idle de fantasía oscura. Diez mundos y la Temporada 5: La Era de la Peste.">
+    <meta name="twitter:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/Reinos%20de%20Arhtermoor/img/gacha_deidades.jpg">
+
     <!-- CSS Principal para utilidades y consistencia -->
     <link rel="stylesheet" href="../style.css?v=5">
     <!-- CSS Específico del juego -->
-    <link rel="stylesheet" href="game-style.css?v=2">
+    <link rel="stylesheet" href="game-style.css?v=3">
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap"
         rel="stylesheet">
@@ -20,7 +31,9 @@
     <header class="navbar">
         <a href="../index.html" class="logo-text" style="text-decoration: none;">Imperio de los Sueños</a>
         <nav id="mainNav">
-            <a href="drops.html" style="color: #9146ff; font-weight: bold;"><i class="fab fa-twitch"></i> Twitch Drops</a>
+            <a href="#temporada">Temporada 5</a>
+            <a href="#mundos">Mundos</a>
+            <a href="#gachapones">Gachapones</a>
             <a href="../index.html#games">Volver a Juegos</a>
         </nav>
         <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
@@ -28,14 +41,13 @@
         </button>
     </header>
 
+    <!-- =========================================================== PORTADA -->
     <section class="game-hero">
-        <!-- Imagen de Portada -->
         <div class="bg-container">
             <img src="img/portada-castillo.jpg" alt="Reinos de Aethermoor - Castillo" class="game-bg">
         </div>
         <div class="video-overlay dark"></div>
         <div class="hero-content">
-            <!-- Logo del juego -->
             <img src="img/logo-athermoor.png" alt="Reinos de Aethermoor Logo"
                 class="main-logo float-anim athermoor-logo">
             <!-- El h1 está oculto visualmente pero sirve para SEO -->
@@ -43,44 +55,162 @@
             <p class="fade-in lore-text">Forja tu destino en un mundo donde la magia arcana y el acero manchado de
                 sangre decidirán el futuro del imperio.</p>
             <div class="hero-tags fade-in">
-                <span>RPG Idle</span><i>·</i><span>Fantasía oscura</span><i>·</i><span>Windows y Android</span>
+                <span>RPG Idle</span><i>·</i><span>Fantasía oscura</span><i>·</i><span>Navegador, Windows y Android</span>
             </div>
-            <div class="hero-buttons"
-                style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeIn 1s forwards 1.3s;">
-                <a href="drops.html" class="btn-primary pulse" style="background: #9146ff; border-color: #a970ff; animation: none; opacity: 1;">
-                    <i class="fab fa-twitch"></i> Ver Drops
+            <div class="hero-buttons">
+                <a href="https://lobby-aethermoor.vercel.app" target="_blank" rel="noopener" class="btn-primary">
+                    <i class="fas fa-play"></i> Jugar ahora
                 </a>
-                <a href="#trailer-section" class="btn-primary" style="animation: none; opacity: 1;">Ver Tráiler
-                    Oficial</a>
+                <a href="#trailer-section" class="btn-primary">Ver tráiler oficial</a>
                 <a href="https://apps.microsoft.com/detail/9nzzcf1lkw7g?hl=es-ES&gl=ES" target="_blank"
-                    class="btn-primary"
-                    style="background: linear-gradient(45deg, #005A9E, #0078D4); display: flex; align-items: center; gap: 12px; animation: none; opacity: 1;">
-                    <img src="img/Logotipo_Microsoft_Store.png" alt="Microsoft Store"
-                        style="width: 28px; height: 28px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+                    rel="noopener" class="btn-primary btn-store">
+                    <img src="img/Logotipo_Microsoft_Store.png" alt="Microsoft Store">
                     Descargar en MS Store
                 </a>
             </div>
         </div>
     </section>
 
+    <!-- ===================================================== TEMPORADA ACTUAL -->
+    <section class="season-hero" id="temporada">
+        <div class="season-hero-inner">
+            <div class="season-hero-txt">
+                <span class="season-badge"><i class="fas fa-skull-crossbones"></i> Temporada en curso</span>
+                <h2>Temporada 5 · <span>La Era de la Peste</span></h2>
+                <p class="season-lead">Caídos ya los clanes de brujas y cazadores, la peste devora las calles de
+                    <b>Mortaria</b>, la Urbe Doliente, y los <b>Doctores de la Peste</b> imponen su ley entre la
+                    putrefacción. Seis zonas, dieciocho misiones y un pase de <b>120 niveles</b> con track de prestigio.</p>
+
+                <ol class="season-zones">
+                    <li><span class="z">1</span><div><b>Las Calles Ensangrentadas</b><span>Saqueadores, perros rabiosos y supervivientes enloquecidos.</span></div></li>
+                    <li><span class="z">2</span><div><b>El Barrio de los Apestados</b><span>Puertas marcadas con sangre y la Madre Apestada.</span></div></li>
+                    <li><span class="z">3</span><div><b>La Fosa Común</b><span>Sepultureros corruptos y el Amasijo de Cadáveres.</span></div></li>
+                    <li><span class="z">4</span><div><b>El Lazareto</b><span>Enfermeras de la peste y el Doctor Sangrador.</span></div></li>
+                    <li><span class="z">5</span><div><b>El Osario de Mortaria</b><span>Miasmas vivientes y el Heraldo de la Pestilencia.</span></div></li>
+                    <li><span class="z">6</span><div><b>El Sanatorio del Archiatra</b><span>La élite carmesí y el Gran Doctor de la Peste.</span></div></li>
+                </ol>
+
+                <p class="season-boss"><i class="fas fa-crown"></i> Al final espera <b>el Archiatra</b>, que pretende
+                    purgar de raíz toda la vida de Aethermoor. Su bisturí es la recompensa.</p>
+            </div>
+            <figure class="season-shot">
+                <img src="img/ui-pase.jpg" alt="Pantalla del Pase de Temporada 5: La Era de la Peste, con sus 120 niveles de recompensas." loading="lazy">
+                <figcaption>El Pase de Temporada, dentro del juego</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- ============================================================ TRÁILER -->
     <section id="trailer-section" class="trailer-container">
         <h2 class="section-title">Descubre el Reino</h2>
         <div class="video-wrapper">
-            <!-- El trailer provisto -->
             <video controls preload="metadata" poster="img/portada-castillo.jpg">
                 <source src="img/Gameplay y trailer de los Reinos de Aethermoor ¡Nuevo!.mp4" type="video/mp4">
                 Tu navegador no soporta la reproducción de video.
             </video>
         </div>
         <p class="game-desc fade-in">
-            "Reinos de Aethermoor" es un RPG idle de fantasía oscura: tu héroe combate, tu reino produce y tu leyenda
-            crece incluso cuando descansas. Explora mundos, doma el Firmamento, levanta tu Ciudadela… y cuando toques
-            techo, renace en el Trono de la Eternidad más poderoso que nunca.
+            <b>Reinos de Aethermoor</b> es un RPG idle de fantasía oscura: tu héroe combate, tu reino produce y tu
+            leyenda crece incluso cuando descansas. Explora diez mundos, doma el Firmamento, levanta tu Ciudadela… y
+            cuando toques techo, renace en el Trono de la Eternidad más poderoso que nunca.
         </p>
     </section>
 
+    <!-- ============================================================= CIFRAS -->
+    <section class="stats-band">
+        <div class="stats-inner">
+            <div class="stat"><b>10</b><span>mundos</span></div>
+            <div class="stat"><b>69</b><span>criaturas</span></div>
+            <div class="stat"><b>4</b><span>clases</span></div>
+            <div class="stat"><b>5</b><span>temporadas</span></div>
+            <div class="stat"><b>120</b><span>niveles de pase</span></div>
+            <div class="stat"><b>∞</b><span>ascensiones</span></div>
+        </div>
+    </section>
+
+    <!-- ============================================================= MUNDOS -->
+    <section class="features-section" id="mundos">
+        <h2 class="section-title">Diez mundos por conquistar</h2>
+        <p class="section-intro">Cada reino tiene sus criaturas, su botín y su propio nivel de entrada. Del prado de
+            Eldoria al Sanatorio del Archiatra.</p>
+        <div class="worlds-grid">
+            <div class="world"><span class="ico">🗺️</span><div><b>Tierras de Aethermoor</b><span class="sub">El mundo principal · hasta nivel 100</span></div><em>Nv 1</em></div>
+            <div class="world"><span class="ico">🌊</span><div><b>El Mar Negro</b><span class="sub">Dominio naval: krakens y galeones malditos</span></div><em>Nv 1</em></div>
+            <div class="world"><span class="ico">💀</span><div><b>Narak'Zul</b><span class="sub">Campaña: un reino maldito tras el velo</span></div><em>Nv 20</em></div>
+            <div class="world"><span class="ico">🏴‍☠️</span><div><b>La Isla Pirata</b><span class="sub">Ladrones, motines y tesoros malditos</span></div><em>Nv 30</em></div>
+            <div class="world"><span class="ico">🌃</span><div><b>La Ciudad Onírica</b><span class="sub">Campaña: donde los sueños cobran vida</span></div><em>Nv 40</em></div>
+            <div class="world"><span class="ico">⚓</span><div><b>La Isla Oscura</b><span class="sub">Los naufragios más terribles</span></div><em>Nv 40</em></div>
+            <div class="world"><span class="ico">🐦‍⬛</span><div><b>Nóxalis</b><span class="sub">Temporada 4 · el reino de las brujas</span></div><em>Nv 40</em></div>
+            <div class="world"><span class="ico">⚖️</span><div><b>Malleus</b><span class="sub">Temporada 4 · la Inquisición y sus hogueras</span></div><em>Nv 60</em></div>
+            <div class="world"><span class="ico">🗼</span><div><b>La Torre Infinita</b><span class="sub">Mazmorra infinita entre el cielo y el infierno</span></div><em>Nv 60</em></div>
+            <div class="world nueva"><span class="ico">🦠</span><div><b>Mortaria</b><span class="sub">Temporada 5 · la Urbe Doliente</span></div><em>Nv 100</em></div>
+        </div>
+    </section>
+
+    <!-- ============================================================= CLASES -->
+    <section class="features-section">
+        <h2 class="section-title">Elige tu clase</h2>
+        <p class="section-intro">Cuatro caminos, cada uno con sus cuatro habilidades y sus dos ramas de talentos.</p>
+        <div class="class-grid">
+            <article class="class-card warrior">
+                <span class="ico">⚔️</span>
+                <h3>Guerrero</h3>
+                <p>Maestro del combate cuerpo a cuerpo. Alta resistencia y daño físico devastador.</p>
+                <span class="branches">Paladín · Berserker</span>
+            </article>
+            <article class="class-card mage">
+                <span class="ico">🔮</span>
+                <h3>Mago</h3>
+                <p>Domina las fuerzas arcanas. Devastador daño mágico a distancia.</p>
+                <span class="branches">Elementalista · Arcanista</span>
+            </article>
+            <article class="class-card archer">
+                <span class="ico">🏹</span>
+                <h3>Arquero</h3>
+                <p>Ágil y preciso. Ataques rápidos a distancia con daño crítico.</p>
+                <span class="branches">Tirador · Sombra</span>
+            </article>
+            <article class="class-card healer">
+                <span class="ico">✨</span>
+                <h3>Sanador</h3>
+                <p>Canaliza la luz sagrada. Puede curarse y hacer daño divino.</p>
+                <span class="branches">Luz · Castigo</span>
+            </article>
+        </div>
+        <p class="class-note">Y además el <b>Navío</b>: tu barco tiene sus propias estadísticas para enfrentarse a los
+            horrores del Mar Negro.</p>
+    </section>
+
+    <!-- =========================================================== SISTEMAS -->
     <section class="features-section">
         <h2 class="section-title">Un reino que crece contigo</h2>
+
+        <div class="shot-row">
+            <figure class="shot">
+                <img src="img/ui-firmamento.jpg" alt="La Bóveda del Firmamento: constelaciones que se despiertan con Esencia Astral." loading="lazy">
+                <figcaption><b>El Firmamento</b> Despierta las constelaciones — el Lobo Astral, el Cáliz Imperecedero,
+                    la Balanza Dorada — y deja que los astros multipliquen tu poder, tu oro y tu destino.</figcaption>
+            </figure>
+            <figure class="shot">
+                <img src="img/ui-talentos.jpg" alt="Árbol de talentos del Guerrero, con las ramas Paladín y Berserker." loading="lazy">
+                <figcaption><b>Talentos</b> Dos ramas de especialización por clase. Reparte tus puntos, desbloquea
+                    pasivas por nivel y haz que cada golpe crítico cuente. Tu build es tuya.</figcaption>
+            </figure>
+        </div>
+
+        <div class="shot-row">
+            <figure class="shot">
+                <img src="img/ui-jefe-mundo.jpg" alt="Jefe de Mundo semanal: el Gólem de Obsidiana, con 20 millones de vida y tramos de recompensa." loading="lazy">
+                <figcaption><b>Jefe de Mundo</b> Toda la comunidad contra un mismo coloso, cada semana. Cinco ataques
+                    diarios, una barra de vida compartida y recompensas por tramos según lo que aportes.</figcaption>
+            </figure>
+            <figure class="shot">
+                <img src="img/ui-arena.jpg" alt="Arena de Campeones: duelos asíncronos contra héroes de otros jugadores." loading="lazy">
+                <figcaption><b>Arena de Campeones</b> Duelos asíncronos contra héroes de todo Aethermoor. Sube de
+                    Bronce a Plata midiendo tu poder con el de otros jugadores reales.</figcaption>
+            </figure>
+        </div>
+
         <div class="feature-grid">
             <div class="feature-card">
                 <i class="fas fa-chess-rook feature-icon"></i>
@@ -90,37 +220,36 @@
             </div>
             <div class="feature-card">
                 <i class="fas fa-dragon feature-icon"></i>
-                <h3>Mundos y Bestiario</h3>
-                <p>Viaja entre mundos, recorre sus mapas y llena tu bestiario criatura a criatura. Cada región esconde
-                    enemigos, botín y secretos propios.</p>
+                <h3>Bestiario</h3>
+                <p>Sesenta y nueve criaturas por descubrir. Cada enemigo derrotado revela su ficha y otorga
+                    bonificaciones permanentes automáticas.</p>
             </div>
             <div class="feature-card">
                 <i class="fas fa-hammer feature-icon"></i>
-                <h3>Herrería y Talentos</h3>
-                <p>Forja y mejora tu equipamiento, reparte tus puntos de talento y haz que cada golpe crítico cuente.
-                    Tu build es tuya.</p>
+                <h3>La Gran Fragua</h3>
+                <p>Forja equipo nuevo y mejora el que llevas con fragmentos y oro. Lo que sueltan los jefes es solo el
+                    principio.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-star feature-icon"></i>
-                <h3>El Firmamento</h3>
-                <p>Despierta las constelaciones — la Arcana y la de la Fortuna — y deja que las estrellas multipliquen
-                    tu poder, tu oro y tu destino.</p>
+                <i class="fas fa-shield-halved feature-icon"></i>
+                <h3>Gremios</h3>
+                <p>Reúne a tu clan bajo un mismo estandarte y coordinaos para los jefes de mundo y la clasificación.</p>
             </div>
             <div class="feature-card">
                 <i class="fas fa-people-roof feature-icon"></i>
-                <h3>Aldea y Labores</h3>
-                <p>Atiende tu aldea, ejerce tus labores y completa misiones y eventos. Hasta tu propio barco te espera
-                    para zarpar.</p>
+                <h3>Aldea, Labores y Barco</h3>
+                <p>Atiende tu aldea, ejerce tus labores de recolección y zarpa con tu propio navío hacia el Mar Negro.</p>
             </div>
             <div class="feature-card">
                 <i class="fas fa-trophy feature-icon"></i>
                 <h3>Pase y Clasificación</h3>
-                <p>Sube niveles del Pase de Temporada, reclama sus recompensas y compite en la clasificación con el
+                <p>Ciento veinte niveles de pase con track de prestigio, misiones semanales y una clasificación con el
                     resto de héroes de Aethermoor.</p>
             </div>
         </div>
     </section>
 
+    <!-- ========================================================== ASCENSIÓN -->
     <section class="ascension-section">
         <div class="ascension-inner">
             <i class="fas fa-crown ascension-icon"></i>
@@ -128,25 +257,16 @@
             <p class="ascension-quote">«Sacrifica tu forma mortal para renacer con el conocimiento del universo.
                 Empezarás de cero, pero serás mucho más poderoso.»</p>
             <p class="ascension-desc">La Ascensión es el corazón del juego: renuncia a tu oro, tu nivel y tu equipo a
-                cambio de Puntos de Prestigio y un multiplicador global permanente. Cada renacer te acerca a la
-                eternidad.</p>
+                cambio de Puntos de Prestigio y un multiplicador global permanente. Conservas el Pase de Temporada y
+                los Puntos de Prestigio. Cada renacer te acerca a la eternidad.</p>
         </div>
     </section>
 
-    <section class="season-section">
-        <div class="season-inner">
-            <span class="season-label">Temporada 4 · Nóxalis y Malleus</span>
-            <h2>La Senda del Cuervo</h2>
-            <p>Brujas e inquisidores se enfrentan por el destino de Aethermoor. Sigue la Senda del Cuervo, gana Puntos
-                de Temporada, sube tu pase… y no te pierdas el evento de mitad de temporada: <b style="color:#b98cff;">El
-                Aquelarre del Cuervo</b>.</p>
-        </div>
-    </section>
-
-    <section class="gacha-section">
+    <!-- ========================================================= GACHAPONES -->
+    <section class="gacha-section" id="gachapones">
         <h2 class="section-title">Gachapón de Tripulantes</h2>
         <p class="gacha-intro">Recluta aliados en la Tienda y asígnalos a tu barco para multiplicar tus estadísticas.
-            Cuatro bandos te esperan.</p>
+            Cinco bandos te esperan.</p>
 
         <div class="gacha-carousel">
             <button class="gacha-arrow prev" id="gachaPrev" aria-label="Bando anterior">
@@ -167,7 +287,7 @@
                             <h3>Tripulación de Aethermoor</h3>
                             <p class="gacha-desc">El bando de siempre: desde el Marinero Novato hasta el legendario
                                 Darius, invencible en cubierta.</p>
-                            <ul class="gacha-drops">
+                            <ul class="gacha-loot">
                                 <li class="leg"><span class="ico">👴</span><b>El Anciano</b><em>Legendario</em></li>
                                 <li class="leg"><span class="ico">🧙‍♀️</span><b>La Archimaga</b><em>Legendario</em></li>
                                 <li class="leg"><span class="ico">⚔️</span><b>Darius</b><em>Legendario</em></li>
@@ -181,7 +301,32 @@
                         </div>
                     </article>
 
-                    <!-- 2. Deidades y Humanos -->
+                    <!-- 2. El Cortejo de la Peste (Temporada 5) -->
+                    <article class="gacha-slide">
+                        <div class="gacha-art gacha-art--plague">
+                            <i class="fas fa-skull"></i>
+                            <span>El Cortejo<br>de la Peste</span>
+                        </div>
+                        <div class="gacha-info">
+                            <span class="gacha-tag season">Temporada 5 · Mortaria</span>
+                            <h3>El Cortejo de la Peste</h3>
+                            <p class="gacha-desc">Los que sobreviven entre la putrefacción de Mortaria: brujas ocultas,
+                                sepultureros incansables y doctores que desertaron del Archiatra.</p>
+                            <ul class="gacha-loot">
+                                <li class="leg"><span class="ico">🕯️</span><b>Névena, la Bruja Oculta</b><em>Legendario</em></li>
+                                <li class="leg"><span class="ico">🪦</span><b>El Sepulturero</b><em>Legendario</em></li>
+                                <li class="leg"><span class="ico">⚰️</span><b>Guadaña del Cortejo Fúnebre</b><em>Legendario</em></li>
+                                <li class="epi"><span class="ico">🎭</span><b>Doctor Enmascarado</b><em>Épico</em></li>
+                            </ul>
+                            <div class="gacha-meta">
+                                <span><i class="fas fa-coins"></i> 50.000 oro</span>
+                                <span><i class="fas fa-dice"></i> x10 por 100.000</span>
+                                <span class="rate"><i class="fas fa-star"></i> 2% legendario</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 3. Deidades y Humanos -->
                     <article class="gacha-slide">
                         <div class="gacha-art">
                             <img src="img/gacha_deidades.jpg" data-carousel alt="Gachapón Deidades y Humanos">
@@ -191,7 +336,7 @@
                             <h3>Deidades y Humanos</h3>
                             <p class="gacha-desc">Los señores de The Shadow World cruzan a Aethermoor: deidades,
                                 guerreros de otra dimensión y reliquias del abismo.</p>
-                            <ul class="gacha-drops">
+                            <ul class="gacha-loot">
                                 <li class="leg"><span class="ico">👑</span><b>La Dama de la Soledad</b><em>Legendario</em></li>
                                 <li class="leg"><span class="ico">🌑</span><b>El Rey Sombra</b><em>Legendario</em></li>
                                 <li class="epi"><span class="ico">⚔️</span><b>Nozhar</b><em>Épico</em></li>
@@ -205,7 +350,7 @@
                         </div>
                     </article>
 
-                    <!-- 3. El Clan de los 300 -->
+                    <!-- 4. El Clan de los 300 -->
                     <article class="gacha-slide">
                         <div class="gacha-art">
                             <img src="img/gacha_clan300.jpg" data-carousel alt="Gachapón El Clan de los 300">
@@ -215,7 +360,7 @@
                             <h3>El Clan de los 300</h3>
                             <p class="gacha-desc">La rebelión de los desfavorecidos contra la ciudad de riquezas.
                                 Trescientos corazones que laten como uno.</p>
-                            <ul class="gacha-drops">
+                            <ul class="gacha-loot">
                                 <li class="leg"><span class="ico">🗡️</span><b>Orson Pein</b><em>Legendario</em></li>
                                 <li class="leg"><span class="ico">🥷</span><b>La Ladrona</b><em>Legendario</em></li>
                                 <li class="leg"><span class="ico">🚩</span><b>Estandarte de los 300</b><em>Legendario</em></li>
@@ -229,7 +374,7 @@
                         </div>
                     </article>
 
-                    <!-- 4. El Aquelarre del Cuervo -->
+                    <!-- 5. El Aquelarre del Cuervo -->
                     <article class="gacha-slide">
                         <div class="gacha-art">
                             <img src="img/gacha_aquelarre.jpg" data-carousel alt="Gachapón El Aquelarre del Cuervo">
@@ -239,7 +384,7 @@
                             <h3>El Aquelarre del Cuervo</h3>
                             <p class="gacha-desc">Brujas de Nóxalis y cazadores de Malleus, aliados a la fuerza contra
                                 un mal mayor: el Devorador de Fe.</p>
-                            <ul class="gacha-drops">
+                            <ul class="gacha-loot">
                                 <li class="leg"><span class="ico">👑</span><b>Morgwyn</b><em>Legendario</em></li>
                                 <li class="leg"><span class="ico">✝️</span><b>Hermana Clara</b><em>Legendario</em></li>
                                 <li class="leg"><span class="ico">🪶</span><b>Báculo del Cuervo</b><em>Legendario</em></li>
@@ -265,6 +410,41 @@
 
         <p class="gacha-note">Todas las tiradas se pagan con oro del juego. Los bandos de evento rotan: ¡recluta a sus
             legendarios antes de que zarpen!</p>
+
+        <!-- Retrato destacado -->
+        <div class="portrait-block">
+            <img src="img/dama-soledad.jpg" alt="Retrato de La Dama de la Soledad, personaje legendario del gachapón Deidades y Humanos." loading="lazy">
+            <div>
+                <span class="portrait-tag">Personaje legendario</span>
+                <h3>La Dama de la Soledad</h3>
+                <p>Reina de las Sombras, poder ancestral, destino silencioso. Cruzó desde <b>The Shadow World</b> para
+                    el 4º aniversario y se quedó entre los legendarios más codiciados de Aethermoor.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================== DESCARGA -->
+    <section class="download-section">
+        <h2 class="section-title">Empieza tu leyenda</h2>
+        <p class="section-intro">Gratis, y tu progreso te sigue: juega en el navegador y continúa en el móvil o en el
+            PC con la misma cuenta.</p>
+        <div class="download-row">
+            <a href="https://lobby-aethermoor.vercel.app" target="_blank" rel="noopener" class="dl-card">
+                <i class="fas fa-globe"></i>
+                <b>En el navegador</b>
+                <span>Sin instalar nada</span>
+            </a>
+            <a href="https://apps.microsoft.com/detail/9nzzcf1lkw7g?hl=es-ES&gl=ES" target="_blank" rel="noopener" class="dl-card">
+                <i class="fab fa-windows"></i>
+                <b>Windows</b>
+                <span>Microsoft Store</span>
+            </a>
+            <a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener" class="dl-card">
+                <i class="fab fa-discord"></i>
+                <b>Discord</b>
+                <span>Novedades y soporte</span>
+            </a>
+        </div>
     </section>
 
     <footer id="about">
@@ -288,7 +468,6 @@
     </footer>
 
     <script>
-        // Smooth Scrolling and animations for the specific page
         document.addEventListener('DOMContentLoaded', () => {
             const navbar = document.querySelector('.navbar');
             window.addEventListener('scroll', () => {
@@ -303,24 +482,20 @@
                     if (targetId === '#') return;
                     const target = document.querySelector(targetId);
                     if (target) {
-                        window.scrollTo({
-                            top: target.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
+                        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
                     }
                 });
             });
 
-            // Fade in elements on scroll
+            // Aparición progresiva al hacer scroll
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
                 });
             }, { threshold: 0.1 });
 
-            document.querySelectorAll('.feature-card, .game-desc, .video-wrapper').forEach(el => observer.observe(el));
+            document.querySelectorAll('.feature-card, .game-desc, .video-wrapper, .shot, .world, .class-card')
+                .forEach(el => observer.observe(el));
 
             // --- Carrusel de gachapones ---
             const track = document.getElementById('gachaTrack');

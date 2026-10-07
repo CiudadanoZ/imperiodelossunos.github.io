@@ -401,13 +401,13 @@
 }
 
 /* Lista de personajes destacados */
-.gacha-drops {
+.gacha-loot {
     list-style: none;
     padding: 0;
     margin: 0 0 1.4rem;
 }
 
-.gacha-drops li {
+.gacha-loot li {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -416,22 +416,22 @@
     font-size: 0.92rem;
 }
 
-.gacha-drops li:last-child { border-bottom: 0; }
+.gacha-loot li:last-child { border-bottom: 0; }
 
-.gacha-drops .ico {
+.gacha-loot .ico {
     font-size: 1.1rem;
     width: 26px;
     text-align: center;
     flex-shrink: 0;
 }
 
-.gacha-drops b {
+.gacha-loot b {
     flex-grow: 1;
     font-weight: 600;
     color: #ddd;
 }
 
-.gacha-drops em {
+.gacha-loot em {
     font-style: normal;
     font-size: 0.62rem;
     letter-spacing: 1.5px;
@@ -442,15 +442,15 @@
 }
 
 /* Colores por rareza (como en el juego) */
-.gacha-drops .leg b { color: #ffd76e; }
-.gacha-drops .leg em {
+.gacha-loot .leg b { color: #ffd76e; }
+.gacha-loot .leg em {
     color: #ffd76e;
     background: rgba(255, 190, 60, 0.1);
     border: 1px solid rgba(255, 190, 60, 0.35);
 }
 
-.gacha-drops .epi b { color: #c99bff; }
-.gacha-drops .epi em {
+.gacha-loot .epi b { color: #c99bff; }
+.gacha-loot .epi em {
     color: #c99bff;
     background: rgba(168, 85, 247, 0.1);
     border: 1px solid rgba(168, 85, 247, 0.35);
@@ -592,7 +592,344 @@
     .gacha-art--general { min-height: 150px; }
     .gacha-info { padding: 1.5rem 1.4rem; }
     .gacha-info h3 { font-size: 1.25rem; }
-    .gacha-drops li { font-size: 0.82rem; gap: 7px; }
-    .gacha-drops em { font-size: 0.55rem; padding: 2px 7px; }
+    .gacha-loot li { font-size: 0.82rem; gap: 7px; }
+    .gacha-loot em { font-size: 0.55rem; padding: 2px 7px; }
     .gacha-arrow { width: 36px; height: 36px; font-size: 0.8rem; }
 }
+
+/* =====================================================================
+   REMODELACIÓN · Temporada 5, mundos, clases, capturas y descargas
+   ===================================================================== */
+
+.section-intro {
+    text-align: center;
+    color: #b0a79c;
+    max-width: 760px;
+    margin: -3rem auto 0;
+    line-height: 1.8;
+}
+
+/* ------------------------------------------------ Temporada destacada */
+.season-hero {
+    position: relative;
+    padding: 5rem 5%;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(132, 204, 22, 0.10), transparent 55%),
+        radial-gradient(circle at 85% 70%, rgba(120, 30, 10, 0.22), transparent 55%),
+        linear-gradient(180deg, #0a0806 0%, #120c08 60%, #0a0806 100%);
+    border-top: 1px solid rgba(132, 204, 22, 0.2);
+    border-bottom: 1px solid rgba(132, 204, 22, 0.2);
+}
+
+.season-hero-inner {
+    max-width: 1150px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 3.5rem;
+    align-items: center;
+}
+
+.season-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0.45rem 1.2rem;
+    margin-bottom: 1.1rem;
+    border-radius: 50px;
+    background: rgba(132, 204, 22, 0.12);
+    border: 1px solid rgba(132, 204, 22, 0.45);
+    color: #a3d655;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.season-hero h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.season-hero h2 span {
+    background: linear-gradient(90deg, #a3d655, #e8e07a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.season-lead { color: #b0a79c; line-height: 1.85; margin-bottom: 1.8rem; }
+.season-lead b { color: #ece4da; }
+
+/* Las seis zonas de Mortaria */
+.season-zones { list-style: none; padding: 0; margin: 0 0 1.8rem; }
+
+.season-zones li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(132, 204, 22, 0.12);
+}
+
+.season-zones li:last-child { border-bottom: 0; }
+
+.season-zones .z {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(132, 204, 22, 0.14);
+    border: 1px solid rgba(132, 204, 22, 0.45);
+    color: #a3d655;
+    font-size: 0.78rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.season-zones b { display: block; color: #ece4da; font-family: 'Cinzel', serif; font-size: 0.98rem; }
+.season-zones span:not(.z) { color: #8f867c; font-size: 0.86rem; line-height: 1.6; }
+
+.season-boss {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 1rem 1.3rem;
+    background: rgba(132, 204, 22, 0.07);
+    border: 1px solid rgba(132, 204, 22, 0.28);
+    border-radius: 10px;
+    color: #b0a79c; font-size: 0.9rem; line-height: 1.7;
+}
+
+.season-boss i { color: #d4af37; margin-top: 3px; flex-shrink: 0; }
+.season-boss b { color: #ece4da; }
+
+.season-shot { margin: 0; }
+
+.season-shot img {
+    width: 100%; height: auto; display: block;
+    border-radius: 12px;
+    border: 1px solid rgba(132, 204, 22, 0.25);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+}
+
+.season-shot figcaption {
+    margin-top: 0.8rem; text-align: center;
+    color: #8f867c; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 2px;
+}
+
+/* ------------------------------------------------------------ Cifras */
+.stats-band {
+    padding: 2.5rem 5%;
+    background: rgba(0, 0, 0, 0.35);
+    border-top: 1px solid rgba(212, 175, 55, 0.14);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.14);
+}
+
+.stats-inner {
+    max-width: 1000px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem;
+}
+
+.stat { text-align: center; }
+.stat b { display: block; font-family: 'Cinzel', serif; font-size: 2rem; color: #d4af37; line-height: 1; }
+.stat span { display: block; margin-top: 0.4rem; font-size: 0.72rem; color: #8f867c; text-transform: uppercase; letter-spacing: 1.5px; }
+
+/* ------------------------------------------------------------ Mundos */
+.worlds-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem; margin-top: 3rem;
+}
+
+.world {
+    display: flex; align-items: center; gap: 14px;
+    padding: 1rem 1.2rem;
+    background: rgba(20, 14, 10, 0.7);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 12px;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.world:hover { transform: translateY(-4px); border-color: rgba(212, 175, 55, 0.45); }
+.world.nueva { border-color: rgba(132, 204, 22, 0.45); background: rgba(26, 30, 12, 0.6); }
+
+.world .ico { font-size: 1.6rem; flex-shrink: 0; }
+.world div { flex: 1; min-width: 0; }
+.world b { display: block; color: #ece4da; font-family: 'Cinzel', serif; font-size: 1rem; }
+.world .sub { display: block; color: #8f867c; font-size: 0.82rem; line-height: 1.5; }
+
+.world em {
+    flex-shrink: 0;
+    font-style: normal; font-size: 0.72rem; font-weight: 700;
+    color: #d4af37; letter-spacing: 1px;
+    padding: 3px 10px; border-radius: 50px;
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.world.nueva em { color: #a3d655; background: rgba(132, 204, 22, 0.14); border-color: rgba(132, 204, 22, 0.4); }
+
+/* ------------------------------------------------------------ Clases */
+.class-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.3rem; margin-top: 3rem;
+}
+
+.class-card {
+    text-align: center;
+    padding: 1.8rem 1.4rem;
+    background: rgba(20, 14, 10, 0.7);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-top-width: 3px;
+    border-radius: 14px;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.class-card:hover { transform: translateY(-6px); }
+.class-card.warrior { border-top-color: #e2574c; }
+.class-card.mage    { border-top-color: #9b6cf0; }
+.class-card.archer  { border-top-color: #4fc07f; }
+.class-card.healer  { border-top-color: #e8c35a; }
+
+.class-card .ico { font-size: 2.4rem; display: block; margin-bottom: 0.7rem; }
+.class-card h3 { font-family: 'Cinzel', serif; color: #fff; font-size: 1.25rem; margin-bottom: 0.5rem; }
+.class-card p { color: #b0a79c; font-size: 0.9rem; line-height: 1.65; margin-bottom: 1rem; }
+
+.class-card .branches {
+    display: inline-block;
+    font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #8f867c; padding-top: 0.8rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.14);
+}
+
+.class-note { text-align: center; color: #8f867c; margin-top: 2rem; font-size: 0.9rem; }
+.class-note b { color: #d4af37; }
+
+/* --------------------------------------------- Capturas del juego */
+/* Dos fijas: con auto-fit salian tres columnas para dos capturas */
+.shot-row {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem; margin-top: 3rem;
+}
+
+.shot { margin: 0; }
+
+.shot img {
+    width: 100%; height: auto; display: block;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    transition: transform 0.4s ease;
+}
+
+.shot:hover img { transform: translateY(-5px); }
+
+.shot figcaption {
+    margin-top: 1rem;
+    color: #b0a79c; font-size: 0.9rem; line-height: 1.7;
+}
+
+.shot figcaption b {
+    display: block;
+    font-family: 'Cinzel', serif; font-size: 1.1rem;
+    color: #d4af37; margin-bottom: 0.3rem;
+}
+
+/* -------------------------------------------------- Retrato destacado */
+.portrait-block {
+    max-width: 900px; margin: 4rem auto 0;
+    display: grid; grid-template-columns: 240px minmax(0, 1fr);
+    gap: 2.5rem; align-items: center;
+    padding: 2rem;
+    background: rgba(20, 14, 10, 0.7);
+    border: 1px solid rgba(155, 108, 240, 0.25);
+    border-radius: 16px;
+}
+
+.portrait-block img {
+    width: 100%; height: auto; display: block;
+    border-radius: 12px;
+    border: 1px solid rgba(155, 108, 240, 0.35);
+}
+
+.portrait-tag {
+    display: inline-block; margin-bottom: 0.7rem;
+    padding: 4px 14px; border-radius: 50px;
+    background: rgba(155, 108, 240, 0.14);
+    border: 1px solid rgba(155, 108, 240, 0.45);
+    color: #c4a2ff; font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 2px;
+}
+
+.portrait-block h3 { font-family: 'Cinzel', serif; color: #fff; font-size: 1.5rem; margin-bottom: 0.6rem; }
+.portrait-block p { color: #b0a79c; line-height: 1.8; font-size: 0.95rem; }
+.portrait-block p b { color: #c4a2ff; }
+
+/* Arte del gachapón de la peste (aún sin ilustración propia) */
+.gacha-art--plague {
+    background: linear-gradient(135deg, #10140a 0%, #232b10 55%, #11160a 100%) !important;
+}
+.gacha-art--plague i { color: #a3d655 !important; }
+
+/* ---------------------------------------------------------- Descargas */
+.download-section { padding: 5rem 5%; max-width: 1000px; margin: 0 auto; text-align: center; }
+
+.download-row {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1.3rem; margin-top: 3rem;
+}
+
+.dl-card {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 1.8rem 1.4rem;
+    background: rgba(20, 14, 10, 0.7);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 14px;
+    text-decoration: none;
+    transition: transform 0.3s, border-color 0.3s, background 0.3s;
+}
+
+.dl-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212, 175, 55, 0.55);
+    background: rgba(30, 21, 14, 0.8);
+}
+
+.dl-card i { font-size: 2rem; color: #d4af37; margin-bottom: 0.5rem; }
+.dl-card b { color: #fff; font-family: 'Cinzel', serif; font-size: 1.1rem; }
+.dl-card span { color: #8f867c; font-size: 0.82rem; }
+
+/* Botón de la Store en la portada */
+.btn-store {
+    background: linear-gradient(45deg, #005A9E, #0078D4) !important;
+    display: inline-flex; align-items: center; gap: 12px;
+}
+
+.btn-store img {
+    width: 28px; height: 28px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.hero-buttons {
+    display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;
+    opacity: 0; animation: fadeIn 1s forwards 1.3s;
+}
+
+.hero-buttons .btn-primary { animation: none; opacity: 1; }
+
+@media (max-width: 900px) {
+    .shot-row { grid-template-columns: 1fr; }
+    .season-hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .stats-inner { grid-template-columns: repeat(3, 1fr); gap: 1.5rem 1rem; }
+    .portrait-block { grid-template-columns: 1fr; gap: 1.8rem; text-align: center; }
+    .portrait-block img { max-width: 240px; margin: 0 auto; }
+}
+
+@media (max-width: 768px) {
+    .season-hero { padding: 3.5rem 1.3rem; }
+    .season-hero h2 { font-size: 1.7rem; }
+    .section-intro { margin-top: -2rem; }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .hero-buttons .btn-primary { width: 100%; justify-content: center; }
+}
+/* ================= FIN REMODELACIÓN ================= */
