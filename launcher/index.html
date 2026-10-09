@@ -209,24 +209,97 @@
             text-align: center;
         }
 
-        .included-logos {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 3rem;
-            margin-top: 3rem;
+        .included-intro {
+            max-width: 640px;
+            margin: 1.5rem auto 0;
+            color: #9a9a9a;
+            font-size: 0.95rem;
+            line-height: 1.8;
         }
 
-        .included-logos img {
-            height: 90px;
-            width: auto;
-            object-fit: contain;
-            opacity: 0.85;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
-            transition: opacity 0.3s, transform 0.3s;
+        .included-logos {
+            /* Los cinco en una fila: con 210px de minimo salian cuatro y
+               el quinto se quedaba solo en la fila de abajo. */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 1.5rem;
+            max-width: 1150px;
+            margin: 3rem auto 0;
         }
-        .included-logos img:hover { opacity: 1; transform: scale(1.05); }
+
+
+        .title-card {
+            margin: 0;
+            padding: 1.6rem 1.2rem 1.4rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.1rem;
+            transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+        }
+
+        .title-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(212, 175, 55, 0.45);
+            background: rgba(25, 25, 32, 0.75);
+        }
+
+        .title-card img {
+            height: 92px;
+            width: 100%;
+            object-fit: contain;
+            opacity: 0.92;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.7));
+            transition: opacity 0.3s, transform 0.35s;
+        }
+
+        .title-card:hover img { opacity: 1; transform: scale(1.04); }
+
+        .title-card figcaption { line-height: 1.5; }
+
+        .title-card b {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .title-card span {
+            display: block;
+            margin-top: 0.3rem;
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+        }
+
+        .title-card .soon {
+            display: inline-block;
+            margin-top: 0.7rem;
+            padding: 2px 11px;
+            border-radius: 50px;
+            font-style: normal;
+            font-size: 0.64rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #9a9a9a;
+        }
+        @media (max-width: 1080px) {
+            .included-logos { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 700px) {
+            .included-logos { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .title-card { padding: 1.2rem 0.9rem 1.1rem; }
+            .title-card img { height: 72px; }
+            .title-card b { font-size: 0.85rem; }
+        }
 
         @media (max-width: 768px) {
             .launcher-hero h1 { font-size: 2.4rem; }
@@ -304,10 +377,30 @@
 
     <section class="included-section">
         <h2 class="section-title">Títulos incluidos</h2>
+        <p class="included-intro">Cinco títulos del estudio, listos para instalar y actualizar
+            desde el propio launcher.</p>
         <div class="included-logos">
-            <img src="../img/TSW_logo.png" alt="The Shadow World">
-            <img src="../img/Athermoor_Transparente.png" alt="Reinos de Aethermoor">
-            <img src="../img/saga_logo.png" alt="The Shadow World Saga">
+            <figure class="title-card">
+                <img src="../img/launcher/tsw-origin.png" alt="The Shadow World Origin" loading="lazy">
+                <figcaption><b>The Shadow World Origin</b><span>Saga TSW · Capítulo I</span></figcaption>
+            </figure>
+            <figure class="title-card">
+                <img src="../img/launcher/tsw-revival.png" alt="The Shadow World Revival" loading="lazy">
+                <figcaption><b>The Shadow World Revival</b><span>Saga TSW · Capítulo II</span></figcaption>
+            </figure>
+            <figure class="title-card">
+                <img src="../img/launcher/tsw-darkness.png" alt="The Shadow World: The Darkness Behind Humanity" loading="lazy">
+                <figcaption><b>The Darkness Behind Humanity</b><span>Saga TSW · Capítulo III</span>
+                    <em class="soon">Próximamente</em></figcaption>
+            </figure>
+            <figure class="title-card">
+                <img src="../img/launcher/aethermoor.png" alt="Reinos de Aethermoor" loading="lazy">
+                <figcaption><b>Reinos de Aethermoor</b><span>RPG idle · Universo Aethermoor</span></figcaption>
+            </figure>
+            <figure class="title-card">
+                <img src="../img/launcher/valdoria.png" alt="La Ciudadela de Valdoria" loading="lazy">
+                <figcaption><b>La Ciudadela de Valdoria</b><span>MMORPG · en pixel art</span></figcaption>
+            </figure>
         </div>
     </section>
 
