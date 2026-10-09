@@ -3,6 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>The Shadow World – El origen del grimorio prohibido</title>
+    <meta name="description" content="Nueva página oficial de The Shadow World y estreno de la sección de noticias del desarrollo.">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Nueva página oficial y nuevas noticias">
+    <meta property="og:description" content="Estrenamos la página oficial de The Shadow World y una sección de noticias con las novedades del desarrollo.">
+    <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/TSW_web/img/og-image.jpg">
+    <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/TSW_web/EntradasBlog/Nueva-pagina1.html">
+    <meta property="og:site_name" content="Imperio de los Sueños">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nueva página oficial y nuevas noticias">
+    <meta name="twitter:description" content="Estrenamos la página oficial de The Shadow World y una sección de noticias con las novedades del desarrollo.">
+    <meta name="twitter:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/TSW_web/img/og-image.jpg">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -564,6 +577,77 @@
             nav.main-nav a { padding: 8px 8px; font-size: 11.5px; }
             nav.main-nav a:hover::after, nav.main-nav a.is-active::after { left: 8px; right: 8px; }
         }
+        .site-footer {
+            background: #02050b;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 54px 24px 0;
+        }
+
+        .footer-grid {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 38px;
+            padding-bottom: 38px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #ffdd66;
+            margin-bottom: 14px;
+        }
+
+        .footer-col p { font-size: 13.5px; line-height: 1.75; color: #8c94b1; }
+        .footer-col ul { list-style: none; padding: 0; margin: 0; }
+        .footer-col li { margin-bottom: 9px; }
+
+        .footer-col a {
+            font-size: 13.5px;
+            color: #b6bed6;
+            text-decoration: none;
+            transition: color 0.25s;
+        }
+
+        .footer-col a:hover { color: #3aa3ff; }
+
+        .footer-social { display: flex; gap: 12px; margin-top: 16px; }
+
+        .footer-social a {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b6bed6; font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            background: #1a75ff; border-color: #1a75ff;
+            color: #fff; transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 18px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 14px; flex-wrap: wrap;
+            font-size: 12px; color: #717995;
+        }
+
+        .footer-bottom a { color: #8c94b1; text-decoration: none; }
+        .footer-bottom a:hover { color: #3aa3ff; }
+
+        @media (max-width: 900px) {
+            .footer-bottom { justify-content: center; text-align: center; }
+        }
+
     </style>
     <link rel="stylesheet" href="../mobile-menu.css">
 </head>
@@ -580,10 +664,13 @@
 
         <nav class="main-nav" id="mainNav">
             <a href="../index.html#inicio">Inicio</a>
+            <a href="../index.html#origin">Origin</a>
             <a href="../index.html#juego">El juego</a>
             <a href="../index.html#personajes">Personajes</a>
             <a href="../index.html#media">Media</a>
+            <a href="../index.html#universo">Universo</a>
             <a href="../blog.html" class="is-active">Blog</a>
+            <a href="../../index.html" class="nav-home" title="Volver a Imperio de los Sueños">← Imperio</a>
         </nav>
 
         <div class="auth-area">
@@ -710,8 +797,49 @@
     </div>
 </main>
 
-<footer>
-    © 2025 The Shadow World. Todos los derechos reservados.
+<footer class="site-footer">
+    <div class="footer-grid">
+        <div class="footer-col">
+            <h4>The Shadow World</h4>
+            <p>Un JRPG de fantasía oscura donde un libro prohibido desata la corrupción sobre el
+               mundo. Cuatro años de historia, y la saga aún no ha dicho su última palabra.</p>
+            <div class="footer-social">
+                <a href="https://x.com/Oscar31741727" target="_blank" rel="noopener" aria-label="Twitter">𝕏</a>
+                <a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener" aria-label="Discord">●</a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>El juego</h4>
+            <ul>
+                <li><a href="../index.html#origin">Origin · la actualización</a></li>
+                <li><a href="../index.html#juego">La historia</a></li>
+                <li><a href="../index.html#personajes">Personajes</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>El universo</h4>
+            <ul>
+                <li><a href="../../index.html">Imperio de los Sueños</a></li>
+                <li><a href="../../UNIVERSO/index.html">UNIVERSO · la red social</a></li>
+                <li><a href="../../Biblioteca/index.html">Biblioteca</a></li>
+                <li><a href="../../Reinos de Arhtermoor/index.html">Reinos de Aethermoor</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Jugar</h4>
+            <ul>
+                <li><a href="https://la-cueva-friki.itch.io/the-shadow-world" target="_blank" rel="noopener">Descargar en itch.io</a></li>
+                <li><a href="https://apps.microsoft.com/detail/9mx7h1h8124t?hl=es-ES&amp;gl=ES" target="_blank" rel="noopener">Microsoft Store</a></li>
+                <li><a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener">Discord del estudio</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>&copy; 2026 The Shadow World · <a href="../../index.html">Imperio de los Sueños</a></span>
+        <span>Todos los derechos reservados.</span>
+    </div>
 </footer>
 
     <script src="../../menu.js"></script>
