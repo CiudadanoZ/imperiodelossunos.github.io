@@ -14,9 +14,12 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+
+    <link rel="stylesheet" href="universo.css?v=2">
     <style>
-        /* Reusamos los estilos de index.html */
+        /* Solo lo propio de esta página. El resto vive en universo.css */
         body { background-color: #030305; }
+
         .social-layout {
             display: grid;
             grid-template-columns: 280px minmax(500px, 700px) 350px;
@@ -26,103 +29,23 @@
             min-height: 100vh;
             padding-top: 80px;
         }
-        .social-sidebar-left {
-            position: sticky;
-            top: 80px;
-            height: calc(100vh - 80px);
-            padding: 20px 10px 20px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            overflow-y: auto;
-        }
-        .social-sidebar-left::-webkit-scrollbar { width: 0px; }
-        .social-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 20px;
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            transition: all 0.2s ease;
-        }
-        .social-nav-item i { font-size: 1.4rem; width: 25px; text-align: center; }
-        .social-nav-item:hover, .social-nav-item.active {
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--accent-gold);
-        }
-        .social-nav-item.active {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        }
-        .btn-post {
-            background: linear-gradient(45deg, var(--accent-gold), #b8860b);
-            color: #050505;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            font-family: 'Cinzel', serif;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-            transition: all 0.3s ease;
-        }
-        .avatar {
-            width: 40px; height: 40px; border-radius: 50%; object-fit: cover;
-            border: 2px solid var(--accent-gold); background-color: #1a1a24;
-        }
-        .social-feed {
-            border-left: 1px solid var(--glass-border);
-            border-right: 1px solid var(--glass-border);
-            min-height: 100vh;
-            background: rgba(10, 10, 15, 0.5);
-            backdrop-filter: blur(5px);
-        }
+
         .feed-header {
             position: sticky; top: 75px;
             background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(10px);
             padding: 15px 20px; border-bottom: 1px solid var(--glass-border);
             z-index: 10; display: flex; justify-content: space-between; align-items: center;
         }
-        .feed-header h2 { font-size: 1.5rem; margin: 0; color: var(--text-light); }
-        .post { display: flex; gap: 15px; padding: 20px; border-bottom: 1px solid var(--glass-border); transition: background 0.2s; cursor: pointer; }
-        .post:hover { background: rgba(255, 255, 255, 0.02); }
-        .post-content { flex-grow: 1; }
-        .post-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; }
-        .post-author { font-weight: bold; color: var(--text-light); }
-        .post-handle, .post-time { color: #777; font-size: 0.9rem; }
-        .post-time::before { content: "· "; }
-        .post-text { font-size: 1rem; line-height: 1.5; margin-bottom: 15px; color: #e0e0e0; }
-        .post-image { width: 100%; border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 15px; max-height: 400px; object-fit: cover; }
-        .post-interactions { display: flex; justify-content: space-between; max-width: 400px; color: #777; font-size: 0.95rem; }
-        .interaction { display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
-        .interaction:hover { color: var(--accent-gold); }
-        .interaction i { padding: 8px; border-radius: 50%; transition: background 0.2s; }
-        .interaction:hover i { background: rgba(212, 175, 55, 0.1); }
-        .interaction.like.active, .interaction.save.active { color: var(--accent-gold); }
-        .interaction.retweet.active { color: #17bf63; }
-        
-        .social-sidebar-right { padding: 20px 20px 20px 10px; position: sticky; top: 80px; height: calc(100vh - 80px); overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
-        .widget { background: rgba(15, 15, 22, 0.6); border: 1px solid var(--glass-border); border-radius: 16px; padding: 15px 0; backdrop-filter: blur(10px); }
+
         .widget h3 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: #fff; padding: 0 20px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 10px; }
-        
-        /* Modal simple */
+
         .comment-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:2000; align-items:center; justify-content:center; }
+
         .comment-modal-content { background:#0a0a0f; border:1px solid var(--glass-border); width:100%; max-width:600px; max-height:90vh; border-radius:16px; display:flex; flex-direction:column; overflow:hidden; }
-        
+
         @media (max-width: 1100px) {
             .social-layout { grid-template-columns: 80px minmax(500px, 1fr) 300px; }
             .social-nav-item span, .btn-post { display: none; }
-        }
-        @media (max-width: 900px) {
-            .social-layout { grid-template-columns: 80px 1fr; }
-            .social-sidebar-right { display: none; }
         }
 
         @media (max-width: 600px) {
@@ -163,8 +86,6 @@
             }
         }
     </style>
-
-    <link rel="stylesheet" href="universo.css?v=1">
 </head>
 
 <body>

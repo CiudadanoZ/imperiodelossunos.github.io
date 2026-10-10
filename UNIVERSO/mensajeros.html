@@ -11,8 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- social-db.js eliminado, ahora usamos social-firebase.js -->
     
+    <link rel="stylesheet" href="universo.css?v=2">
     <style>
-        /* Base Social Media Layout recycled */
+        /* Solo lo propio de esta página. El resto vive en universo.css */
         body {
             background-color: #030305;
             overflow: hidden; /* Evitamos scroll en el body para el layout de chat */
@@ -27,8 +28,11 @@
             padding-top: 80px;
         }
 
-        /* ----- SIDEBAR IZQUIERDA (Navegación Social) ----- */
         .social-sidebar-left {
+            /* Esta pagina usa .messaging-layout, no la rejilla social:
+               su panel no se queda pegado al hacer scroll. */
+            position: static;
+            overflow-y: visible;
             height: 100%;
             padding: 20px 10px 20px 20px;
             display: flex;
@@ -37,57 +41,6 @@
             border-right: 1px solid var(--glass-border);
         }
 
-        .social-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 20px;
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            transition: all 0.2s ease;
-        }
-
-        .social-nav-item i {
-            font-size: 1.4rem;
-            width: 25px;
-            text-align: center;
-        }
-
-        .social-nav-item:hover, .social-nav-item.active {
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--accent-gold);
-        }
-
-        .social-nav-item.active {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        }
-
-        .btn-post {
-            background: linear-gradient(45deg, var(--accent-gold), #b8860b);
-            color: #050505;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            font-family: 'Cinzel', serif;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .btn-post:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
-        }
-
-        /* ----- CONTENEDOR DE MENSAJES ----- */
         .messages-container {
             display: grid;
             grid-template-columns: 350px 1fr;
@@ -96,7 +49,6 @@
             height: 100%;
         }
 
-        /* Lista de Chats */
         .chats-sidebar {
             border-right: 1px solid var(--glass-border);
             display: flex;
@@ -164,12 +116,12 @@
             text-overflow: ellipsis;
         }
 
-        /* --- BUSCADOR Y RESULTADOS --- */
         .search-area {
             position: relative;
             padding: 10px 15px;
             background: rgba(0,0,0,0.2);
         }
+
         .search-input {
             width: 100%;
             background: rgba(255,255,255,0.05);
@@ -180,6 +132,7 @@
             font-size: 0.85rem;
             outline: none;
         }
+
         .search-results {
             position: absolute;
             top: 100%;
@@ -193,6 +146,7 @@
             display: none;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
+
         .result-item {
             display: flex;
             align-items: center;
@@ -200,6 +154,7 @@
             padding: 10px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
+
         .result-btn {
             font-size: 0.7rem;
             padding: 4px 8px;
@@ -210,12 +165,12 @@
             color: var(--accent-gold);
             font-family: Cinzel;
         }
+
         .result-btn.active {
             background: var(--accent-gold);
             color: black;
         }
 
-        /* --- MENÚ ADJUNTAR --- */
         .attachment-menu {
             position: absolute;
             bottom: 80px;
@@ -229,6 +184,7 @@
             box-shadow: 0 5px 25px rgba(0,0,0,0.7);
             z-index: 50;
         }
+
         .attachment-option {
             padding: 12px 20px;
             display: flex;
@@ -238,6 +194,7 @@
             color: #ddd;
             transition: background 0.2s;
         }
+
         .attachment-option:hover {
             background: rgba(212, 175, 55, 0.1);
             color: var(--accent-gold);
@@ -250,7 +207,6 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Ventana de Chat Actual */
         .chat-window {
             display: flex;
             flex-direction: column;
@@ -358,16 +314,6 @@
             filter: brightness(1.1);
         }
 
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent-gold);
-            background-color: #1a1a24;
-        }
-
-        /* Responsive */
         @media (max-width: 1100px) {
             .messaging-layout { grid-template-columns: 80px 1fr; }
             .social-nav-item span { display: none; }
@@ -445,7 +391,6 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="universo.css?v=1">
 </head>
 <body>
     <!-- Navbar Principal -->
