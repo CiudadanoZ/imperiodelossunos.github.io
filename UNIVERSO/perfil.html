@@ -883,6 +883,7 @@
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
         }
     </style>
+    <link rel="stylesheet" href="universo.css?v=1">
 </head>
 
 <body>
@@ -1081,7 +1082,7 @@
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
         import { handleNotifications } from './js/notify.js';
-        import { escapeHtml, escapeJsAttr, safeImageUrl, linkifyText, embedHtml, quotedBoxHtml } from './js/utils.js';
+        import { escapeHtml, escapeJsAttr, safeImageUrl, linkifyText, embedHtml, quotedBoxHtml, tiempoRelativo, spanTiempo } from './js/utils.js';
 
         // --- GESTIÓN DE PERFIL ---
         let myPinnedId = null; // leyenda fijada del usuario
@@ -1193,7 +1194,7 @@
                                 <span class="post-author">${escapeHtml(post.author)}</span>
                                 ${SocialFirebase.isVerified(post.authorUid) ? '<i class="fas fa-circle-check" style="color: var(--accent-gold); font-size: 0.8rem;" title="Cuenta verificada"></i>' : ''}
                                 <span class="post-handle">${escapeHtml(post.handle)}</span>
-                                <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
+                                ${spanTiempo(post.timestamp)}
                             </div>
                             <div class="post-text">${linkifyText(post.text)}</div>
                             ${(post.image && post.image.includes('data:image')) ? `<img src="${safeImageUrl(post.image)}" alt="Media" class="post-image">` : ''}
@@ -1295,7 +1296,7 @@
                                 <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
                                     <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${escapeHtml(c.author)}</div>
                                     <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${escapeHtml(c.text)}</div>
-                                    <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
+                                    <div class="comment-time">${tiempoRelativo(c.timestamp).texto}</div>
                                 </div>
                             </div>
                         `);

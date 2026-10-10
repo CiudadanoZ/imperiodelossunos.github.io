@@ -164,6 +164,7 @@
         }
     </style>
 
+    <link rel="stylesheet" href="universo.css?v=1">
 </head>
 
 <body>
@@ -261,7 +262,7 @@
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
         import { handleNotifications } from './js/notify.js';
-        import { escapeHtml, safeImageUrl, linkifyText, embedHtml, quotedBoxHtml } from './js/utils.js';
+        import { escapeHtml, safeImageUrl, linkifyText, embedHtml, quotedBoxHtml, tiempoRelativo, spanTiempo } from './js/utils.js';
 
         async function loadUserInfo() {
             const user = await SocialFirebase.getCurrentUserProfile();
@@ -289,7 +290,7 @@
                                 <span class="post-author">${escapeHtml(post.author)}</span>
                                 ${SocialFirebase.isVerified(post.authorUid) ? '<i class="fas fa-circle-check" style="color: var(--accent-gold); font-size: 0.8rem;" title="Cuenta verificada"></i>' : ''}
                                 <span class="post-handle">${escapeHtml(post.handle)}</span>
-                                <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
+                                ${spanTiempo(post.timestamp)}
                             </div>
                             <div class="post-text">${linkifyText(post.text)}</div>
                             ${(post.image && post.image.includes('data:image')) ? `<img src="${safeImageUrl(post.image)}" alt="Media" class="post-image">` : ''}

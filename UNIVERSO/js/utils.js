@@ -246,3 +246,49 @@ export function readFileCapped(file, maxBytes = MAX_DATAURL_BYTES) {
         reader.readAsDataURL(file);
     });
 }
+
+/**
+ * Convierte una marca de tiempo en texto relativo, como en cualquier red
+ * social: «ahora», «hace 5 min», «hace 3 h», «12 oct». Antes se pintaba el
+ * resultado crudo de toLocaleString(), que daba cosas como
+ * «10/10/2026, 23:48:44» y envejecían fatal dentro del feed.
+ *
+ * Devuelve también el título completo para el atributo title, de modo que
+ * la fecha exacta siga estando a un paso del ratón.
+ */
+export function tiempoRelativo(ts) {
+    const fecha = new Date(ts);
+    if (isNaN(fecha.getTime())) return { texto: '', completo: '' };
+
+    const completo = fecha.toLocaleString('es-ES', {
+        day: 'numeric', month: 'long', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+    });
+
+    const seg = Math.floor((Date.now() - fecha.getTime()) / 1000);
+    if (seg < 0) return { texto: 'ahora', completo };
+    if (seg < 45) return { texto: 'ahora', completo };
+    if (seg < 90) return { texto: 'hace 1 min', completo };
+
+    const min = Math.floor(seg / 60);
+    if (min < 60) return { texto: `hace ${min} min`, completo };
+
+    const horas = Math.floor(min / 60);
+    if (horas < 24) return { texto: `hace ${horas} h`, completo };
+
+    const dias = Math.floor(horas / 24);
+    if (dias < 7) return { texto: `hace ${dias} d`, completo };
+
+    // A partir de una semana, la fecha corta. El año solo si no es este.
+    const esteAnio = fecha.getFullYear() === new Date().getFullYear();
+    const texto = fecha.toLocaleDateString('es-ES',
+        esteAnio ? { day: 'numeric', month: 'short' }
+                 : { day: 'numeric', month: 'short', year: 'numeric' });
+    return { texto, completo };
+}
+
+/** Atajo: devuelve directamente el <span> listo para insertar. */
+export function spanTiempo(ts, clase = 'post-time') {
+    const t = tiempoRelativo(ts);
+    return `<span class="${clase}" title="${t.completo}">${t.texto}</span>`;
+}

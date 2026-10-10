@@ -133,6 +133,7 @@
         }
     </style>
 
+    <link rel="stylesheet" href="universo.css?v=1">
 </head>
 
 <body>
@@ -216,7 +217,7 @@
 
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
-        import { escapeHtml, escapeJsAttr } from './js/utils.js';
+        import { escapeHtml, escapeJsAttr, tiempoRelativo, spanTiempo } from './js/utils.js';
         import { requestNotificationPermission, notificationsSupported, notificationsGranted } from './js/notify.js';
 
         // Botón para activar los avisos del navegador (solo si el navegador los
@@ -302,7 +303,7 @@
                         <div class="notif-icon">${icon}</div>
                         <div class="notif-content">
                             <div class="notif-text">${text}</div>
-                            <div class="notif-time">${new Date(n.timestamp).toLocaleString()}</div>
+                            <div class="notif-time">${tiempoRelativo(n.timestamp).texto}</div>
                         </div>
                     </div>
                 `;

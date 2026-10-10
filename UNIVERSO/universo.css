@@ -1,0 +1,407 @@
+/* =====================================================================
+   UNIVERSO · capa de acabado
+
+   Cada página de la red social trae su propio bloque <style> con el
+   diseño base. Esta hoja se carga DESPUÉS de ese bloque y se encarga de
+   lo que faltaba para que parezca una red social de verdad: estados de
+   interacción, jerarquía tipográfica, esqueletos de carga, foco visible
+   por teclado y un móvil que no se desborda.
+
+   No sustituye nada: solo afina. Si se quita, la red sigue funcionando
+   exactamente igual que antes.
+   ===================================================================== */
+
+:root {
+    --u-radio: 14px;
+    --u-borde: rgba(255, 255, 255, 0.07);
+    --u-borde-fuerte: rgba(212, 175, 55, 0.35);
+    --u-hover: rgba(255, 255, 255, 0.028);
+    --u-tenue: #6f7384;
+    --u-texto: #e8e9ee;
+    --u-like: #f4245e;
+    --u-eco: #19bf7c;
+    --u-comentario: #4b9cf5;
+    --u-guardar: var(--accent-gold, #d4af37);
+}
+
+/* =================================================== Barras de scroll */
+.social-layout *::-webkit-scrollbar { width: 8px; height: 8px; }
+.social-layout *::-webkit-scrollbar-track { background: transparent; }
+.social-layout *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+.social-layout *::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.4); }
+
+/* ========================================================= Navegación */
+/* La fila activa se nota, y el ratón no es la única forma de verlo. */
+.social-nav-item {
+    position: relative;
+    border-radius: 999px;
+    transition: background 0.22s ease, color 0.22s ease, padding-left 0.22s ease;
+}
+
+.social-nav-item:hover { background: rgba(255, 255, 255, 0.055); }
+
+.social-nav-item.active,
+.social-nav-item[aria-current="page"] {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--accent-gold, #d4af37);
+    font-weight: 600;
+}
+
+.social-nav-item:focus-visible,
+.interaction:focus-visible,
+.tab-btn:focus-visible {
+    outline: 2px solid var(--accent-gold, #d4af37);
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* ============================================================ Pestañas */
+.tab-btn {
+    position: relative;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tab-btn:hover { background: rgba(255, 255, 255, 0.04); }
+
+/* ======================================================= Tarjeta de post */
+.post {
+    position: relative;
+    transition: background 0.2s ease;
+}
+
+/* Un realce muy leve al pasar por encima: deja claro que la tarjeta
+   entera es clicable sin convertirla en un bloque de color. */
+.post:hover { background: var(--u-hover); }
+
+/* Cabecera en una sola línea, sin que el nombre parta de forma rara */
+.post-header {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: nowrap;
+    min-width: 0;
+}
+
+.post-author {
+    font-weight: 700;
+    color: var(--u-texto);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 48%;
+}
+
+.post-handle,
+.post-time {
+    color: var(--u-tenue);
+    font-weight: 400;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.post-handle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+/* El punto separador entre el alias y la hora, como en cualquier feed */
+.post-time::before {
+    content: "\00b7";
+    margin-right: 6px;
+    color: var(--u-tenue);
+}
+
+.post-time[title] { cursor: help; }
+
+.post-text {
+    color: var(--u-texto);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.post-image {
+    border-radius: var(--u-radio);
+    border: 1px solid var(--u-borde);
+}
+
+.comment-time {
+    color: var(--u-tenue);
+    font-size: 0.74rem;
+    margin-top: 5px;
+}
+
+/* =================================================== Botones de acción */
+/* Antes todos eran iguales y no reaccionaban. Ahora cada acción tiene su
+   color y una diana redonda detrás del icono, como manda el género. */
+.post-interactions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+}
+
+.interaction {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    color: var(--u-tenue);
+    font-size: 0.82rem;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+
+.interaction i { font-size: 0.95rem; transition: transform 0.2s ease; }
+
+.interaction:hover { background: rgba(255, 255, 255, 0.06); }
+.interaction:hover i { transform: scale(1.12); }
+.interaction:active { transform: scale(0.94); }
+
+/* Un color por acción */
+.post-interactions .interaction:nth-child(1):hover { color: var(--u-comentario); background: rgba(75, 156, 245, 0.12); }
+.interaction.retweet:hover,
+.interaction.retweet.active { color: var(--u-eco); }
+.interaction.retweet:hover { background: rgba(25, 191, 124, 0.12); }
+.interaction.like:hover,
+.interaction.like.active { color: var(--u-like); }
+.interaction.like:hover { background: rgba(244, 36, 94, 0.12); }
+.interaction.save:hover,
+.interaction.save.active { color: var(--u-guardar); }
+.interaction.save:hover { background: rgba(212, 175, 55, 0.12); }
+
+/* Latido al dar me gusta */
+.interaction.like.active i { animation: u-latido 0.45s ease; }
+
+@keyframes u-latido {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.45); }
+    70%  { transform: scale(0.92); }
+    100% { transform: scale(1); }
+}
+
+/* La última acción (compartir) se separa a la derecha */
+.post-interactions .interaction:last-child { margin-left: auto; }
+
+/* ========================================================== Redactor */
+.create-post textarea,
+#postText {
+    transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.create-post textarea:focus,
+#postText:focus {
+    outline: none;
+    border-color: var(--u-borde-fuerte);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* El texto de ayuda ya no se corta a media frase */
+.create-post textarea::placeholder,
+#postText::placeholder {
+    color: #5e6271;
+    opacity: 1;
+}
+
+/* ============================================= Esqueletos de carga */
+/* Mientras llega el feed, en vez de un hueco negro se ven tres tarjetas
+   fantasma. Se usan añadiendo .u-skeleton a un contenedor. */
+.u-skeleton-post {
+    display: flex;
+    gap: 14px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--u-borde);
+}
+
+.u-skeleton-post .u-sk-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.u-skeleton-post .u-sk-body { flex: 1; display: flex; flex-direction: column; gap: 9px; }
+.u-skeleton-post .u-sk-line { height: 11px; border-radius: 6px; }
+.u-skeleton-post .u-sk-line.corta { width: 38%; }
+.u-skeleton-post .u-sk-line.media { width: 86%; }
+.u-skeleton-post .u-sk-line.larga { width: 97%; }
+
+.u-sk-avatar,
+.u-sk-line {
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.04) 25%,
+        rgba(255, 255, 255, 0.09) 50%,
+        rgba(255, 255, 255, 0.04) 75%);
+    background-size: 240% 100%;
+    animation: u-brillo 1.5s ease-in-out infinite;
+}
+
+@keyframes u-brillo {
+    from { background-position: 180% 0; }
+    to   { background-position: -40% 0; }
+}
+
+/* ========================================================= Vacíos */
+.u-vacio {
+    padding: 56px 28px;
+    text-align: center;
+    color: var(--u-tenue);
+}
+
+.u-vacio i { font-size: 2.4rem; color: rgba(212, 175, 55, 0.4); margin-bottom: 1rem; display: block; }
+.u-vacio h3 { font-family: 'Cinzel', serif; color: #c9cbd4; font-size: 1.15rem; margin-bottom: 0.5rem; }
+.u-vacio p { font-size: 0.9rem; line-height: 1.7; max-width: 360px; margin: 0 auto; }
+
+/* ====================================================== Lateral derecho */
+.trending-box,
+.suggestion-box,
+.social-sidebar-right > div {
+    border-radius: var(--u-radio);
+}
+
+.suggestion-item,
+.trend-item {
+    border-radius: 10px;
+    transition: background 0.2s ease;
+}
+
+.suggestion-item:hover,
+.trend-item:hover { background: rgba(255, 255, 255, 0.04); }
+
+/* ================================================== Botón flotante */
+/* Solo tiene sentido en móvil: en escritorio ya está el redactor arriba. */
+.fab,
+.floating-action,
+.btn-forjar-movil {
+    z-index: 90;
+}
+
+/* ============================================================ MÓVIL */
+/* El problema gordo: la rejilla tenía un mínimo de 500px en la columna
+   central, así que en un teléfono de 375px la página se desbordaba 33px
+   a lo ancho. Esto lo arregla. */
+@media (max-width: 1100px) {
+    .social-layout {
+        grid-template-columns: minmax(0, 1fr) !important;
+        max-width: 100%;
+        gap: 0;
+    }
+    .social-sidebar-right { display: none; }
+}
+
+@media (max-width: 768px) {
+    .social-layout {
+        padding-top: 70px;
+        padding-bottom: 76px;   /* hueco para la barra inferior */
+    }
+
+    .social-layout > * { min-width: 0; }
+
+    .post { padding-left: 14px; padding-right: 14px; }
+
+    .post-author { max-width: 42%; font-size: 0.95rem; }
+    .post-handle { max-width: 32%; font-size: 0.8rem; }
+    .post-time { font-size: 0.78rem; }
+
+    .interaction { padding: 7px 8px; font-size: 0.78rem; }
+    .interaction i { font-size: 0.9rem; }
+
+    /* El redactor ya no corta el texto de ayuda */
+    .create-post textarea,
+    #postText { min-height: 76px; font-size: 0.95rem; }
+
+    /* El botón flotante se sube por encima de la barra inferior */
+    .fab,
+    .floating-action,
+    .btn-forjar-movil { bottom: 86px !important; }
+}
+
+/* ====================================== Quien prefiere sin animación */
+@media (prefers-reduced-motion: reduce) {
+    .u-sk-avatar,
+    .u-sk-line,
+    .interaction.like.active i { animation: none; }
+    .post,
+    .interaction,
+    .social-nav-item { transition: none; }
+}
+
+/* ======================================= Barra inferior del móvil
+   La página convierte el panel izquierdo en barra inferior, pero sus
+   siete entradas medían 65-85px cada una: 575px de contenido dentro de
+   una pantalla de 375. De ahí el desbordamiento. Ahora se reparten el
+   ancho a partes iguales y caben todas. */
+@media (max-width: 768px) {
+    .social-sidebar-left {
+        gap: 0 !important;
+        padding: 4px 2px !important;
+        overflow: hidden !important;
+        align-items: stretch;
+    }
+
+    .social-sidebar-left .social-nav-item {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 8px 2px;
+        justify-content: center;
+        gap: 0;
+        border-radius: 10px;
+    }
+
+    .social-sidebar-left .social-nav-item i { font-size: 1.15rem; }
+
+    /* Los rótulos ya están ocultos a este ancho; por si acaso */
+    .social-sidebar-left .social-nav-item span { display: none; }
+
+    /* El botón de publicar vuela por encima de la barra */
+    .social-sidebar-left .btn-post {
+        position: fixed !important;
+        right: 16px;
+        bottom: 76px;
+        width: 52px;
+        height: 52px;
+        z-index: 101;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
+    }
+}
+
+/* La tarjeta es un flex con avatar + contenido. Sin min-width:0 el
+   contenido se niega a encoger por debajo de su texto y se sale por la
+   derecha: eran los 35px que desbordaban en el móvil. */
+.post,
+.post-content,
+.post-header,
+.post-text {
+    min-width: 0;
+}
+
+.post-content { flex: 1 1 auto; }
+
+/* En el móvil las seis acciones no caben si la última se empuja a la
+   derecha con margin-left:auto: se salía 35px. Aquí se reparten. */
+@media (max-width: 768px) {
+    .post-interactions {
+        justify-content: space-between;
+        gap: 0;
+    }
+    .post-interactions .interaction:last-child { margin-left: 0; }
+    .post-interactions .interaction { padding: 7px 6px; }
+}
+
+/* Al encogerse a botón redondo, el rótulo «Forjar Leyenda» seguía dentro
+   y asomaba por el borde. Se oculta el texto y se deja solo el icono. */
+@media (max-width: 1100px) {
+    .btn-post {
+        font-size: 0 !important;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn-post::before { font-size: 1.15rem; }
+}

@@ -657,6 +657,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="universo.css?v=1">
 </head>
 
 <body>
@@ -861,7 +862,7 @@
     <script type="module">
         import { SocialFirebase } from './js/social-firebase.js';
         import { handleNotifications } from './js/notify.js';
-        import { escapeHtml, escapeJsAttr, safeImageUrl, compressImage, linkifyText, embedHtml, quotedBoxHtml } from './js/utils.js';
+        import { escapeHtml, escapeJsAttr, safeImageUrl, compressImage, linkifyText, embedHtml, quotedBoxHtml, tiempoRelativo, spanTiempo } from './js/utils.js';
         // Variables para contenido extra
         let postImageData = null;
 
@@ -1104,7 +1105,7 @@
                                 <span class="post-author">${escapeHtml(post.author)}</span>
                                 ${SocialFirebase.isVerified(post.authorUid) ? '<i class="fas fa-circle-check" style="color: var(--accent-gold); font-size: 0.8rem;" title="Cuenta verificada"></i>' : ''}
                                 <span class="post-handle">${escapeHtml(post.handle)}</span>
-                                <span class="post-time">${new Date(post.timestamp).toLocaleString()}</span>
+                                ${spanTiempo(post.timestamp)}
                                 ${isAuthor
                                     ? `<span style="margin-left:auto; display:flex; gap:12px;">
                                         <i class="fas fa-thumbtack" style="color:#888; cursor:pointer;" onclick="event.stopPropagation(); pinLegend('${escapeJsAttr(post.id)}')" title="Fijar en tu perfil"></i>
@@ -1240,7 +1241,7 @@
                     <div style="background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px; flex-grow: 1;">
                         <div style="font-weight: bold; color: var(--accent-gold); font-size: 0.85rem; margin-bottom: 4px;">${escapeHtml(c.author)}${SocialFirebase.isVerified(c.authorUid) ? ' <i class="fas fa-circle-check" style="font-size: 0.75rem;" title="Cuenta verificada"></i>' : ''}</div>
                         <div style="color: #eee; font-size: 0.9rem; line-height: 1.4;">${linkifyText(c.text)}${c.editedAt ? ' <span style="color:#555; font-size:0.7rem;">(editado)</span>' : ''}</div>
-                        <div style="color: #555; font-size: 0.75rem; margin-top: 5px;">${new Date(c.timestamp).toLocaleString()}</div>
+                        <div class="comment-time">${tiempoRelativo(c.timestamp).texto}</div>
                         ${actions}
                     </div>
                 </div>`;
