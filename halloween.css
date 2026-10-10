@@ -1,0 +1,312 @@
+/* =====================================================================
+   DECORACIÓN DE HALLOWEEN
+   Todo cuelga de la clase .halloween, que halloween.js pone en <body>
+   solo entre el 24 de octubre y el 2 de noviembre. Fuera de esas fechas
+   este archivo no pinta absolutamente nada, así que puede quedarse
+   cargado todo el año sin tocar la web.
+
+   Para probarlo cualquier día: añade ?halloween=1 a la URL.
+   Para apagarlo del todo: ?halloween=0, o quita el <script> de las
+   páginas (este CSS por sí solo es inofensivo).
+   ===================================================================== */
+
+/* ---------------------------------------------------------- Paleta */
+/* El dorado del sitio se desvía hacia ámbar de calabaza. Nada de
+   naranja chillón: solo unos grados de giro sobre lo que ya hay. */
+body.halloween {
+    --accent-gold: #f08a24;
+    --hw-amber: #f08a24;
+    --hw-amber-soft: #ffb35c;
+    --hw-purple: #7a3fb0;
+    --hw-web: rgba(226, 232, 255, 0.5);
+}
+
+/* The Shadow World tiene su propia paleta (azul y oro) */
+body.halloween.tsw-page {
+    --color-dorado: #ffb35c;
+}
+
+/* --------------------------------------------------------- Telarañas */
+/* Una esquina de telaraña sobre las tarjetas. Va en un pseudo-elemento
+   para no tocar el marcado de cada página. */
+.halloween .hw-web-corner {
+    position: relative;
+}
+
+.halloween .hw-web-corner::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 92px;
+    height: 92px;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.55;
+    background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>\
+<g fill='none' stroke='%23e2e8ff' stroke-opacity='0.75' stroke-width='1.1' stroke-linecap='round'>\
+<path d='M0 0 L0 100'/><path d='M0 0 L100 0'/>\
+<path d='M0 0 L30 96'/><path d='M0 0 L62 78'/><path d='M0 0 L78 62'/><path d='M0 0 L96 30'/>\
+<path d='M0 22 Q11 11 22 0'/>\
+<path d='M0 42 Q21 21 42 0'/>\
+<path d='M0 64 Q32 32 64 0'/>\
+<path d='M0 88 Q44 44 88 0'/>\
+</g></svg>");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* En la esquina de arriba a la derecha, espejada */
+.halloween .hw-web-corner--right::before {
+    left: auto;
+    right: -1px;
+    transform: scaleX(-1);
+}
+
+/* ------------------------------------------------------- Murciélagos */
+.halloween .hw-bats {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.halloween .hw-bat {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    opacity: 0;
+    will-change: transform;
+    animation: hw-fly linear infinite;
+}
+
+.halloween .hw-bat svg { width: 100%; height: 100%; display: block; }
+
+/* El aleteo: dos alas que suben y bajan */
+.halloween .hw-bat .hw-wing {
+    transform-origin: 50% 50%;
+    animation: hw-flap 0.38s ease-in-out infinite alternate;
+}
+
+@keyframes hw-flap {
+    from { transform: scaleY(1); }
+    to   { transform: scaleY(0.45); }
+}
+
+/* Cruzan la pantalla de derecha a izquierda, subiendo y bajando */
+@keyframes hw-fly {
+    0%   { transform: translate(110vw, 0) scale(0.9); opacity: 0; }
+    8%   { opacity: 0.75; }
+    25%  { transform: translate(78vw, -42px) scale(1); }
+    50%  { transform: translate(50vw, 26px) scale(0.95); }
+    75%  { transform: translate(22vw, -30px) scale(1.05); }
+    92%  { opacity: 0.75; }
+    100% { transform: translate(-15vw, 10px) scale(0.9); opacity: 0; }
+}
+
+/* ------------------------------------------------- Calabazas escondidas */
+.halloween .hw-pumpkin {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    opacity: 0.22;
+    z-index: 20;
+    transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+}
+
+.halloween .hw-pumpkin svg { width: 100%; height: 100%; display: block; }
+
+.halloween .hw-pumpkin:hover,
+.halloween .hw-pumpkin:focus-visible {
+    opacity: 1;
+    transform: scale(1.25) rotate(-8deg);
+    filter: drop-shadow(0 0 12px rgba(240, 138, 36, 0.85));
+    outline: none;
+}
+
+.halloween .hw-pumpkin.hw-found {
+    animation: hw-pop 0.5s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes hw-pop {
+    0%   { opacity: 1; transform: scale(1.25); }
+    45%  { opacity: 1; transform: scale(1.9) rotate(14deg); filter: drop-shadow(0 0 20px rgba(240, 138, 36, 1)); }
+    100% { opacity: 0; transform: scale(0.5) rotate(40deg); }
+}
+
+/* --------------------------------------------------------- Contador */
+.halloween .hw-counter {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(18, 9, 2, 0.93);
+    border: 1px solid rgba(240, 138, 36, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    color: var(--hw-amber-soft, #ffb35c);
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transform: translateY(140%);
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.halloween .hw-counter.hw-show { transform: translateY(0); }
+.halloween .hw-counter svg { width: 20px; height: 20px; flex-shrink: 0; }
+.halloween .hw-counter b { color: #fff; font-size: 0.95rem; }
+
+/* Breve destello al encontrar una */
+.halloween .hw-counter.hw-ping {
+    animation: hw-ping 0.6s ease;
+}
+
+@keyframes hw-ping {
+    50% { box-shadow: 0 0 0 10px rgba(240, 138, 36, 0.18), 0 10px 30px rgba(0, 0, 0, 0.6); }
+}
+
+/* ---------------------------------------------------------- Premio */
+.halloween .hw-prize {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(4, 2, 8, 0.88);
+    backdrop-filter: blur(6px);
+}
+
+.halloween .hw-prize.hw-open { display: flex; }
+
+.halloween .hw-prize-box {
+    position: relative;
+    max-width: 480px;
+    width: 100%;
+    padding: 2.6rem 2rem 2.2rem;
+    text-align: center;
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(240, 138, 36, 0.18), transparent 60%),
+        linear-gradient(180deg, #190d04 0%, #0b0509 100%);
+    border: 1px solid rgba(240, 138, 36, 0.45);
+    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.75);
+    animation: hw-rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes hw-rise {
+    from { opacity: 0; transform: translateY(26px) scale(0.96); }
+    to   { opacity: 1; transform: none; }
+}
+
+.halloween .hw-prize-box .hw-big { width: 76px; height: 76px; margin: 0 auto 1.1rem; }
+.halloween .hw-prize-box .hw-big svg { width: 100%; height: 100%; }
+
+.halloween .hw-prize-box h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 0.7rem;
+}
+
+.halloween .hw-prize-box p {
+    color: #c4b8ab;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1.6rem;
+}
+
+.halloween .hw-prize-box p b { color: var(--hw-amber-soft, #ffb35c); }
+
+.halloween .hw-prize-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.9rem 1.8rem;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffb35c 0%, #f08a24 55%, #b85f10 100%);
+    color: #1a0c02;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(255, 200, 140, 0.6);
+    box-shadow: 0 8px 24px rgba(240, 138, 36, 0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.halloween .hw-prize-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(240, 138, 36, 0.6);
+}
+
+.halloween .hw-prize-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #d8cec3;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.halloween .hw-prize-close:hover { background: rgba(240, 138, 36, 0.25); color: #fff; }
+
+.halloween .hw-reset {
+    display: block;
+    margin: 1.1rem auto 0;
+    background: none;
+    border: 0;
+    color: #6f6459;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.halloween .hw-reset:hover { color: #a2958a; }
+
+/* ------------------------------------------ Quien prefiere sin animación */
+@media (prefers-reduced-motion: reduce) {
+    .halloween .hw-bats { display: none; }
+    .halloween .hw-pumpkin,
+    .halloween .hw-counter,
+    .halloween .hw-prize-box {
+        animation: none !important;
+        transition: none !important;
+    }
+    .halloween .hw-counter { transform: none; }
+}
+
+/* ------------------------------------------------------------- Móvil */
+@media (max-width: 768px) {
+    .halloween .hw-web-corner::before { width: 60px; height: 60px; opacity: 0.4; }
+    .halloween .hw-bat { width: 24px; height: 24px; }
+    .halloween .hw-counter {
+        right: 12px;
+        bottom: 12px;
+        padding: 8px 13px;
+        font-size: 0.7rem;
+    }
+    .halloween .hw-prize-box { padding: 2.2rem 1.4rem 1.8rem; }
+}
