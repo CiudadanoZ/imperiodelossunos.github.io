@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Imperio de los Sueños · Directo — Todo lo que viene en The Shadow World, Reinos de Aethermoor, La Ciudadela de Valdoria y La Noche Eterna, anunciado en directo.">
+    <title>Directo | Imperio de los Sueños</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Imperio de los Sueños · Directo">
+    <meta property="og:description" content="Todo lo que viene en nuestros juegos, anunciado en directo.">
+    <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/og-imperio.jpg">
+    <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/evento/index.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Imperio de los Sueños · Directo">
+    <meta name="twitter:description" content="Todo lo que viene en nuestros juegos, anunciado en directo.">
+    <meta name="twitter:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/og-imperio.jpg">
+
+    <link rel="stylesheet" href="../style.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --ev-rojo: #e03a4a; --ev-oro: #d4af37; }
+
+        /* ------------------------------------------------------- Portada */
+        .ev-hero {
+            position: relative;
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(224, 58, 74, 0.16), transparent 55%),
+                radial-gradient(circle at 50% 90%, rgba(212, 175, 55, 0.12), transparent 60%),
+                #07070b;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .ev-directo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.5rem 1.3rem;
+            margin-bottom: 1.6rem;
+            border-radius: 50px;
+            background: rgba(224, 58, 74, 0.14);
+            border: 1px solid rgba(224, 58, 74, 0.5);
+            color: #ff8a95;
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .ev-punto {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            background: var(--ev-rojo);
+            animation: ev-latir 1.6s ease-in-out infinite;
+        }
+
+        @keyframes ev-latir {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(224, 58, 74, 0.6); }
+            50%      { opacity: 0.6; box-shadow: 0 0 0 7px rgba(224, 58, 74, 0); }
+        }
+
+        .ev-hero h1 {
+            font-size: clamp(2rem, 6vw, 3.6rem);
+            line-height: 1.1;
+            color: #fff;
+            margin-bottom: 0.7rem;
+        }
+
+        .ev-hero h1 span {
+            background: linear-gradient(90deg, var(--ev-oro), #f3e2a8);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ev-lema {
+            max-width: 680px;
+            margin: 0 auto 2.5rem;
+            color: #b8b2aa;
+            font-size: 1.08rem;
+            line-height: 1.8;
+        }
+
+        /* ------------------------------------------------- Los tres rostros */
+        .ev-rostros {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: 0 auto 2.8rem;
+        }
+
+        .ev-rostro {
+            position: relative;
+            width: 128px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6);
+            transition: transform 0.35s ease, border-color 0.35s ease;
+        }
+
+        .ev-rostro:hover { transform: translateY(-6px); border-color: rgba(212, 175, 55, 0.7); }
+
+        .ev-rostro img {
+            width: 100%;
+            height: auto;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        .ev-rostro figcaption {
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            color: #8a8578;
+            font-size: 0.66rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* ------------------------------------------------------ Cuenta atrás */
+        .ev-cuando {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.4rem;
+            color: #9a948c;
+            font-size: 0.92rem;
+            letter-spacing: 1px;
+        }
+
+        .ev-cuando i { color: var(--ev-oro); }
+        .ev-cuando b { color: #fff; }
+
+        .ev-reloj {
+            display: flex;
+            justify-content: center;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.4rem;
+        }
+
+        .ev-caja {
+            min-width: 86px;
+            padding: 1rem 0.7rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(8px);
+        }
+
+        .ev-caja .n {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .ev-caja .t {
+            display: block;
+            margin-top: 0.45rem;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #8a8578;
+        }
+
+        /* Cuando aún no hay fecha */
+        .ev-sinfecha {
+            display: inline-block;
+            padding: 0.9rem 1.8rem;
+            margin-bottom: 2.4rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+            color: var(--ev-oro);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+        }
+
+        /* --------------------------------------------------------- Botones */
+        .ev-botones { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .ev-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 0.83rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        .ev-btn:hover { transform: translateY(-3px); }
+
+        .ev-btn--yt {
+            background: linear-gradient(45deg, #c4302b, #ff4b47);
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(196, 48, 43, 0.42);
+        }
+        .ev-btn--yt:hover { box-shadow: 0 12px 32px rgba(196, 48, 43, 0.6); }
+
+        .ev-btn--tw {
+            background: linear-gradient(45deg, #7a2ff2, #9146ff);
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(145, 70, 255, 0.42);
+        }
+        .ev-btn--tw:hover { box-shadow: 0 12px 32px rgba(145, 70, 255, 0.6); }
+
+        .ev-btn--fantasma {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ddd;
+        }
+        .ev-btn--fantasma:hover { background: rgba(255, 255, 255, 0.1); }
+
+        .ev-btn:focus-visible { outline: 2px solid var(--ev-oro); outline-offset: 3px; }
+
+        /* ----------------------------------------------------- La escaleta */
+        .ev-seccion { padding: 5rem 5%; max-width: 1150px; margin: 0 auto; }
+
+        .ev-intro {
+            text-align: center;
+            max-width: 740px;
+            margin: -3rem auto 0;
+            color: #a9a39b;
+            line-height: 1.8;
+        }
+
+        .ev-lista { display: grid; gap: 1.5rem; margin-top: 3.5rem; }
+
+        .ev-item {
+            display: grid;
+            grid-template-columns: 76px minmax(0, 1fr);
+            gap: 1.6rem;
+            padding: 1.8rem;
+            background: rgba(18, 18, 24, 0.72);
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--ev-oro);
+            border-radius: 14px;
+            transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .ev-item:hover {
+            transform: translateX(5px);
+            background: rgba(26, 26, 34, 0.85);
+        }
+
+        .ev-logo {
+            width: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ev-logo img { width: 100%; height: auto; object-fit: contain; }
+        .ev-logo .emoji { font-size: 2.2rem; }
+
+        .ev-item h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            color: #fff;
+            margin-bottom: 0.2rem;
+        }
+
+        .ev-tag {
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            padding: 2px 11px;
+            border-radius: 50px;
+            font-size: 0.64rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: rgba(212, 175, 55, 0.13);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: var(--ev-oro);
+        }
+
+        .ev-tag.ya { background: rgba(63, 185, 80, 0.12); border-color: rgba(63, 185, 80, 0.45); color: #6ed37f; }
+        .ev-tag.pronto { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.18); color: #9a948c; }
+
+        .ev-item p { color: #a9a39b; font-size: 0.94rem; line-height: 1.75; margin-bottom: 0.9rem; }
+        .ev-item p b { color: #e2dbd1; }
+        .ev-item p:last-child { margin-bottom: 0; }
+
+        .ev-puntos { list-style: none; padding: 0; margin: 0 0 0.9rem; }
+
+        .ev-puntos li {
+            position: relative;
+            padding-left: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #a9a39b;
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        .ev-puntos li::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0.62em;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--ev-oro);
+            box-shadow: 0 0 7px rgba(212, 175, 55, 0.6);
+        }
+
+        .ev-puntos li b { color: #e2dbd1; }
+
+        .ev-enlace {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--ev-oro);
+            text-decoration: none;
+            font-size: 0.84rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.25s;
+        }
+
+        .ev-enlace:hover { border-color: var(--ev-oro); }
+
+        /* --------------------------------------------------------- Avisos */
+        .ev-aviso {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 1.2rem 1.5rem;
+            background: rgba(212, 175, 55, 0.07);
+            border: 1px solid rgba(212, 175, 55, 0.28);
+            border-radius: 10px;
+            color: #a9a39b;
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        .ev-aviso i { color: var(--ev-oro); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+        .ev-aviso b { color: #e2dbd1; }
+
+        @media (max-width: 768px) {
+            .ev-hero { padding: 6.5rem 1.3rem 3rem; }
+            .ev-rostro { width: 98px; }
+            .ev-caja { min-width: 70px; padding: 0.8rem 0.5rem; }
+            .ev-caja .n { font-size: 1.6rem; }
+            .ev-btn { width: 100%; justify-content: center; }
+            .ev-item { grid-template-columns: 1fr; gap: 1rem; }
+            .ev-logo { width: 64px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="../index.html" class="logo-text" style="text-decoration:none;">Imperio de los Sueños</a>
+        <nav id="mainNav">
+            <a href="../index.html#home">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="index.html" class="nav-cta nav-evento">Directo</a>
+            <a href="../launcher/index.html">Launcher</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="../UNIVERSO/index.html">Universo</a>
+            <a href="../index.html#about">Nosotros</a>
+        </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- =========================================================== PORTADA -->
+    <section class="ev-hero">
+        <span class="ev-directo"><span class="ev-punto"></span> Evento en directo</span>
+        <h1>Todo lo que viene en<br><span>Imperio de los Sueños</span></h1>
+        <p class="ev-lema">Una tarde para enseñar en qué andamos: lo que ya está en camino, lo que
+            llega después y alguna cosa de la que todavía no hemos hablado.</p>
+
+        <div class="ev-rostros">
+            <figure class="ev-rostro">
+                <img src="../img/evento/archivero.png" alt="Retrato en pixel art de una figura de pelo blanco con diadema y gafas.">
+                <figcaption>¿?</figcaption>
+            </figure>
+            <figure class="ev-rostro">
+                <img src="../img/evento/encapuchado.png" alt="Retrato en pixel art de una figura encapuchada con remaches de oro y el rostro en sombra.">
+                <figcaption>¿?</figcaption>
+            </figure>
+            <figure class="ev-rostro">
+                <img src="../img/evento/coronado.png" alt="Retrato en pixel art de una figura coronada de pelo azul pálido.">
+                <figcaption>¿?</figcaption>
+            </figure>
+        </div>
+
+        <p class="ev-cuando" id="evCuando"><i class="fas fa-calendar-day"></i> <span>Fecha por anunciar</span></p>
+
+        <div class="ev-reloj" id="evReloj" style="display:none;" aria-live="polite">
+            <div class="ev-caja"><span class="n" id="evDias">--</span><span class="t">Días</span></div>
+            <div class="ev-caja"><span class="n" id="evHoras">--</span><span class="t">Horas</span></div>
+            <div class="ev-caja"><span class="n" id="evMin">--</span><span class="t">Minutos</span></div>
+            <div class="ev-caja"><span class="n" id="evSeg">--</span><span class="t">Segundos</span></div>
+        </div>
+
+        <div class="ev-sinfecha" id="evSinFecha">Anunciaremos la fecha muy pronto</div>
+
+        <div class="ev-botones">
+            <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" target="_blank" rel="noopener" class="ev-btn ev-btn--yt">
+                <i class="fab fa-youtube"></i> Verlo en YouTube
+            </a>
+            <a href="https://www.twitch.tv/" target="_blank" rel="noopener" class="ev-btn ev-btn--tw" id="evTwitch">
+                <i class="fab fa-twitch"></i> Verlo en Twitch
+            </a>
+            <a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener" class="ev-btn ev-btn--fantasma">
+                <i class="fab fa-discord"></i> Avísame cuando empiece
+            </a>
+        </div>
+    </section>
+
+    <!-- ========================================================= ESCALETA -->
+    <section class="ev-seccion">
+        <h2 class="section-title">Lo que se va a ver</h2>
+        <p class="ev-intro">Cinco juegos y una red social. Esto es lo que ya podemos contar de cada uno;
+            lo demás se queda para el directo.</p>
+
+        <div class="ev-lista">
+
+            <!-- The Shadow World: Origin -->
+            <article class="ev-item">
+                <div class="ev-logo"><img src="../img/TSW_logo.png" alt="The Shadow World"></div>
+                <div>
+                    <h3>The Shadow World: Origin</h3>
+                    <span class="ev-tag ya">Ya disponible · 20 de octubre</span>
+                    <p>La mayor actualización de contenido del juego hasta la fecha, con un lavado de
+                        cara técnico completo.</p>
+                    <ul class="ev-puntos">
+                        <li>Nuevo sombreado e iluminación, movimiento del personaje mejorado y nueva
+                            interfaz en menús y submenús.</li>
+                        <li>Misiones diarias y semanales para la <b>Temporada 1</b>.</li>
+                        <li>Relanzamiento de los tres actos originales: el <b>Rey Sombra</b> ya está,
+                            la <b>Hija de la Oscuridad</b> y el <b>Rey Brujo</b> llegan después.</li>
+                    </ul>
+                    <a class="ev-enlace" href="../TSW_web/index.html#origin">Ver la página del juego <span aria-hidden="true">→</span></a>
+                </div>
+            </article>
+
+            <!-- The Darkness Behind Humanity -->
+            <article class="ev-item">
+                <div class="ev-logo"><img src="../img/launcher/tsw-darkness.png" alt="The Darkness Behind Humanity"></div>
+                <div>
+                    <h3>The Shadow World: The Darkness Behind Humanity</h3>
+                    <span class="ev-tag pronto">Capítulo III · Próximamente</span>
+                    <p>El tercer capítulo de la saga, con la expansión <b>Las Armas del Viejo Mundo</b>.
+                        Es el que cierra lo que empezó con el libro prohibido.</p>
+                    <a class="ev-enlace" href="../launcher/index.html">Verlo en el launcher <span aria-hidden="true">→</span></a>
+                </div>
+            </article>
+
+            <!-- Valdoria -->
+            <article class="ev-item">
+                <div class="ev-logo"><img src="../img/launcher/valdoria.png" alt="La Ciudadela de Valdoria"></div>
+                <div>
+                    <h3>La Ciudadela de Valdoria</h3>
+                    <span class="ev-tag">Acto II · En desarrollo</span>
+                    <p>El continente se abre al mar. Un puerto nuevo, un camino nuevo y una barca que
+                        zarpa hacia las islas.</p>
+                    <ul class="ev-puntos">
+                        <li><b>Puerto Gaviota</b>, el puerto de la costa este.</li>
+                        <li><b>Calas de los Saqueadores</b>, al sur, por el camino nuevo.</li>
+                        <li><b>El Faro Hundido</b>, en el extremo norte.</li>
+                        <li><b>Isla de la Campana</b> y <b>Roca de las Sirenas</b>, solo en barca.</li>
+                    </ul>
+                    <a class="ev-enlace" href="../Valdoria/index.html">Ver el mapa del Acto II <span aria-hidden="true">→</span></a>
+                </div>
+            </article>
+
+            <!-- La Noche Eterna -->
+            <article class="ev-item">
+                <div class="ev-logo"><img src="../img/noche_eterna.png" alt="La Noche Eterna"></div>
+                <div>
+                    <h3>La Noche Eterna</h3>
+                    <span class="ev-tag">Capítulo 2 · En desarrollo</span>
+                    <p>El Capítulo 1 se puede jugar entero y gratis desde ya. El segundo lleva la
+                        historia <b>más allá de Nueva Berlín</b> y responde de dónde sale Elías.</p>
+                    <p>Todo lo que decidas en la demo contará.</p>
+                    <a class="ev-enlace" href="../NocheEterna/index.html">Jugar el Capítulo 1 <span aria-hidden="true">→</span></a>
+                </div>
+            </article>
+
+            <!-- Aethermoor -->
+            <article class="ev-item">
+                <div class="ev-logo"><img src="../img/launcher/aethermoor.png" alt="Reinos de Aethermoor"></div>
+                <div>
+                    <h3>Reinos de Aethermoor</h3>
+                    <span class="ev-tag ya">Temporada 5 en curso</span>
+                    <p><b>La Era de la Peste</b> está en marcha: Mortaria, sus seis zonas y el Archiatra
+                        al final. Diez mundos, 69 criaturas y un pase de 120 niveles.</p>
+                    <p>De lo que viene después hablaremos en el directo.</p>
+                    <a class="ev-enlace" href="../Reinos de Arhtermoor/index.html">Ver la Temporada 5 <span aria-hidden="true">→</span></a>
+                </div>
+            </article>
+
+            <!-- Launcher -->
+            <article class="ev-item">
+                <div class="ev-logo"><span class="emoji">🚀</span></div>
+                <div>
+                    <h3>Launcher de Imperio de los Sueños</h3>
+                    <span class="ev-tag ya">Versión 1.0.0 disponible</span>
+                    <p>Un único portal para los cinco títulos del estudio: descarga, actualiza y juega
+                        desde un solo sitio, con tu cuenta de UNIVERSO.</p>
+                    <a class="ev-enlace" href="../launcher/index.html">Descargar el launcher <span aria-hidden="true">→</span></a>
+                </div>
+            </article>
+
+            <!-- UNIVERSO -->
+            <article class="ev-item">
+                <div class="ev-logo"><span class="emoji">🌐</span></div>
+                <div>
+                    <h3>UNIVERSO</h3>
+                    <span class="ev-tag ya">En línea</span>
+                    <p>La red social del Imperio, ambientada en Narak'Thul. Gremios, mensajeros,
+                        proclamas y leyendas.</p>
+                    <a class="ev-enlace" href="../UNIVERSO/index.html">Entrar en UNIVERSO <span aria-hidden="true">→</span></a>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="ev-seccion" style="padding-top:0;">
+        <div class="ev-aviso">
+            <i class="fas fa-circle-info"></i>
+            <p style="margin:0;"><b>Habrá cosas que no están en esta lista.</b> Los tres rostros de
+                arriba son de algo de lo que todavía no hemos hablado. Se verá en el directo.</p>
+        </div>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Sobre el Estudio</h3>
+                <p>Imperio de los Sueños es un estudio de desarrollo de videojuegos independiente, apasionado y dedicado a crear experiencias con atmósferas envolventes y sistemas de juego profundos.</p>
+            </div>
+            <div class="socials">
+                <a href="https://x.com/Oscar31741727" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/WygZEc54A8" aria-label="Discord" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../menu.js"></script>
+    <script>
+    /* =================================================================
+       LA FECHA DEL DIRECTO
+
+       Cambia esta linea y todo lo demas se ajusta solo: la cuenta atras
+       aparece, el texto de "Fecha por anunciar" se va, y al llegar la
+       hora el reloj se convierte en "Estamos en directo".
+
+           new Date(ANIO, MES - 1, DIA, HORA, MINUTO)
+           ojo: el mes va de 0 a 11, asi que noviembre es 10.
+
+       Ejemplo para el 22 de noviembre de 2026 a las 19:00:
+           const FECHA = new Date(2026, 10, 22, 19, 0);
+
+       Dejalo en null mientras no haya fecha.
+       ================================================================= */
+    const FECHA = null;
+
+    // Enlace del canal de Twitch, cuando lo tengais
+    const TWITCH = null;   // p. ej. 'https://www.twitch.tv/imperiodelossuenos'
+
+    (function () {
+        const reloj = document.getElementById('evReloj');
+        const sinFecha = document.getElementById('evSinFecha');
+        const cuando = document.getElementById('evCuando').querySelector('span');
+        const tw = document.getElementById('evTwitch');
+
+        if (TWITCH) tw.href = TWITCH;
+        else tw.setAttribute('title', 'Canal por confirmar');
+
+        if (!(FECHA instanceof Date) || isNaN(FECHA)) return;   // sin fecha: se queda el aviso
+
+        sinFecha.style.display = 'none';
+        reloj.style.display = 'flex';
+        cuando.innerHTML = 'En directo el <b>' + FECHA.toLocaleDateString('es-ES',
+            { weekday: 'long', day: 'numeric', month: 'long' }) + '</b> a las <b>' +
+            FECHA.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) + '</b>';
+
+        const dd = document.getElementById('evDias'), hh = document.getElementById('evHoras');
+        const mm = document.getElementById('evMin'), ss = document.getElementById('evSeg');
+        const dos = (n) => (n < 10 ? '0' : '') + n;
+        let tic;
+
+        function enDirecto() {
+            clearInterval(tic);
+            reloj.innerHTML = '<div class="ev-directo" style="margin:0;font-size:0.95rem;padding:0.8rem 1.8rem;">' +
+                '<span class="ev-punto"></span> Estamos en directo</div>';
+        }
+
+        function actualizar() {
+            const resto = FECHA.getTime() - Date.now();
+            if (resto <= 0) { enDirecto(); return; }
+            dd.textContent = Math.floor(resto / 86400000);
+            hh.textContent = dos(Math.floor((resto % 86400000) / 3600000));
+            mm.textContent = dos(Math.floor((resto % 3600000) / 60000));
+            ss.textContent = dos(Math.floor((resto % 60000) / 1000));
+        }
+
+        actualizar();
+        tic = setInterval(actualizar, 1000);
+    })();
+    </script>
+    <link rel="stylesheet" href="../halloween.css?v=1">
+    <script src="../halloween.js" defer></script>
+</body>
+</html>

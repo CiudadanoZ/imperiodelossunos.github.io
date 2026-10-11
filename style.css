@@ -994,3 +994,35 @@ footer {
     }
 }
 /* ============== FIN LANZAMIENTO · The Shadow World: Origin ============== */
+
+/* El boton del directo late en rojo para que se note que hay algo en marcha.
+   Para quitarlo cuando pase el evento: borra este bloque y el enlace
+   .nav-evento de la barra de cada pagina. */
+.nav-evento {
+    position: relative;
+    background: linear-gradient(45deg, #c02838, #e03a4a) !important;
+    border-color: #ff6b76 !important;
+    color: #fff !important;
+}
+
+.nav-evento::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #ff5566;
+    border: 2px solid #07070b;
+    animation: nav-latir 1.8s ease-in-out infinite;
+}
+
+@keyframes nav-latir {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 85, 102, 0.7); }
+    60%      { box-shadow: 0 0 0 7px rgba(255, 85, 102, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-evento::after { animation: none; }
+}
