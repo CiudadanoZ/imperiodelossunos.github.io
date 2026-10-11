@@ -91,8 +91,8 @@
         <!-- FEED CENTRAL -->
         <main class="social-feed">
             <div class="feed-header" style="padding:0;">
-                <div id="tabForYou">Para ti</div>
-                <div id="tabFollowing">Siguiendo</div>
+                <div id="tabForYou" class="u-tab activa" role="tab" tabindex="0" aria-selected="true">Para ti</div>
+                <div id="tabFollowing" class="u-tab" role="tab" tabindex="0" aria-selected="false">Siguiendo</div>
             </div>
 
             <!-- Caja para publicar -->
@@ -814,11 +814,14 @@
         }
 
         function styleFeedTabs() {
-            const base = "flex:1; text-align:center; padding:16px; cursor:pointer; font-family:'Cinzel',serif; transition:all 0.2s;";
-            const on = "color:var(--text-light); border-bottom:3px solid var(--accent-gold);";
-            const off = "color:#888; border-bottom:3px solid transparent;";
-            document.getElementById('tabForYou').setAttribute('style', base + (feedMode === 'foryou' ? on : off));
-            document.getElementById('tabFollowing').setAttribute('style', base + (feedMode === 'following' ? on : off));
+            // El aspecto vive en universo.css (.u-tab); aqui solo se marca cual manda.
+            const t1 = document.getElementById('tabForYou');
+            const t2 = document.getElementById('tabFollowing');
+            const esForYou = feedMode === 'foryou';
+            t1.classList.toggle('activa', esForYou);
+            t2.classList.toggle('activa', !esForYou);
+            t1.setAttribute('aria-selected', String(esForYou));
+            t2.setAttribute('aria-selected', String(!esForYou));
         }
 
         function subscribeFeed() {
@@ -880,6 +883,7 @@
             window.location.href = 'login.html';
         };
     </script>
+    <script src="universo-ui.js" defer></script>
 </body>
 
 </html>

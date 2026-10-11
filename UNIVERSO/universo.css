@@ -1072,3 +1072,254 @@
     }
     .btn-post::before { font-size: 1.15rem; }
 }
+
+
+/* =====================================================================
+   3. REMODELACIÓN · que se comporte como una aplicación
+
+   Lo que separaba a UNIVERSO de una red social de verdad no era el
+   color: era el comportamiento. La cabecera del feed se iba al hacer
+   scroll, el redactor no decía cuánto te quedaba ni se bloqueaba vacío,
+   y mientras cargaba no había nada que mirar. Esto es eso.
+   ===================================================================== */
+
+/* ------------------------------------------- La barra del estudio, fina */
+/* Dentro de la red recupera 24 px de alto: la marca sigue ahí, pero deja
+   de comerse la pantalla. Los anclajes pegajosos cuelgan de esta altura. */
+body:has(.social-layout) .navbar,
+body:has(.messaging-layout) .navbar {
+    padding: 10px 5%;
+}
+
+body:has(.social-layout) .navbar .logo-text,
+body:has(.messaging-layout) .navbar .logo-text {
+    font-size: 1.15rem;
+}
+
+:root { --u-barra: 56px; }
+
+body:has(.social-layout) .social-layout { padding-top: var(--u-barra); }
+
+/* ------------------------------------------ Cabecera del feed pegajosa */
+.feed-header {
+    position: sticky;
+    top: var(--u-barra);
+    z-index: 20;
+    background: rgba(8, 8, 12, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.social-sidebar-left { top: var(--u-barra); height: calc(100vh - var(--u-barra)); }
+.social-sidebar-right { top: var(--u-barra); }
+
+/* ---------------------------------------------------------- Pestañas */
+/* Antes el estilo se pintaba con JavaScript en el atributo style. */
+.u-tab {
+    flex: 1;
+    position: relative;
+    text-align: center;
+    padding: 16px;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    color: #8b90a0;
+    user-select: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.u-tab:hover { background: rgba(255, 255, 255, 0.04); color: #cfd3df; }
+
+.u-tab.activa { color: var(--u-texto); }
+
+/* El subrayado va en un pseudo-elemento para poder animarlo */
+.u-tab::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: var(--accent-gold, #d4af37);
+    transition: left 0.25s ease, right 0.25s ease;
+}
+
+.u-tab.activa::after { left: 28%; right: 28%; }
+
+.u-tab:focus-visible {
+    outline: 2px solid var(--accent-gold, #d4af37);
+    outline-offset: -4px;
+}
+
+/* ---------------------------------------------------------- Redactor */
+.compose-box { transition: background 0.25s ease; }
+.compose-box:focus-within { background: rgba(255, 255, 255, 0.018); }
+
+.compose-input {
+    field-sizing: content;       /* crece con el texto donde esté soportado */
+    min-height: 56px;
+    max-height: 320px;
+}
+
+/* Contador de caracteres y botón de publicar */
+.u-compose-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: auto;
+}
+
+.u-contador {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.u-contador.visible { opacity: 1; transform: none; }
+
+.u-contador svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.u-contador circle { fill: none; stroke-width: 2.5; }
+.u-contador .pista { stroke: rgba(255, 255, 255, 0.12); }
+.u-contador .avance {
+    stroke: var(--accent-gold, #d4af37);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.2s ease, stroke 0.2s ease;
+}
+
+.u-contador.cerca .avance { stroke: #e8a33d; }
+.u-contador.pasado .avance { stroke: var(--u-like, #f4245e); }
+
+.u-contador .quedan {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #9aa0b0;
+}
+
+.u-contador.cerca .quedan,
+.u-contador.pasado .quedan { display: flex; }
+.u-contador.pasado .quedan { color: var(--u-like, #f4245e); }
+
+/* El botón de publicar se apaga si no hay nada que publicar */
+.btn-small-post {
+    transition: opacity 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.btn-small-post:disabled,
+.btn-small-post[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn-small-post:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.35);
+}
+
+.btn-small-post:focus-visible {
+    outline: 2px solid var(--accent-gold, #d4af37);
+    outline-offset: 3px;
+}
+
+/* Los iconos del redactor, con diana */
+.action-icons i {
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.action-icons i:hover {
+    background: rgba(212, 175, 55, 0.14);
+    transform: scale(1.1);
+}
+
+/* ------------------------------------------------- Mientras carga */
+/* Tres tarjetas fantasma en vez de un hueco negro. */
+.u-cargando { animation: u-entrar 0.3s ease; }
+
+@keyframes u-entrar { from { opacity: 0; } to { opacity: 1; } }
+
+/* ----------------------------------------------------- Avisos flotantes */
+.u-avisos {
+    position: fixed;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%);
+    z-index: 4000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.u-aviso {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: rgba(16, 16, 22, 0.97);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.6);
+    color: var(--u-texto);
+    font-size: 0.88rem;
+    max-width: min(90vw, 440px);
+    animation: u-aviso-entra 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    pointer-events: auto;
+}
+
+.u-aviso i { color: var(--accent-gold, #d4af37); flex-shrink: 0; }
+.u-aviso.error { border-color: rgba(244, 36, 94, 0.5); }
+.u-aviso.error i { color: var(--u-like, #f4245e); }
+.u-aviso.saliendo { animation: u-aviso-sale 0.3s ease forwards; }
+
+@keyframes u-aviso-entra {
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes u-aviso-sale {
+    to { opacity: 0; transform: translateY(10px) scale(0.97); }
+}
+
+/* --------------------------------------------------------- Móvil */
+@media (max-width: 768px) {
+    :root { --u-barra: 52px; }
+
+    body:has(.social-layout) .navbar,
+    body:has(.messaging-layout) .navbar { padding: 8px 14px; }
+
+    .feed-header { top: var(--u-barra); }
+
+    .u-avisos { bottom: 92px; }   /* por encima de la barra inferior */
+
+    .u-tab { padding: 13px 8px; font-size: 0.92rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .u-tab::after, .u-contador, .u-contador .avance,
+    .u-aviso, .u-cargando { transition: none; animation: none; }
+}
+
+/* El grupo del contador y el boton no dejaba encoger el redactor:
+   4 px de desbordamiento en pantallas de 375. */
+.compose-box, .compose-input-area { min-width: 0; }
+.compose-input-area { flex: 1 1 auto; }
+.compose-actions { flex-wrap: wrap; gap: 8px; }
+.u-compose-meta { flex-shrink: 0; }
+
+@media (max-width: 420px) {
+    .action-icons { gap: 2px; }
+    .action-icons i { padding: 6px; }
+    .u-compose-meta { gap: 10px; }
+}
