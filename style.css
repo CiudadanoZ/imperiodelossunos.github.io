@@ -1026,3 +1026,47 @@ footer {
 @media (prefers-reduced-motion: reduce) {
     .nav-evento::after { animation: none; }
 }
+
+/* =====================================================================
+   BARRA PRINCIPAL · que no se parta
+
+   Con el boton del Directo la barra pasó a siete enlaces y se quedó sin
+   sitio: el nombre del estudio partia en dos lineas y los enlaces caian
+   en tres filas, dejando una barra de 121 px en vez de 80. Esto le da
+   aire sin cambiar su aspecto en pantallas anchas.
+   ===================================================================== */
+.navbar { gap: 1.5rem; flex-wrap: nowrap; }
+
+.logo-text {
+    white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1.2;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.navbar nav a {
+    white-space: nowrap;
+    margin-left: 1.6rem;
+}
+
+/* De 1400 px para abajo, los enlaces mandan sobre el espaciado */
+@media (max-width: 1400px) {
+    .navbar { padding-inline: 3%; }
+    .navbar nav a { margin-left: 1.15rem; font-size: 0.82rem; letter-spacing: 1.4px; }
+}
+
+/* Por debajo de 1200 el nombre del estudio estorba: queda el menu */
+@media (max-width: 1200px) {
+    .logo-text { font-size: 1.15rem; }
+    .navbar nav a { margin-left: 0.9rem; font-size: 0.78rem; letter-spacing: 1px; }
+}
+
+@media (max-width: 1050px) {
+    .logo-text { font-size: 1rem; }
+    .navbar nav a { margin-left: 0.7rem; font-size: 0.74rem; letter-spacing: 0.5px; }
+}

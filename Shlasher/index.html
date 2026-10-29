@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shlasher — Juego de terror multijugador por turnos de Imperio de los Sueños. Cuatro presas buscan las llaves para escapar de la casa mientras un asesino las caza. Gratis en el navegador.">
+    <title>Shlasher | Imperio de los Sueños</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Shlasher | Imperio de los Sueños">
+    <meta property="og:description" content="4 presas. 1 asesino. Una casa de la que no se sale. Terror multijugador por turnos, gratis en el navegador.">
+    <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/shlasher/portada.jpg">
+    <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/Shlasher/index.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Shlasher">
+    <meta name="twitter:description" content="4 presas. 1 asesino. Una casa de la que no se sale.">
+    <meta name="twitter:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/shlasher/portada.jpg">
+
+    <link rel="stylesheet" href="../style.css?v=7">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --sl-rojo: #e01f28; --sl-rojo-claro: #ff5a60; --sl-sangre: #7a0f14; }
+
+        /* ------------------------------------------------------- Portada */
+        .sl-hero {
+            position: relative;
+            padding: 8.5rem 5% 4rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .sl-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background: url('../img/shlasher/portada.jpg') center / cover no-repeat;
+            opacity: 0.42;
+        }
+
+        .sl-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 50% 10%, rgba(224, 31, 40, 0.18), transparent 58%),
+                linear-gradient(180deg, rgba(5, 2, 3, 0.78) 0%, rgba(5, 2, 3, 0.6) 45%, #050203 100%);
+        }
+
+        .sl-edicion {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.45rem 1.3rem;
+            margin-bottom: 1.5rem;
+            border-radius: 50px;
+            background: rgba(224, 31, 40, 0.12);
+            border: 1px solid rgba(224, 31, 40, 0.45);
+            color: #ff8a8f;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .sl-titulo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 12vw, 7rem);
+            line-height: 0.95;
+            letter-spacing: 0.08em;
+            color: var(--sl-rojo);
+            text-shadow:
+                0 0 34px rgba(224, 31, 40, 0.55),
+                0 5px 0 rgba(0, 0, 0, 0.6);
+            margin-bottom: 0.8rem;
+        }
+
+        .sl-lema {
+            color: #ded6d6;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            margin-bottom: 2.6rem;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+        }
+
+        .sl-botonera { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .sl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1.1rem 2.4rem;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.86rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        .sl-btn--jugar {
+            background: linear-gradient(180deg, var(--sl-rojo) 0%, #a81219 100%);
+            border: 1px solid rgba(255, 120, 125, 0.5);
+            color: #fff;
+            box-shadow: 0 8px 26px rgba(224, 31, 40, 0.45);
+        }
+
+        .sl-btn--jugar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 34px rgba(224, 31, 40, 0.7);
+        }
+
+        .sl-btn--fantasma {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ddd;
+        }
+
+        .sl-btn--fantasma:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.09); }
+        .sl-btn:focus-visible { outline: 2px solid var(--sl-rojo-claro); outline-offset: 3px; }
+
+        .sl-nota { margin-top: 1.4rem; color: #8a7f7f; font-size: 0.84rem; letter-spacing: 1px; }
+
+        /* ---------------------------------------------------- Las cifras */
+        .sl-cifras {
+            padding: 2.3rem 5%;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid rgba(224, 31, 40, 0.2);
+            border-bottom: 1px solid rgba(224, 31, 40, 0.2);
+        }
+
+        .sl-cifras-inner {
+            max-width: 940px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .sl-cifra { text-align: center; }
+        .sl-cifra b { display: block; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 2.1rem; color: var(--sl-rojo); line-height: 1; }
+        .sl-cifra span { display: block; margin-top: 0.4rem; font-size: 0.7rem; color: #8a7f7f; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* -------------------------------------------------- Bloques */
+        .sl-seccion { padding: 4.5rem 5%; max-width: 1150px; margin: 0 auto; }
+        .sl-intro { text-align: center; color: #a99e9e; max-width: 760px; margin: -3rem auto 0; line-height: 1.85; }
+        .sl-intro b { color: var(--sl-rojo-claro); }
+
+        /* Dos columnas: presas y asesino */
+        .sl-bandos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 3rem; }
+
+        .sl-bando {
+            padding: 2rem 1.8rem;
+            border-radius: 16px;
+            background: rgba(16, 10, 11, 0.76);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-top: 3px solid var(--sl-rojo);
+        }
+
+        .sl-bando.presas { border-top-color: #4b9cf5; }
+
+        .sl-bando h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.35rem;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .sl-bando .sub {
+            display: block;
+            margin-bottom: 1.4rem;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #8a7f7f;
+        }
+
+        .sl-ficha {
+            display: flex;
+            gap: 13px;
+            align-items: flex-start;
+            padding: 0.85rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sl-ficha:last-child { border-bottom: 0; }
+        .sl-ficha .ic { font-size: 1.5rem; flex-shrink: 0; line-height: 1.2; }
+        .sl-ficha b { display: block; color: #ece4e4; font-size: 0.97rem; margin-bottom: 0.15rem; }
+        .sl-ficha span { color: #a99e9e; font-size: 0.87rem; line-height: 1.6; }
+
+        /* Capturas */
+        .sl-galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.3rem; margin-top: 3rem; }
+
+        .sl-galeria figure {
+            margin: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid rgba(224, 31, 40, 0.22);
+        }
+
+        .sl-galeria img { width: 100%; height: auto; display: block; transition: transform 0.5s ease; }
+        .sl-galeria figure:hover img { transform: scale(1.04); }
+
+        .sl-galeria figcaption {
+            padding: 0.7rem 1rem;
+            background: rgba(0, 0, 0, 0.65);
+            color: #8a7f7f;
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Lista de reglas */
+        .sl-reglas { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.4rem; margin-top: 3rem; }
+
+        .sl-regla {
+            padding: 1.6rem 1.5rem;
+            border-radius: 12px;
+            background: rgba(16, 10, 11, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-left: 3px solid var(--sl-sangre);
+        }
+
+        .sl-regla i { font-size: 1.4rem; color: var(--sl-rojo); margin-bottom: 0.8rem; display: block; }
+        .sl-regla h4 { font-family: 'Cinzel', serif; font-size: 1.08rem; color: #fff; margin-bottom: 0.5rem; }
+        .sl-regla p { color: #a99e9e; font-size: 0.89rem; line-height: 1.7; }
+        .sl-regla p b { color: #ece4e4; }
+
+        /* La casa */
+        .sl-salas { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; margin-top: 3rem; }
+
+        .sl-sala {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 0.7rem 1.2rem;
+            border-radius: 50px;
+            background: rgba(16, 10, 11, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            color: #c3b9b9;
+            font-size: 0.88rem;
+        }
+
+        .sl-sala.salida { border-color: rgba(224, 31, 40, 0.5); color: #ff8a8f; }
+        .sl-sala .ic { font-size: 1.1rem; }
+        .sl-sala em { font-style: normal; color: #7d7373; font-size: 0.78rem; }
+
+        /* Aviso */
+        .sl-aviso {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 1.2rem 1.5rem;
+            background: rgba(224, 31, 40, 0.07);
+            border: 1px solid rgba(224, 31, 40, 0.28);
+            border-radius: 10px;
+            color: #a99e9e;
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        .sl-aviso i { color: var(--sl-rojo); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+        .sl-aviso b { color: #ece4e4; }
+
+        @media (max-width: 768px) {
+            .sl-hero { padding: 7rem 1.3rem 3rem; }
+            .sl-lema { font-size: 1rem; }
+            .sl-btn { width: 100%; justify-content: center; }
+            .sl-cifras-inner { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
+            .sl-intro { margin-top: -2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="../index.html" class="logo-text" style="text-decoration:none;">Imperio de los Sueños</a>
+        <nav id="mainNav">
+            <a href="../index.html#home">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="../evento/index.html" class="nav-cta nav-evento">Directo</a>
+            <a href="../launcher/index.html">Launcher</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="../UNIVERSO/index.html">Universo</a>
+            <a href="../index.html#about">Nosotros</a>
+        </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- =========================================================== PORTADA -->
+    <section class="sl-hero">
+        <span class="sl-edicion"><i class="fas fa-ghost"></i> Edición Halloween 2026</span>
+        <h1 class="sl-titulo">SHLASHER</h1>
+        <p class="sl-lema">4 presas. 1 asesino. Una casa de la que no se sale.</p>
+        <div class="sl-botonera">
+            <a href="https://shlasher.vercel.app" target="_blank" rel="noopener" class="sl-btn sl-btn--jugar">
+                <i class="fas fa-play"></i> Jugar ahora
+            </a>
+            <a href="#reglas" class="sl-btn sl-btn--fantasma">
+                <i class="fas fa-book-skull"></i> Cómo se juega
+            </a>
+        </div>
+        <p class="sl-nota">Gratis en el navegador · Mejor con sonido y a oscuras</p>
+    </section>
+
+    <!-- ============================================================ CIFRAS -->
+    <section class="sl-cifras">
+        <div class="sl-cifras-inner">
+            <div class="sl-cifra"><b>4 vs 1</b><span>Presas contra asesino</span></div>
+            <div class="sl-cifra"><b>4</b><span>Llaves para escapar</span></div>
+            <div class="sl-cifra"><b>8</b><span>Salas de la casa</span></div>
+            <div class="sl-cifra"><b>90 s</b><span>Por turno</span></div>
+        </div>
+    </section>
+
+    <!-- =========================================================== EL JUEGO -->
+    <section class="sl-seccion">
+        <h2 class="section-title">Una casa, una noche</h2>
+        <p class="sl-intro">Cuatro supervivientes buscan las <b>cuatro llaves</b> escondidas por la casa
+            para llegar al jardín y huir en la furgoneta. Un asesino los caza. <b>Si una sola presa
+            escapa, ganan todas</b>; si caen todas, gana el asesino.</p>
+
+        <div class="sl-galeria">
+            <figure>
+                <img src="../img/shlasher/titulo.jpg" alt="Pantalla de título de Shlasher: la casa bajo una luna llena naranja." loading="lazy">
+                <figcaption>La noche en que empieza todo</figcaption>
+            </figure>
+            <figure>
+                <img src="../img/shlasher/menu.jpg" alt="Menú principal de Shlasher con las opciones Jugar, Cómo jugar y Créditos." loading="lazy">
+                <figcaption>Menú principal</figcaption>
+            </figure>
+            <figure>
+                <img src="../img/shlasher/como-jugar.jpg" alt="Pantalla de instrucciones de Shlasher explicando el objetivo, los turnos y las acciones." loading="lazy">
+                <figcaption>Las reglas, dentro del juego</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- ========================================================== LOS BANDOS -->
+    <section class="sl-seccion">
+        <h2 class="section-title">Elige tu lado</h2>
+        <p class="sl-intro">La clase te toca según el hueco libre que ocupes al entrar en la sala.</p>
+
+        <div class="sl-bandos">
+            <article class="sl-bando presas">
+                <h3>Las cuatro presas</h3>
+                <span class="sub">Buscar · Esconderse · Escapar</span>
+
+                <div class="sl-ficha">
+                    <span class="ic">🏈</span>
+                    <div><b>El Atleta</b><span>Se mueve rápido entre habitaciones. Su pánico sube a velocidad normal.</span></div>
+                </div>
+                <div class="sl-ficha">
+                    <span class="ic">👓</span>
+                    <div><b>El Cerebrito</b><span>Encuentra objetos rapidísimo, pero se asusta con su propia sombra.</span></div>
+                </div>
+                <div class="sl-ficha">
+                    <span class="ic">🔧</span>
+                    <div><b>El Manitas</b><span>Puede atrancar puertas para frenar al asesino.</span></div>
+                </div>
+                <div class="sl-ficha">
+                    <span class="ic">👧</span>
+                    <div><b>La Última Superviviente</b><span>Si es la última viva, no sufre pánico y puede curarse.</span></div>
+                </div>
+            </article>
+
+            <article class="sl-bando">
+                <h3>El Espectro</h3>
+                <span class="sub">Un ente sádico que se alimenta del terror</span>
+
+                <div class="sl-ficha">
+                    <span class="ic">🔪</span>
+                    <div><b>Ataque</b><span>Sano → Herido → Muerto. No puede tocar a quien esté escondido. En el jardín, el ataque crítico mata al instante, pero cuesta dos acciones y allí golpea a ciegas.</span></div>
+                </div>
+                <div class="sl-ficha">
+                    <span class="ic">😱</span>
+                    <div><b>Terror Psicológico</b><span>+40 de pánico a las presas de su sala y las de al lado. Dos turnos de enfriamiento.</span></div>
+                </div>
+                <div class="sl-ficha">
+                    <span class="ic">🚪</span>
+                    <div><b>Sabotear Puertas</b><span>Atranca su zona: las presas atrapadas no se mueven en su próximo turno. Tres turnos de enfriamiento.</span></div>
+                </div>
+                <div class="sl-ficha">
+                    <span class="ic">👁️</span>
+                    <div><b>Sentidos Agudizados</b><span>Le dice dónde está cada presa. Dos turnos de enfriamiento.</span></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- =========================================================== REGLAS -->
+    <section class="sl-seccion" id="reglas">
+        <h2 class="section-title">Cómo se juega</h2>
+        <p class="sl-intro">Por turnos. Las cuatro presas juegan a la vez con dos acciones cada una;
+            después le toca al asesino, también con dos. Cada fase dura <b>90 segundos</b>: si alguien
+            se va o se duerme, la partida sigue sin él.</p>
+
+        <div class="sl-reglas">
+            <div class="sl-regla">
+                <i class="fas fa-magnifying-glass"></i>
+                <h4>Buscar o revolver</h4>
+                <p>Buscar despacio da un <b>20%</b> de encontrar llave y es silencioso. Revolverlo todo
+                   sube al <b>40%</b>, pero haces mucho ruido y ganas pánico.</p>
+            </div>
+            <div class="sl-regla">
+                <i class="fas fa-wind"></i>
+                <h4>El pánico</h4>
+                <p>Cuanto más alto, más probable es que tropieces al moverte y delates dónde estás.
+                   Al <b>100%</b> ya no puedes buscar. Respirar te devuelve 20 de cordura.</p>
+            </div>
+            <div class="sl-regla">
+                <i class="fas fa-box"></i>
+                <h4>Esconderse</h4>
+                <p>Cinco salas tienen escondite. El asesino no te ve, pero mientras estés dentro no
+                   puedes moverte ni buscar.</p>
+            </div>
+            <div class="sl-regla">
+                <i class="fas fa-volume-high"></i>
+                <h4>El ruido</h4>
+                <p>El asesino no os ve: os deduce. Revolver una sala o tropezar por el pánico deja un
+                   aviso en su radar que dura una ronda.</p>
+            </div>
+            <div class="sl-regla">
+                <i class="fas fa-droplet"></i>
+                <h4>El rastro de sangre</h4>
+                <p>Una presa herida sangra al andar y marca la sala de la que sale, aunque se mueva en
+                   silencio. Dura unas dos rondas y <b>se puede seguir</b>.</p>
+            </div>
+            <div class="sl-regla">
+                <i class="fas fa-key"></i>
+                <h4>La huida</h4>
+                <p>Con las cuatro llaves, en el jardín. Si vas herido, huir tiene precio: dejas un
+                   camino directo hasta ti.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ LA CASA -->
+    <section class="sl-seccion">
+        <h2 class="section-title">La casa</h2>
+        <p class="sl-intro">Ocho salas conectadas. Cinco esconden un sitio donde meterse.</p>
+        <div class="sl-salas">
+            <span class="sl-sala"><span class="ic">🚪</span> Recibidor</span>
+            <span class="sl-sala"><span class="ic">🛋️</span> Salón <em>· sofá</em></span>
+            <span class="sl-sala"><span class="ic">🔪</span> Cocina <em>· despensa</em></span>
+            <span class="sl-sala"><span class="ic">🕯️</span> Pasillo</span>
+            <span class="sl-sala"><span class="ic">🛁</span> Baño <em>· cortina</em></span>
+            <span class="sl-sala"><span class="ic">🛏️</span> Dormitorio <em>· bajo la cama</em></span>
+            <span class="sl-sala"><span class="ic">📦</span> Sótano <em>· cajas</em></span>
+            <span class="sl-sala salida"><span class="ic">🚙</span> Jardín <em>· la salida</em></span>
+        </div>
+    </section>
+
+    <!-- ============================================================ JUGAR -->
+    <section class="sl-seccion" style="text-align:center; padding-bottom:3rem;">
+        <h2 class="section-title">Abre la puerta</h2>
+        <p class="sl-intro" style="margin-bottom:2.5rem;">Crea una sala, comparte el código de cinco
+            letras y que entren cuatro más. Se juega en el navegador, en el móvil o en el PC, y se
+            puede instalar como aplicación.</p>
+        <div class="sl-botonera">
+            <a href="https://shlasher.vercel.app" target="_blank" rel="noopener" class="sl-btn sl-btn--jugar">
+                <i class="fas fa-play"></i> Jugar ahora
+            </a>
+            <a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener" class="sl-btn sl-btn--fantasma">
+                <i class="fab fa-discord"></i> Buscar partida en Discord
+            </a>
+        </div>
+    </section>
+
+    <section class="sl-seccion" style="padding-top:0;">
+        <div class="sl-aviso">
+            <i class="fas fa-ghost"></i>
+            <p style="margin:0;"><b>Hace falta gente.</b> Shlasher es multijugador: una partida son
+                cinco personas, cuatro presas y un asesino. Monta la sala con amigos o búscalos en
+                nuestro Discord.</p>
+        </div>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Sobre el Estudio</h3>
+                <p>Imperio de los Sueños es un estudio de desarrollo de videojuegos independiente, apasionado y dedicado a crear experiencias con atmósferas envolventes y sistemas de juego profundos.</p>
+            </div>
+            <div class="socials">
+                <a href="https://x.com/Oscar31741727" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/WygZEc54A8" aria-label="Discord" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../menu.js"></script>
+    <link rel="stylesheet" href="../halloween.css?v=1">
+    <script src="../halloween.js" defer></script>
+</body>
+</html>
