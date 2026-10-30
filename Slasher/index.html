@@ -194,7 +194,12 @@
         .sl-ficha span { color: #a99e9e; font-size: 0.87rem; line-height: 1.6; }
 
         /* Capturas */
-        .sl-galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.3rem; margin-top: 3rem; }
+        /* Cuatro capturas en 2x2: se ven grandes y la rejilla no deja huecos */
+        .sl-galeria { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.3rem; margin-top: 3rem; }
+
+        @media (max-width: 700px) {
+            .sl-galeria { grid-template-columns: 1fr; }
+        }
 
         .sl-galeria figure {
             margin: 0;
@@ -204,17 +209,8 @@
             border: 1px solid rgba(224, 31, 40, 0.22);
         }
 
-        /* Las capturas vienen con proporciones distintas: una caja comun las iguala */
-        .sl-galeria img {
-            width: 100%;
-            aspect-ratio: 16 / 10;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-
-        /* La pantalla de reglas es texto: cabe entera, con banda negra a los lados */
-        .sl-galeria img.entera { object-fit: contain; }
+        /* Capturas del juego a 800x500: entran enteras, sin recortar nada */
+        .sl-galeria img { width: 100%; height: auto; display: block; transition: transform 0.5s ease; }
         .sl-galeria figure:hover img { transform: scale(1.04); }
 
         .sl-galeria figcaption {
@@ -312,7 +308,7 @@
         <h1 class="sl-titulo">SLASHER</h1>
         <p class="sl-lema">4 presas. 1 asesino. Una casa de la que no se sale.</p>
         <div class="sl-botonera">
-            <a href="https://shlasher.vercel.app" target="_blank" rel="noopener" class="sl-btn sl-btn--jugar">
+            <a href="https://slasher-juego.vercel.app" target="_blank" rel="noopener" class="sl-btn sl-btn--jugar">
                 <i class="fas fa-play"></i> Jugar ahora
             </a>
             <a href="#reglas" class="sl-btn sl-btn--fantasma">
@@ -341,7 +337,7 @@
 
         <div class="sl-galeria">
             <figure>
-                <img src="../img/slasher/casa.jpg" alt="La casa de Slasher bajo una luna llena naranja, con el árbol seco del jardín." loading="lazy">
+                <img src="../img/slasher/titulo.jpg" alt="Pantalla de título de Slasher: el logo en rojo sobre la casa, la luna llena y el cementerio." loading="lazy">
                 <figcaption>La noche en que empieza todo</figcaption>
             </figure>
             <figure>
@@ -349,7 +345,11 @@
                 <figcaption>Menú principal</figcaption>
             </figure>
             <figure>
-                <img class="entera" src="../img/slasher/como-jugar.jpg" alt="Pantalla de instrucciones de Slasher explicando el objetivo, los turnos y las acciones." loading="lazy">
+                <img src="../img/slasher/sala.jpg" alt="Pantalla online de Slasher: campo para el nombre, botón de crear sala nueva y campo de código para unirse." loading="lazy">
+                <figcaption>Sala privada con código</figcaption>
+            </figure>
+            <figure>
+                <img src="../img/slasher/como-jugar.jpg" alt="Pantalla de reglas de Slasher con las cinco acciones de las presas: buscar, revolver, respirar, esconderse y escapar." loading="lazy">
                 <figcaption>Las reglas, dentro del juego</figcaption>
             </figure>
         </div>
@@ -477,7 +477,7 @@
             letras y que entren cuatro más. Se juega en el navegador, en el móvil o en el PC, y se
             puede instalar como aplicación.</p>
         <div class="sl-botonera">
-            <a href="https://shlasher.vercel.app" target="_blank" rel="noopener" class="sl-btn sl-btn--jugar">
+            <a href="https://slasher-juego.vercel.app" target="_blank" rel="noopener" class="sl-btn sl-btn--jugar">
                 <i class="fas fa-play"></i> Jugar ahora
             </a>
             <a href="https://discord.gg/WygZEc54A8" target="_blank" rel="noopener" class="sl-btn sl-btn--fantasma">
