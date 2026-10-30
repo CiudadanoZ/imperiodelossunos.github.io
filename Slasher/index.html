@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Shlasher — Juego de terror multijugador por turnos de Imperio de los Sueños. Cuatro presas buscan las llaves para escapar de la casa mientras un asesino las caza. Gratis en el navegador.">
-    <title>Shlasher | Imperio de los Sueños</title>
+    <meta name="description" content="Slasher — Juego de terror multijugador por turnos de Imperio de los Sueños. Cuatro presas buscan las llaves para escapar de la casa mientras un asesino las caza. Gratis en el navegador.">
+    <title>Slasher | Imperio de los Sueños</title>
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Shlasher | Imperio de los Sueños">
+    <meta property="og:title" content="Slasher | Imperio de los Sueños">
     <meta property="og:description" content="4 presas. 1 asesino. Una casa de la que no se sale. Terror multijugador por turnos, gratis en el navegador.">
-    <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/shlasher/portada.jpg">
-    <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/Shlasher/index.html">
+    <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/slasher/portada.jpg">
+    <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/Slasher/index.html">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Shlasher">
+    <meta name="twitter:title" content="Slasher">
     <meta name="twitter:description" content="4 presas. 1 asesino. Una casa de la que no se sale.">
-    <meta name="twitter:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/shlasher/portada.jpg">
+    <meta name="twitter:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/slasher/portada.jpg">
 
     <link rel="stylesheet" href="../style.css?v=7">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@
             position: absolute;
             inset: 0;
             z-index: -2;
-            background: url('../img/shlasher/portada.jpg') center / cover no-repeat;
+            background: url('../img/slasher/escena.jpg') center / cover no-repeat;
             opacity: 0.42;
         }
 
@@ -204,7 +204,17 @@
             border: 1px solid rgba(224, 31, 40, 0.22);
         }
 
-        .sl-galeria img { width: 100%; height: auto; display: block; transition: transform 0.5s ease; }
+        /* Las capturas vienen con proporciones distintas: una caja comun las iguala */
+        .sl-galeria img {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        /* La pantalla de reglas es texto: cabe entera, con banda negra a los lados */
+        .sl-galeria img.entera { object-fit: contain; }
         .sl-galeria figure:hover img { transform: scale(1.04); }
 
         .sl-galeria figcaption {
@@ -299,7 +309,7 @@
     <!-- =========================================================== PORTADA -->
     <section class="sl-hero">
         <span class="sl-edicion"><i class="fas fa-ghost"></i> Edición Halloween 2026</span>
-        <h1 class="sl-titulo">SHLASHER</h1>
+        <h1 class="sl-titulo">SLASHER</h1>
         <p class="sl-lema">4 presas. 1 asesino. Una casa de la que no se sale.</p>
         <div class="sl-botonera">
             <a href="https://shlasher.vercel.app" target="_blank" rel="noopener" class="sl-btn sl-btn--jugar">
@@ -331,15 +341,15 @@
 
         <div class="sl-galeria">
             <figure>
-                <img src="../img/shlasher/titulo.jpg" alt="Pantalla de título de Shlasher: la casa bajo una luna llena naranja." loading="lazy">
+                <img src="../img/slasher/casa.jpg" alt="La casa de Slasher bajo una luna llena naranja, con el árbol seco del jardín." loading="lazy">
                 <figcaption>La noche en que empieza todo</figcaption>
             </figure>
             <figure>
-                <img src="../img/shlasher/menu.jpg" alt="Menú principal de Shlasher con las opciones Jugar, Cómo jugar y Créditos." loading="lazy">
+                <img src="../img/slasher/menu.jpg" alt="Menú principal de Slasher con las opciones Jugar, Cómo jugar y Créditos." loading="lazy">
                 <figcaption>Menú principal</figcaption>
             </figure>
             <figure>
-                <img src="../img/shlasher/como-jugar.jpg" alt="Pantalla de instrucciones de Shlasher explicando el objetivo, los turnos y las acciones." loading="lazy">
+                <img class="entera" src="../img/slasher/como-jugar.jpg" alt="Pantalla de instrucciones de Slasher explicando el objetivo, los turnos y las acciones." loading="lazy">
                 <figcaption>Las reglas, dentro del juego</figcaption>
             </figure>
         </div>
@@ -479,7 +489,7 @@
     <section class="sl-seccion" style="padding-top:0;">
         <div class="sl-aviso">
             <i class="fas fa-ghost"></i>
-            <p style="margin:0;"><b>Hace falta gente.</b> Shlasher es multijugador: una partida son
+            <p style="margin:0;"><b>Hace falta gente.</b> Slasher es multijugador: una partida son
                 cinco personas, cuatro presas y un asesino. Monta la sala con amigos o búscalos en
                 nuestro Discord.</p>
         </div>
