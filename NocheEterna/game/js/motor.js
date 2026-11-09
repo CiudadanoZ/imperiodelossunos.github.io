@@ -7,8 +7,10 @@ const Estado = {
     Object.assign(this, {
       dia: 1, hora: 8, fase: 'dia',
       sospecha: 0, creditos: 0, intel: 0, suministros: 1, red: 3,
-      vinculo_mara: 0, vinculo_tomas: 0, vinculo_ruth: 0,
+      vinculo_mara: 0, vinculo_tomas: 0, vinculo_ruth: 0, vinculo_julia: 0,
       logros: 0,
+      // Acto 2: el Comité mide la Ira de la ciudad y tus Principios en vez de la sospecha
+      capitulo: 1, medidor: 'sospecha', ira: 30, principios: 70, etiquetaNoche: null,
       banderas: {}, ojo: 'desviado',
       operativos: OPERATIVOS_INICIALES.map(o => ({ ...o, habilidades: { ...o.habilidades } }))
     });
@@ -35,15 +37,23 @@ function aplicar(ef) {
     else if (typeof Estado[k] === 'number') Estado[k] = Math.max(0, Estado[k] + v);
   }
   Estado.sospecha = Math.min(100, Estado.sospecha);
+  Estado.ira = Math.min(100, Estado.ira || 0);
+  Estado.principios = Math.min(100, Estado.principios || 0);
   HUD.actualizar();
 }
 
-const NOMBRES_RECURSO = { suministros: 'suministros', intel: 'información', creditos: 'cr', red: 'red', sospecha: 'sospecha' };
+// Medidores del Acto 2 que usan Estado.ira con otro nombre (el de la sospecha es el de siempre)
+const MEDIDORES_IRA = {
+  comite: { corto: 'IRA', largo: 'Ira de la ciudad', efecto: 'ira' },
+  refugio: { corto: 'TENSIÓN', largo: 'Tensión del refugio', efecto: 'tensión' },
+  archivo: { corto: 'ALARMA', largo: 'Alarma del archivo', efecto: 'alarma' }
+};
+const NOMBRES_RECURSO = { suministros: 'suministros', intel: 'información', creditos: 'cr', red: 'red', sospecha: 'sospecha', ira: 'ira', principios: 'principios' };
 function describirEfecto(ef, signo = '+') {
   if (!ef) return '';
   return Object.entries(ef)
     .filter(([k]) => k !== 'bandera')
-    .map(([k, v]) => `${v < 0 ? '−' + -v : signo + v} ${NOMBRES_RECURSO[k] || k}`)
+    .map(([k, v]) => `${v < 0 ? '−' + -v : signo + v} ${k === 'ira' && MEDIDORES_IRA[Estado.medidor] ? MEDIDORES_IRA[Estado.medidor].efecto : NOMBRES_RECURSO[k] || k}`)
     .join(' · ');
 }
 
@@ -102,7 +112,7 @@ const HUD = {
     const hh = String(Math.floor(Estado.hora)).padStart(2, '0');
     const mm = String(Math.floor((Estado.hora % 1) * 60)).padStart(2, '0');
     const ojo = Estado.fase === 'noche'
-      ? '<span class="luna">☾ TOQUE DE QUEDA</span>'
+      ? `<span class="luna">☾ ${Estado.etiquetaNoche || 'TOQUE DE QUEDA'}</span>`
       : Estado.brandtDetras
         ? `<span class="ojo ojo-mirando">● ${(PERSONAJES[Estado.vigilante] || PERSONAJES.brandt).nombre.toUpperCase()} DETRÁS DE TI</span>`
       : Ojo.t
@@ -110,10 +120,16 @@ const HUD = {
         : '<span></span>';
     const s = Estado.sospecha;
     const nivel = s >= 70 ? 'alta' : s >= 40 ? 'media' : 'baja';
+    const barra = (v, cls) => `<span class="barra"><span class="relleno ${cls}" style="width:${v}%"></span></span>`;
+    const mi = MEDIDORES_IRA[Estado.medidor], comite = !!mi;
+    const medidores = comite
+      ? `<span class="h-sos">${mi.corto} ${barra(Estado.ira, Estado.ira >= 70 ? 'alta' : Estado.ira >= 40 ? 'media' : 'baja')} ${Estado.ira}%</span>
+         <span class="h-sos">PRINCIPIOS ${barra(Estado.principios, Estado.principios < 30 ? 'alta' : Estado.principios < 60 ? 'media' : 'principios')} ${Estado.principios}%</span>`
+      : `<span class="h-sos">SOSPECHA ${barra(s, nivel)} ${s}%</span>`;
     this.el.innerHTML = `
       <span class="h-dia">${Estado.fase === 'dia' ? 'DÍA' : 'NOCHE'} ${Estado.dia} · ${hh}:${mm}</span>
-      ${ojo}
-      <span class="h-sos">SOSPECHA <span class="barra"><span class="relleno ${nivel}" style="width:${s}%"></span></span> ${s}%</span>
+      ${comite ? '' : ojo}
+      ${medidores}
       <span class="h-rec">cr ${Estado.creditos} · INFO ${Estado.intel} · SUMIN ${Estado.suministros} · RED ${Estado.red}</span>`;
   }
 };
@@ -261,9 +277,10 @@ const Motor = {
     p.innerHTML = `<h2>${titulo}</h2><p class="sub">${subtitulo}</p>`;
     const ul = UI.crear('ul', 'resumen', null, p);
     lineas.forEach(l => UI.crear('li', null, l, ul));
-    UI.crear('p', 'stats',
-      `Sospecha ${Estado.sospecha}% · cr ${Estado.creditos} · Información ${Estado.intel} · Suministros ${Estado.suministros} · Red ${Estado.red}`, p);
+    UI.crear('p', 'stats', (MEDIDORES_IRA[Estado.medidor] ? `${MEDIDORES_IRA[Estado.medidor].largo.split(' ')[0]} ${Estado.ira}% · Principios ${Estado.principios}%` : `Sospecha ${Estado.sospecha}%`) +
+      ` · cr ${Estado.creditos} · Información ${Estado.intel} · Suministros ${Estado.suministros} · Red ${Estado.red}`, p);
     UI.boton('Volver al título', 'rojo', () => Juego.titulo(), p);
+    return p;
   },
 
   finPrototipo() {

@@ -227,7 +227,7 @@ window.NOCHE2 = {
 
       // --- Ruth ---
       x1: { texto: 'Ruth imprime en silencio. Cada vez que baja la palanca, la máquina suena como un corazón.', siguiente: 'x2' },
-      x2: { quien: 'ruth', texto: 'Tú no recuerdas Madrid, ¿verdad? Eras un crío.', siguiente: 'x3' },
+      x2: { quien: 'ruth', texto: 'Tú no recuerdas Madrid, ¿verdad? No el de verdad. Te pasaste la vida entre las paredes de un orfanato y las de un archivo.', siguiente: 'x3' },
       x3: { quien: 'ruth', texto: 'Había una plaza con un oso y un árbol. Y en Nochevieja la gente se comía doce uvas con las doce campanadas. Todo el país a la vez, atragantándose y riéndose.', siguiente: 'x4' },
       x4: {
         quien: 'elias', texto: '...',

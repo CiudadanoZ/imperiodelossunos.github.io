@@ -86,7 +86,7 @@ window.DIA2 = {
       indice: 3, sello: '31.12.2040', intel: 2,
       motivo: 'TRASLADO del Centro de Reeducación 3 a La Aguja, nivel -4. Orden directa de la Cancillería.',
       nota: 'Observaciones: el detenido se presentó voluntariamente en la Dirección de Seguridad el 20.10.2040.',
-      comentario: 'El Relojero. Me mira desde la foto como si supiera que iba a ser yo quien sellara esto.',
+      comentario: 'El Relojero. Me mira desde la foto como si supiera que iba a ser yo quien sellara esto. Hay algo en esa cara que no consigo colocar.',
       retratoDe: 'relojero',
       alAprobar: { bandera: 'relojeroTrasladado' },
       alRechazar: { bandera: 'relojeroEnCentro3' }

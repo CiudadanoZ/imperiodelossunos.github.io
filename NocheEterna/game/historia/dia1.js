@@ -27,7 +27,7 @@ window.DIA1 = {
       a2: { texto: 'Hace nueve años que el sol no sale en esta ciudad. No de verdad. La Orden apagó el alumbrado civil en 2031 y lo llamó «ahorro». Desde entonces, la luz es un privilegio y el toque de queda no termina nunca.', siguiente: 'a3' },
       a3: { texto: 'La gente lo llama la Noche Eterna. En voz baja.', siguiente: 'a4' },
       a4: { quien: 'pantalla', texto: 'Buenos días, ciudadano 44-190-V. Elías Vogt. Índice de Pureza: 81. Productividad: satisfactoria. La Orden te observa porque la Orden te cuida.', siguiente: 'a5' },
-      a5: { texto: 'Elías tiene 34 años. No recuerda a sus padres. Creció en un Hogar de Formación del Estado, donde aprendió dos cosas: a no llorar y a no preguntar.', siguiente: 'a6' },
+      a5: { texto: 'Elías tiene 34 años. No recuerda a sus padres. Creció en un orfanato que hoy la Orden llama Hogar de Formación. Allí aprendió dos cosas: a no llorar y a no preguntar.', siguiente: 'a6' },
       a6: { texto: 'Nunca ha tenido un amigo. En Nueva Berlín, un amigo es alguien que un día firmará tu denuncia.', siguiente: 'a7' },
       a7: { quien: 'elias', pensamiento: true, texto: 'Café sintético. Abrigo gris. Cuarenta minutos de tranvía. Otro día.', siguiente: 'b1' },
 

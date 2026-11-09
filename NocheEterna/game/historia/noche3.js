@@ -279,8 +279,8 @@ window.NOCHE3 = {
       x1: { texto: 'Ruth limpia sus tipos de imprenta uno a uno, como si fueran dientes de leche.', siguiente: 'x2' },
       x1b: { texto: 'Ruth le da vueltas a un solo tipo de imprenta: la letra M. Es lo único que salvó de su máquina.', siguiente: 'x2' },
       x2: { rama: [{ si: 'pistaHogar', ir: 'x3' }], siguiente: 'y1' },
-      x3: { quien: 'ruth', texto: 'Te dije que Tobías trabajó en un Hogar de Formación. Fue en el Hogar número 4. Antes de la Orden se llamaba Colegio de San Ildefonso. Los niños de ese colegio cantaban la lotería de Navidad, ¿sabes? Los números, con voces de pájaro.', siguiente: 'x4' },
-      x4: { quien: 'elias', texto: 'Yo crecí en el Hogar número 4.', siguiente: 'x5' },
+      x3: { quien: 'ruth', texto: 'Te dije que Tobías trabajó en un Hogar de Formación. Fue en el número 4. El antiguo Colegio de San Ildefonso, el de los niños que cantaban la lotería de Navidad. Los números, con voces de pájaro.', siguiente: 'x4' },
+      x4: { quien: 'elias', texto: 'Yo crecí en San Ildefonso. Yo cantaba esos números. Tobías... ¿el conserje? Yo era un crío. No me acuerdo de su cara.', siguiente: 'x5' },
       x5: { quien: 'ruth', texto: '...Ya lo sé, niño. Tobías me lo contó hace años. Me hizo jurar que no te lo diría hasta que tú preguntaras.', efecto: { vinculo_ruth: 2, bandera: 'ruthSabe' }, siguiente: 'x6' },
       x6: {
         quien: 'elias', texto: '...',

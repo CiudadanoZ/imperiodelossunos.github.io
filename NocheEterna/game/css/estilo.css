@@ -428,3 +428,63 @@ canvas.foto-doc { width: calc(var(--u) * 34); height: calc(var(--u) * 34); filte
 
 .aviso.grande { font-size: calc(var(--u) * 7); padding: calc(var(--u) * 3); background: rgba(40,0,6,.95); }
 .t-pie { flex-wrap: wrap; gap: calc(var(--u) * 2); }
+
+/* ---------- secuencias (cinemáticas con texto) ---------- */
+.secuencia { position: absolute; z-index: 30; cursor: pointer; animation: entrar .6s ease both; }
+.secuencia.fuera { animation: salir .5s ease both; }
+.sc-banda { position: absolute; left: 0; right: 0; height: calc(var(--u) * 18); background: #000; }
+.sc-banda.arriba { top: 0; }
+.sc-banda.abajo { bottom: 0; }
+.sc-titulo {
+  position: absolute; left: 0; right: 0; top: calc(var(--u) * 4);
+  text-align: center; font-family: 'Pixelify Sans', monospace; font-weight: 700;
+  font-size: calc(var(--u) * 9); letter-spacing: calc(var(--u) * 1.2);
+  color: #e8c170; text-shadow: calc(var(--u) * 0.6) calc(var(--u) * 0.6) 0 #3a0a12;
+  opacity: 0; transition: opacity .8s ease;
+}
+.sc-titulo.visible { opacity: 1; }
+.sc-texto {
+  position: absolute; left: calc(var(--u) * 20); right: calc(var(--u) * 20); bottom: calc(var(--u) * 2);
+  min-height: calc(var(--u) * 14);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font-size: calc(var(--u) * 7); line-height: 1.2; color: #e8e2d0;
+  text-shadow: calc(var(--u) * 0.5) calc(var(--u) * 0.5) 0 #000;
+}
+.sc-velo { position: absolute; inset: 0; background: #000; opacity: 0; transition: opacity .45s ease; pointer-events: none; }
+.sc-velo.activo { opacity: 1; }
+.btn.sc-saltar {
+  position: absolute; right: calc(var(--u) * 12); top: calc(var(--u) * 2); z-index: 2;
+  font-size: calc(var(--u) * 5); padding: calc(var(--u) * 0.6) calc(var(--u) * 3);
+  background: rgba(10,10,14,.7); border-color: #3a3a42; color: #9d978a;
+}
+
+/* ---------- el Comité (Acto 2) ---------- */
+.papel.comite { font-size: calc(var(--u) * 5.2); line-height: 1.12; }
+.papel.comite canvas.foto-doc { width: calc(var(--u) * 24); height: calc(var(--u) * 24); }
+.papel.comite .p-tipo { margin: calc(var(--u) * 1) 0; font-size: calc(var(--u) * 5.6); }
+.p-tipo.colaborador { color: #5a3a10; }
+.papel.comite .p-motivo { margin-top: calc(var(--u) * 1.5); padding-top: calc(var(--u) * 1); }
+.papel.comite .p-nota { margin-top: calc(var(--u) * 0.8); }
+.p-defensa { margin-top: calc(var(--u) * 1); color: #3a3428; font-style: italic; }
+.p-clamor { margin-top: calc(var(--u) * 1); color: #7a0b1a; }
+.p-julia { margin-top: calc(var(--u) * 1); background: #3a0a12; color: #f0d8c0; padding: calc(var(--u) * 0.8) calc(var(--u) * 1.5); }
+.p-odin:empty { display: none; }
+.p-odin { margin-top: calc(var(--u) * 1); background: #1a0508; color: #ff5a6a; padding: calc(var(--u) * 0.8) calc(var(--u) * 1.5); font-family: 'VT323', monospace; }
+.papel.comite .p-pensar { margin-top: calc(var(--u) * 1); padding: calc(var(--u) * 1) calc(var(--u) * 2); }
+.papel.comite .p-botones { gap: calc(var(--u) * 1.2); }
+.papel.comite .p-botones .btn { font-size: calc(var(--u) * 5); }
+.sello.perdonar { color: #2e6b35; }
+.sello.juzgar { color: #a3101f; }
+.sello.usar { color: #6b5a20; }
+.relleno.principios { background: #6aa0c8; }
+
+/* ---------- archivo personal (Acto 2) ---------- */
+.panel.archivo-personal { z-index: 20; }
+.archivo-personal ul { margin: calc(var(--u) * 2) 0; padding-left: calc(var(--u) * 5); max-height: calc(var(--u) * 100); overflow: auto; }
+.archivo-personal li { margin: calc(var(--u) * 1.5) 0; font-size: calc(var(--u) * 5.6); line-height: 1.2; }
+.archivo-personal li b { color: #e8c170; display: block; }
+.sello.acoger { color: #2e6b35; }
+.sello.prueba { color: #6b5a20; }
+.sello.guardar { color: #2e6b35; }
+.sello.dejar { color: #6b5a20; }
+.sello.quemar { color: #a3101f; }

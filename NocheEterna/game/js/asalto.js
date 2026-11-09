@@ -1,7 +1,8 @@
 // ============================================================
-//  ASALTO — el Día 7. Una secuencia de fases: diálogo y, a veces, una prueba.
+//  ASALTO — el Día 7 del Capítulo 1 y el Día 9 del Capítulo 2. Una secuencia de fases: diálogo y, a veces, una prueba.
 //  En cada prueba el jugador ve qué suma cada cosa que consiguió durante la semana.
 //  Al final se elige uno de los finales (el primero cuya condición se cumpla).
+//  Opcional: datos.escena (escena de la portada), datos.notaFinal y datos.alFinal(final, panel).
 // ============================================================
 
 const Asalto = {
@@ -11,7 +12,7 @@ const Asalto = {
     Estado.fase = 'noche';
     Estado.hora = 6;
     HUD.mostrar(true);
-    Motor.escena = 'titulo';
+    Motor.escena = datos.escena || 'titulo';
     Motor.transicion(datos.titulo, datos.fecha, () => this.fase(0));
   },
 
@@ -83,8 +84,13 @@ const Asalto = {
     Motor.dialogo(fin.guion, () => {
       Juego.borrar();
       const lineas = (this.d.destinos || []).filter(l => cumple(l.si)).map(l => l.texto);
-      Motor.pantallaFinal(fin.titulo, fin.subtitulo, lineas);
-      UI.crear('p', 'nota-proto', 'Fin del Capítulo 1 · Gracias por jugar', UI.capa.querySelector('.final'));
+      const p = Motor.pantallaFinal(fin.titulo, fin.subtitulo, lineas);
+      UI.crear('p', 'nota-proto', this.d.notaFinal || 'Fin del Capítulo 1 · Gracias por jugar', p);
+      if (this.d.alFinal) this.d.alFinal(fin, p);   // Capítulo 2: guarda su propio final
+      else {
+        Juego.finCapitulo1();
+        if (Juego.hayActo2()) UI.boton('Continuar: Capítulo 2 ▸', 'rojo', () => Juego.empezarActo2(), p);
+      }
       this.fin && this.fin();
     });
   }

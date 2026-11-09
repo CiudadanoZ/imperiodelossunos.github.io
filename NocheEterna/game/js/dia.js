@@ -15,11 +15,13 @@ const Dia = {
       errores: 0, correctos: 0, salario: 0,
       ocupado: false, memorizados: new Set()
     });
+    this.exps.forEach(e => { delete e._falsificado; });   // por si se rejuega el día en la misma sesión
     Estado.dia = datos.numero;
     Estado.fase = 'dia';
+    if (datos.medidor) Estado.medidor = datos.medidor;   // Acto 2: volver a la sospecha fuera del Comité
     Estado.hora = datos.horaInicio - 2;
-    this.escena = 'apartamento';
-    Motor.escena = 'apartamento';
+    this.escena = datos.escenaCasa || 'apartamento';
+    Motor.escena = this.escena;
     HUD.mostrar(true);
     Motor.transicion(`DÍA ${datos.numero}`, datos.fecha, () => {
       Motor.dialogo(datos.intro, () => this.mesa());
@@ -28,7 +30,7 @@ const Dia = {
 
   mesa() {
     Estado.hora = this.d.horaInicio;
-    Motor.escena = 'oficina';
+    Motor.escena = this.d.escenaMesa || 'oficina';
     UI.limpiar();
     HUD.actualizar();
 
@@ -64,9 +66,9 @@ const Dia = {
     const pensamiento = ((e.comentarioSi || []).find(c => cumple(c.si)) || {}).texto || e.comentario || '';
     const tipoCls = { 'RACIÓN': 'racion', 'VIAJE': 'viaje', 'REUBICACIÓN': 'reubicacion' }[e.tipo] || '';
     this.papel.innerHTML = `
-      <div class="p-cab">MINISTERIO DE REGISTRO · NUEVA BERLÍN
+      <div class="p-cab">${this.d.cabecera || 'MINISTERIO DE REGISTRO · NUEVA BERLÍN'}
         <span class="p-num">Nº ${e.numero}</span></div>
-      <div class="p-tipo ${tipoCls}">SOLICITUD DE ${e.tipo}</div>
+      <div class="p-tipo ${tipoCls}">${e.etiqueta || `SOLICITUD DE ${e.tipo}`}</div>
       <div class="p-ficha">
         <div class="p-foto"></div>
         <dl>
@@ -112,6 +114,7 @@ const Dia = {
   // Lo que la Orden espera que hagas con este expediente.
   veredicto(e) {
     const dir = this.d.directivas, reg = dir.reglas;
+    if (e._falsificado) return { v: 'aprobar', motivo: 'El papel, tal como ha quedado, cumple las normas.' };   // lo alterado parece en regla
     if (e.tipo === 'REUBICACIÓN' && reg.reubicacionAprobar)
       return { v: 'aprobar', motivo: 'Las reubicaciones se aprueban siempre.' };
     if (dir.listaGris.includes(e.nombre))
@@ -217,6 +220,7 @@ const Dia = {
         UI.aviso('¡HAN VISTO CÓMO ALTERABAS UNA ORDEN! +20% sospecha', 'malo');
       }
       aplicar(e.falsificar.efecto);
+      e._falsificado = true;
       UI.aviso(e.falsificar.aviso || 'Orden alterada.', 'bueno');
       this.ocupado = false;
       if (!Motor.comprobarSospecha()) this.decidir('aprobar');
@@ -228,13 +232,14 @@ const Dia = {
     Motor.tecla = null;
     HUD.actualizar();
     const inf = this.d.informe;
+    const firma = inf.firma || 'brandt';   // quién firma el informe (Acto 2: el comandante, el capataz...)
     const com = inf.comentarios.find(c => this.errores <= c.maxErrores) || inf.comentarios[inf.comentarios.length - 1];
     const extras = inf.extras.filter(x => cumple(x.si)).map(x => `<p>${x.texto}</p>`).join('');
 
     UI.limpiar();
     const p = UI.pos(UI.crear('div', 'panel informe'), 40, 18, 240);
     p.innerHTML = `
-      <h2>INFORME DE JORNADA · SECCIÓN 14</h2>
+      <h2>${inf.titulo || 'INFORME DE JORNADA · SECCIÓN 14'}</h2>
       <table>
         <tr><td>Expedientes procesados</td><td>${this.exps.length}</td></tr>
         <tr><td>Conformes a directiva</td><td>${this.correctos}</td></tr>
@@ -242,9 +247,9 @@ const Dia = {
         <tr><td>Salario</td><td>+${this.salario} cr</td></tr>
         <tr><td>Nivel de sospecha</td><td>${Estado.sospecha}%</td></tr>
       </table>
-      <div class="jefe"><div class="jefe-ret"></div><div><b>Supervisor Brandt:</b><p>${com.texto}</p>${extras}</div></div>`;
-    UI.retrato('brandt', p.querySelector('.jefe-ret'));
-    UI.boton('Salir del Ministerio ▸', 'rojo', () => {
+      <div class="jefe"><div class="jefe-ret"></div><div><b>${PERSONAJES[firma].nombre}:</b><p>${com.texto}</p>${extras}</div></div>`;
+    UI.retrato(firma, p.querySelector('.jefe-ret'));
+    UI.boton(inf.salir || 'Salir del Ministerio ▸', 'rojo', () => {
       UI.limpiar();
       Motor.dialogo(this.d.salida, () => this.fin && this.fin());
     }, p);

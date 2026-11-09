@@ -77,6 +77,64 @@ window.PERSONAJES = {
   guardia: {
     nombre: 'Guardia Negra', color: '#888',
     retrato: { visor: true, ropa: '#0e0e10', fondo: '#1a0a0c' }
+  },
+
+  // ---------- Acto 2 ----------
+  julia: {
+    nombre: 'Julia Aranda', color: '#e8a070',
+    retrato: { piel: '#c49a7c', pelo: '#a8a39a', estilo: 'largo', ropa: '#4a4a52', fondo: '#2a1a14', arrugas: true, cicatriz: true }
+  },
+  anselmo: {
+    nombre: 'Anselmo', color: '#c8b890',
+    retrato: { piel: '#d0a888', pelo: '#e0dcd4', estilo: 'rapado', ropa: '#3a3428', fondo: '#1e1c16', gafas: true, arrugas: true }
+  },
+  kurt: {
+    nombre: 'Kurt', color: '#a0a8b0',
+    retrato: { piel: '#b58866', pelo: '#3a3a3a', estilo: 'rapado', ropa: '#2a3440', fondo: '#161c22', arrugas: true }
+  },
+  olek: {
+    nombre: 'Olek', color: '#9ab89a',
+    retrato: { piel: '#dcb495', pelo: '#8a6a40', estilo: 'despeinado', ropa: '#4a4a52', fondo: '#1a1e1a' }
+  },
+  samira: {
+    nombre: 'Samira', color: '#d8a0b0',
+    retrato: { piel: '#a87858', pelo: '#141414', estilo: 'moño', ropa: '#4a4a52', fondo: '#221a1e' }
+  },
+  rusk: {
+    nombre: 'Capataz Rusk', color: '#b0a090',
+    retrato: { piel: '#e0bfa5', pelo: '#5a4a38', estilo: 'rapado', ropa: '#2a2a22', fondo: '#241a10', uniforme: true, arrugas: true }
+  },
+  ostrowski: {
+    nombre: 'Comandante Ostrowski', color: '#a8b0a0',
+    retrato: { piel: '#dcb495', pelo: '#8a8274', estilo: 'corto', ropa: '#2a3026', fondo: '#1e2018', uniforme: true, gafas: true }
+  },
+  marta: {
+    nombre: 'Marta Hessel', color: '#c8a888',
+    retrato: { piel: '#dcb495', pelo: '#6b4a2f', estilo: 'moño', ropa: '#4b4034', fondo: '#221e18', arrugas: true }
+  },
+  leif: {
+    nombre: 'Leif', color: '#a0a8b8',
+    retrato: { piel: '#e6c4a8', pelo: '#d8b25a', estilo: 'corto', ropa: '#2d3a45', fondo: '#161c22' }
+  },
+  wanda: {
+    nombre: 'Wanda, alcaldesa de Ostra', color: '#c8b8a0',
+    retrato: { piel: '#d4ab8c', pelo: '#8a8274', estilo: 'moño', ropa: '#3a3428', fondo: '#1e1a14', arrugas: true, cicatriz: true }
+  },
+  bogdan: {
+    nombre: 'Bogdan', color: '#b8b0a0',
+    retrato: { piel: '#e0bfa5', pelo: '#e0dcd4', estilo: 'despeinado', ropa: '#46463c', fondo: '#1c1a16', gafas: true, arrugas: true }
+  },
+  ewa: {
+    nombre: 'Ewa Kowalczyk', color: '#b0c0d0',
+    retrato: { piel: '#e6c4a8', pelo: '#c9c4bd', estilo: 'moño', ropa: '#4a4a52', fondo: '#1a1e24', gafas: true, arrugas: true }
+  },
+  dorn: {
+    nombre: 'Ingeniero jefe Dorn', color: '#c0c8d0',
+    retrato: { piel: '#e8cdb8', pelo: '#6a6a6a', estilo: 'corto', ropa: '#3a3e44', fondo: '#1c2026', gafas: true, arrugas: true }
+  },
+  ilyas: {
+    nombre: 'Ilyas, de las calderas', color: '#d8a878',
+    retrato: { piel: '#a87858', pelo: '#2a2420', estilo: 'rapado', ropa: '#3a3e44', fondo: '#1e1a16', cicatriz: true, arrugas: true }
   }
 };
 

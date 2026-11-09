@@ -10,11 +10,17 @@ const PRECIO_COARTADA = 10;
 const Noche = {
   iniciar(datos, alTerminar) {
     Object.assign(this, { d: datos, fin: alTerminar, asig: {}, sel: null, coartadaHecha: false });
+    // operativos que aparecen en esta noche por primera vez (p. ej. los presos de la colonia)
+    for (const o of datos.nuevosOperativos || []) {
+      if (!Estado.operativos.some(x => x.id === o.id)) Estado.operativos.push({ ...o, habilidades: { ...o.habilidades } });
+    }
     Estado.fase = 'noche';
+    if (datos.etiqueta) Estado.etiquetaNoche = datos.etiqueta;   // rótulo del HUD de noche (Acto 2)
+    if (datos.medidor) Estado.medidor = datos.medidor;           // p. ej. volver a la sospecha después del archivo
     Estado.hora = 0;
     HUD.mostrar(true);
-    Motor.escena = 'calle';
-    Motor.transicion(`NOCHE ${datos.numero}`, 'Toque de queda', () => {
+    Motor.escena = datos.escenaLlegada || 'calle';
+    Motor.transicion(`NOCHE ${datos.numero}`, datos.subtitulo || 'Toque de queda', () => {
       Motor.dialogo(datos.llegada, () => this.aspirantes());
     });
   },
@@ -23,10 +29,13 @@ const Noche = {
   deBaja(o) { return !!Estado.banderas[`baja_${o.id}_${this.d.numero}`]; },
 
   misiones() { return this.d.misiones.filter(m => cumple(m.si)); },
+  // datos.operativos: quién puede salir esta noche: ids o { id, si } (si no se da, todos) · datos.sinOperativos: ids excluidos
   operativos() {
-    return Estado.operativos.filter(o => cumple(o.si) && !Estado.banderas['capturado_' + o.id] && !Estado.banderas['fuera_' + o.id]);
+    return Estado.operativos.filter(o => cumple(o.si) && !Estado.banderas['capturado_' + o.id] && !Estado.banderas['fuera_' + o.id]
+      && (!this.d.operativos || this.d.operativos.some(x => typeof x === 'string' ? x === o.id : x.id === o.id && cumple(x.si)))
+      && !(this.d.sinOperativos || []).includes(o.id));
   },
-  refugio() { return Estado.banderas.refugioAnden ? 'anden' : 'sotano'; },
+  refugio() { return this.d.refugio || (Estado.banderas.refugioAnden ? 'anden' : 'sotano'); },
   // Éxito sin operativo: base + bonificaciones por lo conseguido antes ({ si, mas })
   baseDe(m) { return m.base + (m.bonus || []).filter(b => cumple(b.si)).reduce((t, b) => t + b.mas, 0); },
   op(id) { return Estado.operativos.find(o => o.id === id); },
@@ -150,7 +159,7 @@ const Noche = {
     Motor.dialogo(this.d.despedida, () => {
       const antes = Estado.sospecha;
       aplicar({ sospecha: -DESCANSO_NOCTURNO });
-      if (antes > Estado.sospecha) UI.aviso(`La noche enfría las sospechas: −${antes - Estado.sospecha}%`, 'bueno');
+      if (antes > Estado.sospecha && Estado.medidor === 'sospecha') UI.aviso(`La noche enfría las sospechas: −${antes - Estado.sospecha}%`, 'bueno');
       this.fin && this.fin();
     });
   },
@@ -180,8 +189,19 @@ const Noche = {
     this.btnMercado = UI.boton('Mercado negro: 10 cr → 1 suministro', '', () => this.mercado(), pie);
     this.btnCoartada = UI.boton(`Coartada: ${PRECIO_COARTADA} cr → −8% sospecha`, '', () => this.coartada(), pie);
     this.btnCoartada.disabled = this.coartadaHecha;
+    // Acto 2: el archivo personal de Elías (las pistas sobre su origen)
+    const pistas = window.ACTO2 && ACTO2.pistas ? ACTO2.pistas.filter(x => cumple(x.si)) : [];
+    if (pistas.length) UI.boton(`Archivo personal (${pistas.length})`, '', () => this.archivoPersonal(pistas), pie);
     this.btnGo = UI.boton('Ejecutar operaciones ▸', 'rojo', () => this.ejecutar(), pie);
     this.pintar();
+  },
+
+  archivoPersonal(pistas) {
+    const p = UI.pos(UI.crear('div', 'panel archivo-personal'), 30, 18, 260);
+    p.innerHTML = `<h2>ARCHIVO PERSONAL · ELÍAS</h2>
+      <p class="ayuda">Lo que sabes de 2008 y de por qué te dejaron en aquella puerta.</p>
+      <ul>${pistas.map(x => `<li><b>${x.titulo}</b> ${x.texto}</li>`).join('')}</ul>`;
+    UI.boton('Cerrar', 'rojo', () => p.remove(), p);
   },
 
   mercado() {

@@ -62,7 +62,7 @@ window.DIA3 = {
       indice: '—', sello: '31.12.2040', intel: 2,
       motivo: 'Incinerar el registro completo de internos de los Hogares de Formación, 2006–2031. Fecha: 09.11.2040 (Día del Sol).',
       nota: 'Ubicación: Archivo Central, sótano 2, sala 14. Custodia: Dirección de Seguridad.',
-      comentario: 'Hogares de Formación, 2006–2031. Yo entré en uno en 2008. Mi nombre está ahí dentro. El de antes de Vogt.',
+      comentario: 'Hogares de Formación, 2006–2031. La Orden también cuenta los orfanatos de antes. Yo entré en el mío en 2008. Mi nombre está ahí dentro. El de antes de Vogt.',
       retrato: { emblema: true },
       alAprobar: { bandera: 'semillaDestruccion' },
       alRechazar: { bandera: 'semillaRetrasada' }

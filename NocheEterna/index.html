@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="La Noche Eterna — Juego narrativo en pixel art de Imperio de los Sueños. Nueva Berlín, 2040: de día sellas destinos en el Ministerio de Registro, de noche conspiras con la resistencia. Demo jugable gratis en el navegador.">
+    <meta name="description" content="La Noche Eterna — Juego narrativo en pixel art de Imperio de los Sueños. Nueva Berlín, 2040: de día sellas destinos en el Ministerio de Registro, de noche conspiras con la resistencia. Capítulos 1 y 2 jugables gratis en el navegador.">
     <title>La Noche Eterna | Imperio de los Sueños</title>
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="La Noche Eterna | Imperio de los Sueños">
-    <meta property="og:description" content="Nueva Berlín, 2040. De día sellas destinos. De noche, los cambias. Demo jugable gratis en el navegador.">
+    <meta property="og:description" content="Nueva Berlín, 2040. De día sellas destinos. De noche, los cambias. Capítulos 1 y 2 jugables gratis en el navegador.">
     <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/noche-eterna/cabecera.png">
     <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/NocheEterna/index.html">
     <meta name="twitter:card" content="summary_large_image">
@@ -337,6 +337,27 @@
         }
 
         /* Galería de capturas */
+        .ne-banner {
+            display: block;
+            width: 100%;
+            max-width: 760px;
+            margin: 2.2rem auto 0;
+            border-radius: 10px;
+            border: 1px solid rgba(232, 220, 192, 0.14);
+        }
+
+        .ne-cap {
+            display: inline-block;
+            margin-left: 0.5rem;
+            padding: 1px 7px;
+            border-radius: 999px;
+            background: rgba(168, 37, 43, 0.22);
+            border: 1px solid rgba(168, 37, 43, 0.5);
+            font-size: 0.68rem;
+            letter-spacing: 1px;
+            vertical-align: 1px;
+        }
+
         .ne-galeria {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -500,7 +521,7 @@
         <img src="../img/noche-eterna/cabecera.png" alt="La Noche Eterna · Nueva Berlín, 2040. De día sellas destinos. De noche, los cambias." class="ne-cabecera pixel">
         <p class="ne-cita">«Hace nueve años que el sol no sale en esta ciudad. No de verdad.»</p>
         <div class="ne-botonera">
-            <a href="#jugar" class="ne-cta"><i class="fas fa-play"></i> Jugar la demo</a>
+            <a href="#jugar" class="ne-cta"><i class="fas fa-play"></i> Jugar gratis</a>
             <a href="LaNocheEterna-windows.zip" class="ne-cta ne-cta--fantasma" download>
                 <i class="fab fa-windows"></i> Descargar para Windows
             </a>
@@ -517,7 +538,7 @@
             </div>
         </div>
         <div class="ne-marco" id="frameWrap">
-            <iframe id="gameFrame" src="game/index.html" title="La Noche Eterna · Capítulo 1" allow="fullscreen; autoplay"></iframe>
+            <iframe id="gameFrame" src="game/index.html" title="La Noche Eterna · Capítulos 1 y 2" allow="fullscreen; autoplay"></iframe>
         </div>
     </section>
 
@@ -598,13 +619,14 @@
     <!-- ================================================ LO QUE ENCONTRARÁS -->
     <section class="ne-seccion">
         <p class="ne-rotulo">Lo que encontrarás</p>
-        <h2>Siete días hasta el Día del Sol</h2>
+        <h2>De los siete días a la Ciudadela Helios</h2>
         <ul class="ne-lista">
             <li><b>Una historia oscura que decides tú</b>Cada sello, cada palabra y cada silencio cuentan... y alguien los recordará días después.</li>
             <li><b>Dos juegos que se alimentan</b>Lo que memorizas en el Ministerio sirve para desenmascarar traidores en el sótano.</li>
             <li><b>Un asalto final</b>Cuenta todo lo que conseguiste durante la semana.</li>
-            <li><b>Tres finales</b>Y un destino distinto para cada personaje.</li>
+            <li><b>Tres finales en el Capítulo 1</b>Y un comienzo distinto del Capítulo 2 para cada uno.</li>
             <li><b>Nadie está a salvo</b>Capturados, reubicados, traicionados. Tus compañeros pueden caer, y tú también.</li>
+            <li><b>Nuevas mesas en el Capítulo 2</b>El Comité, la Puerta de Ostra y el archivo de Lumen, cada una con sus reglas.</li>
             <li><b>Pixel art y música</b>Hechos con un motor propio.</li>
         </ul>
 
@@ -625,21 +647,53 @@
                 <img src="../img/noche-eterna/08-el-dia-del-sol.jpg" alt="El Día del Sol, el asalto final contra La Aguja.">
                 <figcaption>El Día del Sol</figcaption>
             </figure>
+            <figure>
+                <img src="../img/noche-eterna/09-el-comite.jpg" alt="El Comité, la mesa de decisiones del Capítulo 2." loading="lazy">
+                <figcaption>El Comité <span class="ne-cap">Cap. 2</span></figcaption>
+            </figure>
+            <figure>
+                <img src="../img/noche-eterna/10-la-colonia.jpg" alt="La Colonia Este-1, una de las zonas nuevas del viaje." loading="lazy">
+                <figcaption>La Colonia <span class="ne-cap">Cap. 2</span></figcaption>
+            </figure>
+            <figure>
+                <img src="../img/noche-eterna/11-la-puerta-de-ostra.jpg" alt="La Puerta de Ostra, el paso hacia la tierra de nadie." loading="lazy">
+                <figcaption>La Puerta de Ostra <span class="ne-cap">Cap. 2</span></figcaption>
+            </figure>
+            <figure>
+                <img src="../img/noche-eterna/12-la-oficina-de-turnos.jpg" alt="La oficina de turnos de la Ciudadela Helios." loading="lazy">
+                <figcaption>La oficina de turnos <span class="ne-cap">Cap. 2</span></figcaption>
+            </figure>
+            <figure>
+                <img src="../img/noche-eterna/13-el-archivo-de-lumen.jpg" alt="El archivo de Lumen, donde se investiga el origen de Elías." loading="lazy">
+                <figcaption>El archivo de Lumen <span class="ne-cap">Cap. 2</span></figcaption>
+            </figure>
+            <figure>
+                <img src="../img/noche-eterna/14-la-sala-de-la-llave.jpg" alt="La sala de la llave, en el tramo final del Capítulo 2." loading="lazy">
+                <figcaption>La sala de la llave <span class="ne-cap">Cap. 2</span></figcaption>
+            </figure>
         </div>
     </section>
 
     <!-- ============================================================= DEMO -->
     <section class="ne-seccion ne-seccion--borde">
-        <p class="ne-rotulo">La demo</p>
-        <h2>Capítulo 1 · Siete días, completo y gratis</h2>
-        <p>Seis días en el Ministerio, seis noches con la resistencia y el Día del Sol.
-            Una partida dura entre <b>una y dos horas</b>.</p>
+        <p class="ne-rotulo">Qué puedes jugar</p>
+        <h2>Dos capítulos, completos y gratis</h2>
+        <p><b>Capítulo 1 · Siete días.</b> Seis días en el Ministerio, seis noches con la resistencia
+            y el Día del Sol. Una partida dura entre <b>una y dos horas</b>.</p>
+        <p><b>Capítulo 2 · Quien controla la luz.</b> Nueve días que empiezan de una forma distinta
+            según cómo acabaras el primero, y que te sacan de Nueva Berlín: el tren, la Colonia Este-1,
+            la tierra de nadie y la Ciudadela Helios.</p>
+
+        <img src="../img/noche-eterna/capitulo2.jpg" alt="La Noche Eterna · Capítulo 2: Quien controla la luz · Versión 0.2, ya disponible." class="ne-banner pixel" loading="lazy">
 
         <div class="ne-demo">
             <div class="ne-caja">
                 <h3><i class="fas fa-circle-info"></i> Qué incluye</h3>
                 <ul>
                     <li>El <b>Capítulo 1 completo</b>, con sus tres finales.</li>
+                    <li>El <b>Capítulo 2 completo</b>, con un prólogo distinto por cada final del primero.</li>
+                    <li>Si ya terminaste el Capítulo 1 en este navegador, el 2 <b>sigue desde tu final</b>;
+                        si no, unas preguntas rápidas resumen lo que pasó.</li>
                     <li>Juega <b>aquí mismo en el navegador</b> o descarga la versión de Windows.</li>
                     <li><b>Guardado automático</b> al empezar cada día y cada noche.</li>
                     <li>Idioma: español.</li>
@@ -652,6 +706,7 @@
                     <li><kbd>Clic</kbd> <kbd>Espacio</kbd> <kbd>Enter</kbd> — avanzar el diálogo.</li>
                     <li><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>… — elegir una opción.</li>
                     <li><kbd>A</kbd> <kbd>R</kbd> <kbd>M</kbd> <kbd>F</kbd> — aprobar, rechazar, memorizar o falsificar un expediente.</li>
+                    <li>En el Capítulo 2 cada mesa tiene las suyas, y las enseña abajo a la izquierda.</li>
                 </ul>
             </div>
 
@@ -659,11 +714,12 @@
                 <h3><i class="fab fa-windows"></i> Versión para Windows</h3>
                 <ul>
                     <li>Descomprime el zip y abre <b>LaNocheEterna.exe</b>.</li>
-                    <li>No hace falta instalar nada: es un solo archivo.</li>
+                    <li>No hace falta instalar nada ni tener internet: es un solo archivo.</li>
+                    <li>Trae los <b>dos capítulos</b>. <kbd>F11</kbd> para pantalla completa.</li>
                     <li>La partida se guarda aparte del navegador.</li>
                 </ul>
                 <a href="LaNocheEterna-windows.zip" class="ne-btn" style="margin-top:1rem;" download>
-                    <i class="fas fa-download"></i> Descargar (166 KB)
+                    <i class="fas fa-download"></i> Descargar versión 0.2 (278 KB)
                 </a>
             </div>
         </div>
@@ -687,8 +743,9 @@
     <!-- =========================================================== CIERRE -->
     <section class="ne-cierre">
         <p>Un juego de <b style="color:var(--ne-crema);">Imperio de los Sueños</b>.</p>
-        <p>El <b style="color:var(--ne-crema);">Capítulo 2</b> ya está en desarrollo: nuevas zonas más allá de
-            Nueva Berlín y respuestas sobre el pasado de Elías. Todo lo que decidas en esta demo contará.</p>
+        <p>El <b style="color:var(--ne-crema);">Capítulo 2 · Quien controla la luz</b> ya está disponible:
+            nuevas zonas más allá de Nueva Berlín y respuestas sobre el pasado de Elías.
+            Todo lo que decidiste en el primero cuenta.</p>
         <p class="firma">Recuerdo el sol.</p>
     </section>
 
