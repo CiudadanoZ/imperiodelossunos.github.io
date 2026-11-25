@@ -530,8 +530,79 @@
             max-width: none;
         }
 
+        /* --------------------------------------------------- Música */
+        .lg-musica {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 60;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.15rem;
+            border-radius: 999px;
+            background: rgba(14, 10, 22, 0.92);
+            border: 1px solid rgba(197, 140, 245, 0.42);
+            color: var(--tsw-hueso);
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+            transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+        }
+
+        .lg-musica:hover,
+        .lg-musica:focus-visible {
+            border-color: rgba(197, 140, 245, 0.85);
+            background: rgba(26, 16, 42, 0.96);
+            transform: translateY(-2px);
+        }
+
+        .lg-musica i { font-size: 0.95rem; color: var(--tsw-morado-claro); }
+
+        /* Las ondas solo se mueven cuando de verdad está sonando */
+        .lg-onda {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 13px;
+        }
+
+        .lg-onda span {
+            width: 3px;
+            height: 4px;
+            border-radius: 1px;
+            background: var(--tsw-morado-claro);
+        }
+
+        .lg-musica[data-estado="sonando"] .lg-onda span {
+            animation: lg-onda 0.9s ease-in-out infinite;
+        }
+
+        .lg-musica[data-estado="sonando"] .lg-onda span:nth-child(2) { animation-delay: 0.15s; }
+        .lg-musica[data-estado="sonando"] .lg-onda span:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes lg-onda {
+            0%, 100% { height: 4px; }
+            50%      { height: 13px; }
+        }
+
+        /* Sin javascript no hay forma de pararla: mejor no enseñar el botón */
+        .lg-musica[hidden] { display: none; }
+
+        @media (max-width: 600px) {
+            .lg-musica { right: 12px; bottom: 12px; padding: 0.65rem 0.8rem; }
+            .lg-musica .lg-musica-texto { display: none; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .lg-andar { animation: none; }
+            .lg-musica { transition: none; }
+            .lg-musica:hover, .lg-musica:focus-visible { transform: none; }
+            .lg-musica[data-estado="sonando"] .lg-onda span { animation: none; height: 8px; }
             .lg-ficha, .lg-galeria img, .lg-btn { transition: none; }
             .lg-ficha:hover, .lg-btn:hover { transform: none; }
             .lg-galeria figure:hover img { transform: none; }
@@ -766,6 +837,10 @@
             </a>
         </div>
 
+        <p style="font-size:0.84rem; color:#8d85a0; margin-top:2.2rem;">
+            Suena <i>Gothic Ribs and Violet Veins</i>, tema de <b style="color:var(--tsw-hueso);">The Shadow World Legends</b>.
+            Puedes silenciarlo con el botón de abajo a la derecha.</p>
+
         <p class="lg-firma">Narak´Zul recuerda.</p>
     </section>
 
@@ -786,6 +861,88 @@
         </div>
     </footer>
 
+    <!-- =============================================================== MÚSICA
+         El tema del juego. Los navegadores no dejan que suene sola al cargar,
+         así que se intenta y, si la bloquean, arranca al primer gesto del
+         visitante. Si alguien la apaga, se queda apagada también al volver. -->
+    <audio id="bgm" loop preload="none">
+        <source src="../audio/tsw2027/gothic-ribs-and-violet-veins.ogg" type="audio/ogg">
+        <source src="../audio/tsw2027/gothic-ribs-and-violet-veins.m4a" type="audio/mp4">
+    </audio>
+
+    <button class="lg-musica" id="btnMusica" type="button" data-estado="parada" hidden
+            aria-pressed="false" title="Gothic Ribs and Violet Veins · tema de The Shadow World Legends">
+        <span class="lg-onda" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="lg-musica-texto" id="textoMusica">Música</span>
+    </button>
+
     <script src="../menu.js"></script>
+    <script>
+    (function () {
+        var audio = document.getElementById('bgm');
+        var boton = document.getElementById('btnMusica');
+        var texto = document.getElementById('textoMusica');
+        if (!audio || !boton) return;
+
+        var LLAVE = 'tsw2027_musica';     // "no" si el visitante la apagó
+        var VOLUMEN = 0.42;               // de fondo, que no tape nada
+        var apagadaAposta = false;
+        try { apagadaAposta = localStorage.getItem(LLAVE) === 'no'; } catch (e) {}
+
+        // Solo tiene sentido enseñar el botón si hay javascript
+        boton.hidden = false;
+
+        function pinta(sonando) {
+            boton.dataset.estado = sonando ? 'sonando' : 'parada';
+            boton.setAttribute('aria-pressed', sonando ? 'true' : 'false');
+            boton.setAttribute('aria-label', sonando ? 'Silenciar la música' : 'Poner la música');
+            texto.textContent = sonando ? 'Música' : 'Sin música';
+        }
+
+        // Entra poco a poco en vez de de golpe
+        function sube() {
+            var paso = VOLUMEN / 30;
+            audio.volume = 0;
+            var t = setInterval(function () {
+                audio.volume = Math.min(VOLUMEN, audio.volume + paso);
+                if (audio.volume >= VOLUMEN) clearInterval(t);
+            }, 50);
+        }
+
+        function arranca() {
+            var p = audio.play();
+            return p && p.then ? p : Promise.resolve();
+        }
+
+        audio.addEventListener('play', function () { pinta(true); });
+        audio.addEventListener('pause', function () { pinta(false); });
+        pinta(false);
+
+        boton.addEventListener('click', function () {
+            if (audio.paused) {
+                try { localStorage.setItem(LLAVE, 'si'); } catch (e) {}
+                arranca().then(sube).catch(function () {});
+            } else {
+                audio.pause();
+                try { localStorage.setItem(LLAVE, 'no'); } catch (e) {}
+            }
+        });
+
+        if (apagadaAposta) return;   // la apagó la última vez: se respeta
+
+        // Casi siempre fallará: los navegadores piden un gesto antes de
+        // dejar sonar nada. Si falla, esperamos al primero que haga.
+        arranca().then(sube).catch(function () {
+            var gestos = ['pointerdown', 'keydown', 'touchstart'];
+            function alPrimerGesto() {
+                gestos.forEach(function (g) { document.removeEventListener(g, alPrimerGesto); });
+                arranca().then(sube).catch(function () {});
+            }
+            gestos.forEach(function (g) {
+                document.addEventListener(g, alPrimerGesto, { once: true, passive: true });
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
