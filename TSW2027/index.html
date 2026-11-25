@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Shadow World Legends — La precuela de The Shadow World Origin, 500 años antes. Acompaña a La Fundadora y El Censor por el Narak´Zul de la catedral oscura. Finales de 2027 / principios de 2028.">
+    <title>TSW 2027 · The Shadow World Legends | Imperio de los Sueños</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Shadow World Legends | Imperio de los Sueños">
+    <meta property="og:description" content="500 años antes de Origin. La diosa que no quería serlo y el hombre que eligió olvidar. Finales de 2027 / principios de 2028.">
+    <meta property="og:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/tsw2027/og.jpg">
+    <meta property="og:url" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/TSW2027/index.html">
+    <meta property="og:site_name" content="Imperio de los Sueños">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Shadow World Legends">
+    <meta name="twitter:description" content="500 años antes de Origin. La diosa que no quería serlo y el hombre que eligió olvidar.">
+    <meta name="twitter:image" content="https://ciudadanoz.github.io/imperiodelossunos.github.io/img/tsw2027/og.jpg">
+
+    <link rel="stylesheet" href="../style.css?v=8">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --tsw-morado: #8b4bc8;
+            --tsw-morado-claro: #c58cf5;
+            --tsw-violeta: #2a1240;
+            --tsw-oro: #d9a441;
+            --tsw-hueso: #e6ddf2;
+        }
+
+        /* ----------------------------------------------------- Portada */
+        .lg-hero {
+            position: relative;
+            min-height: 78vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 9rem 5% 4.5rem;
+            overflow: hidden;
+        }
+
+        .lg-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background: url('../img/tsw2027/hero.jpg') center top / cover no-repeat;
+            opacity: 0.55;
+        }
+
+        .lg-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(ellipse at 50% 45%, rgba(42, 18, 64, 0.25) 0%, rgba(7, 7, 11, 0.88) 72%),
+                        linear-gradient(to bottom, rgba(7, 7, 11, 0.9), rgba(7, 7, 11, 0.35) 40%, #07070b 100%);
+        }
+
+        .lg-sello {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.45rem 1.3rem;
+            border-radius: 999px;
+            background: rgba(139, 75, 200, 0.16);
+            border: 1px solid rgba(197, 140, 245, 0.45);
+            color: var(--tsw-morado-claro);
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .lg-titulo { margin: 1.6rem 0 0; line-height: 0; }
+
+        .lg-logo {
+            width: min(640px, 86vw);
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 6px 30px rgba(0, 0, 0, 0.9));
+        }
+
+        .lg-lema {
+            max-width: 760px;
+            margin: 1.8rem auto 0;
+            color: var(--tsw-hueso);
+            font-size: clamp(0.98rem, 2.1vw, 1.2rem);
+            line-height: 1.85;
+        }
+
+        .lg-fecha {
+            margin-top: 2.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.85rem 1.8rem;
+            border-radius: 12px;
+            background: rgba(15, 15, 20, 0.72);
+            border: 1px solid rgba(197, 140, 245, 0.3);
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .lg-fecha i { color: var(--tsw-morado-claro); }
+
+        /* ------------------------------------------------- Secciones */
+        .lg-seccion { padding: 5rem 5%; max-width: 1180px; margin: 0 auto; }
+
+        .lg-seccion--borde { border-top: 1px solid rgba(197, 140, 245, 0.14); }
+
+        .lg-rotulo {
+            color: var(--tsw-morado-claro);
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 0 0 0.8rem;
+        }
+
+        .lg-seccion h2 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.7rem, 4.5vw, 2.7rem);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            overflow-wrap: break-word;
+        }
+
+        .lg-texto {
+            max-width: 820px;
+            margin: 2.2rem auto 0;
+            color: #b9b2c6;
+            font-size: 1.02rem;
+            line-height: 1.95;
+        }
+
+        .lg-texto p { margin: 0 0 1.4rem; }
+        .lg-texto p:last-child { margin-bottom: 0; }
+        .lg-texto b { color: var(--tsw-hueso); font-weight: 600; }
+
+        /* ------------------------------------------------ El lienzo */
+        .lg-origen {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+            gap: 2.6rem;
+            align-items: center;
+            margin-top: 2.8rem;
+        }
+
+        .lg-origen img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 14px;
+            border: 1px solid rgba(197, 140, 245, 0.2);
+        }
+
+        .lg-origen .lg-texto { margin-top: 0; max-width: none; }
+
+        @media (max-width: 860px) {
+            .lg-origen { grid-template-columns: 1fr; gap: 1.8rem; }
+        }
+
+        /* --------------------------------------------- Protagonistas */
+        .lg-duo {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .lg-ficha {
+            background: rgba(15, 15, 20, 0.7);
+            border: 1px solid rgba(197, 140, 245, 0.18);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.35s ease, border-color 0.35s ease;
+        }
+
+        .lg-ficha:hover {
+            transform: translateY(-6px);
+            border-color: rgba(197, 140, 245, 0.5);
+        }
+
+        .lg-ficha > img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            display: block;
+        }
+
+        .lg-ficha-cuerpo { padding: 1.8rem 1.7rem 2rem; }
+
+        .lg-ficha h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.45rem;
+            color: #fff;
+            margin: 0 0 0.3rem;
+        }
+
+        .lg-ficha .lg-papel {
+            display: block;
+            color: var(--tsw-morado-claro);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 1.1rem;
+        }
+
+        .lg-ficha p {
+            color: #b9b2c6;
+            font-size: 0.95rem;
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        @media (max-width: 800px) {
+            .lg-duo { grid-template-columns: 1fr; }
+        }
+
+        /* --------------------------------- Diseños a cuerpo entero */
+        .lg-disenos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.6rem;
+            max-width: 760px;
+            margin: 3rem auto 0;
+        }
+
+        .lg-disenos figure {
+            margin: 0;
+            background: #0b0b10;
+            border: 1px solid rgba(197, 140, 245, 0.16);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .lg-disenos img { width: 100%; height: auto; display: block; }
+
+        .lg-disenos figcaption {
+            padding: 0.8rem 1rem;
+            text-align: center;
+            color: #8d85a0;
+            font-size: 0.76rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ------------------------------------------------ Enemigos */
+        .lg-amenazas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 1.6rem;
+            margin-top: 3rem;
+        }
+
+        .lg-amenaza {
+            padding: 1.9rem 1.7rem;
+            border-radius: 14px;
+            background: rgba(15, 15, 20, 0.66);
+            border: 1px solid rgba(197, 140, 245, 0.16);
+        }
+
+        .lg-amenaza i {
+            font-size: 1.5rem;
+            color: var(--tsw-morado-claro);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .lg-amenaza h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            color: #fff;
+            margin: 0 0 0.6rem;
+        }
+
+        .lg-amenaza p {
+            color: #b9b2c6;
+            font-size: 0.93rem;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        /* ------------------------------------------------ Galería */
+        .lg-galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.4rem;
+            margin-top: 3rem;
+        }
+
+        .lg-galeria figure {
+            margin: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid rgba(197, 140, 245, 0.16);
+        }
+
+        .lg-galeria img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .lg-galeria figure:hover img { transform: scale(1.05); }
+
+        .lg-galeria figcaption {
+            padding: 0.8rem 1.1rem;
+            background: rgba(0, 0, 0, 0.6);
+            color: #8d85a0;
+            font-size: 0.76rem;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+        }
+
+        /* ------------------------------------- Lugar en la saga */
+        .lg-linea {
+            max-width: 820px;
+            margin: 3rem auto 0;
+            padding-left: 1.6rem;
+            border-left: 2px solid rgba(197, 140, 245, 0.3);
+            list-style: none;
+        }
+
+        .lg-linea li {
+            position: relative;
+            padding: 0 0 2rem 0.6rem;
+            color: #b9b2c6;
+            font-size: 0.97rem;
+            line-height: 1.85;
+        }
+
+        .lg-linea li:last-child { padding-bottom: 0; }
+
+        .lg-linea li::before {
+            content: '';
+            position: absolute;
+            left: -2.25rem;
+            top: 0.55rem;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #07070b;
+            border: 2px solid rgba(197, 140, 245, 0.55);
+        }
+
+        .lg-linea li.ahora::before {
+            background: var(--tsw-morado);
+            border-color: var(--tsw-morado-claro);
+            box-shadow: 0 0 14px rgba(197, 140, 245, 0.8);
+        }
+
+        .lg-linea b {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .lg-linea .lg-cuando {
+            display: inline-block;
+            margin-bottom: 0.45rem;
+            color: var(--tsw-oro);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --------------------------------------------------- Cierre */
+        .lg-cierre {
+            text-align: center;
+            padding: 5rem 5% 6rem;
+            border-top: 1px solid rgba(197, 140, 245, 0.14);
+        }
+
+        .lg-cierre p {
+            max-width: 680px;
+            margin: 0 auto 1.3rem;
+            color: #b9b2c6;
+            line-height: 1.9;
+        }
+
+        .lg-cierre .lg-firma {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            color: var(--tsw-morado-claro);
+            letter-spacing: 3px;
+            margin-top: 2.2rem;
+        }
+
+        .lg-enlaces {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2.4rem;
+        }
+
+        .lg-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.9rem 1.9rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+        }
+
+        .lg-btn--principal {
+            background: linear-gradient(45deg, #5b2a8c, #8b4bc8);
+            color: #fff;
+            border: 1px solid rgba(197, 140, 245, 0.5);
+        }
+
+        .lg-btn--fantasma {
+            background: rgba(15, 15, 20, 0.7);
+            color: var(--tsw-hueso);
+            border: 1px solid rgba(197, 140, 245, 0.28);
+        }
+
+        .lg-btn:hover { transform: translateY(-3px); }
+        .lg-btn--principal:hover { background: linear-gradient(45deg, #6d34a6, #a05ce0); }
+        .lg-btn--fantasma:hover { border-color: rgba(197, 140, 245, 0.6); }
+
+        .lg-aviso {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            max-width: 760px;
+            margin: 3rem auto 0;
+            padding: 1.3rem 1.5rem;
+            border-radius: 12px;
+            background: rgba(139, 75, 200, 0.08);
+            border: 1px solid rgba(197, 140, 245, 0.2);
+            text-align: left;
+        }
+
+        .lg-aviso i { color: var(--tsw-morado-claro); margin-top: 0.25rem; }
+
+        .lg-aviso p {
+            margin: 0;
+            color: #9c94ab;
+            font-size: 0.89rem;
+            line-height: 1.75;
+            max-width: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .lg-ficha, .lg-galeria img, .lg-btn { transition: none; }
+            .lg-ficha:hover, .lg-btn:hover { transform: none; }
+            .lg-galeria figure:hover img { transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="../index.html" class="logo-text" style="text-decoration:none;">Imperio de los Sueños</a>
+        <nav id="mainNav">
+            <a href="../index.html#home">Inicio</a>
+            <a href="../index.html#games">Juegos</a>
+            <a href="index.html" class="nav-cta nav-tsw">TSW 2027</a>
+            <a href="../launcher/index.html">Launcher</a>
+            <a href="../Biblioteca/index.html">Libros</a>
+            <a href="../UNIVERSO/index.html">Universo</a>
+            <a href="../index.html#about">Nosotros</a>
+        </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- ============================================================ PORTADA -->
+    <section class="lg-hero">
+        <p class="lg-sello"><i class="fas fa-hourglass-half"></i> TSW 2027 · En desarrollo</p>
+        <h1 class="lg-titulo">
+            <img src="../img/tsw2027/logo.png" alt="The Shadow World Legends" class="lg-logo">
+        </h1>
+        <p class="lg-lema">Quinientos años antes del libro mágico y de la caída de Santuario.
+            Mucho antes de que existiera Ciudad Esperanza. Bajo los restos de la catedral donde
+            un día veneraron a <b>La Fundadora</b>.</p>
+        <p class="lg-fecha"><i class="fas fa-calendar-days"></i> Finales de 2027 · principios de 2028</p>
+    </section>
+
+    <!-- ============================================================= EL ORIGEN -->
+    <section class="lg-seccion">
+        <p class="lg-rotulo">El origen</p>
+        <h2>Pintó un mundo para olvidar la guerra</h2>
+
+        <div class="lg-origen">
+            <img src="../img/tsw2027/el-lienzo.jpg" alt="Una anciana pinta un lienzo luminoso de una catedral mientras, al otro lado de la ventana, la guerra avanza." loading="lazy">
+            <div class="lg-texto">
+                <p>Una anciana que había vivido el terror de la guerra y de la violencia innecesaria
+                    dedicó su vida a crear un lienzo: un mundo de historias con el que <b>disuadir a
+                    los suyos de aquella guerra</b>.</p>
+                <p>Cuando llegó su fin, despertó dentro de él.</p>
+                <p>Pero nada era tan hermoso como lo había imaginado mientras lo pintaba. Despertó
+                    <b>junto a su propia tumba</b>, en una catedral donde toda la gente de ese mundo la
+                    venera como diosa y creadora de <b>Narak´Zul</b>.</p>
+            </div>
+        </div>
+
+        <div class="lg-texto">
+            <p>El mundo que debía ser de luz y de paz estaba sumido en el fanatismo y lleno de
+                criaturas y aberraciones monstruosas. Todas creadas por <b>el miedo que ella guardaba
+                escondido</b>, el de la violencia y la guerra que había vivido, y que de alguna manera
+                se había colado en el lienzo.</p>
+        </div>
+    </section>
+
+    <!-- ======================================================= PROTAGONISTAS -->
+    <section class="lg-seccion lg-seccion--borde">
+        <p class="lg-rotulo">Los protagonistas</p>
+        <h2>La diosa que no quería serlo y el hombre que eligió olvidar</h2>
+
+        <div class="lg-duo">
+            <article class="lg-ficha">
+                <img src="../img/tsw2027/fundadora.jpg" alt="La Fundadora, de pelo verde claro y capa azulada, ante la catedral oscura." loading="lazy">
+                <div class="lg-ficha-cuerpo">
+                    <h3>La Fundadora</h3>
+                    <span class="lg-papel">Creadora de Narak´Zul</span>
+                    <p>La anciana del lienzo, devuelta a la juventud en el mundo que imaginó. Todos la
+                        adoran como a una diosa; ella sabe que las aberraciones que lo infestan salieron
+                        de su propio miedo. Camina por su creación buscando la forma de arreglarla.</p>
+                </div>
+            </article>
+
+            <article class="lg-ficha">
+                <img src="../img/tsw2027/censor.jpg" alt="El Censor, de pelo blanco y parche en el ojo, con capa negra ante la catedral oscura." loading="lazy">
+                <div class="lg-ficha-cuerpo">
+                    <h3>El Censor</h3>
+                    <span class="lg-papel">El que sabe la verdad</span>
+                    <p>Un hombre siniestro que conoce la verdad sobre ella y sobre Narak´Zul. Decidió
+                        usar la magia para el olvido: en un mundo así, sostiene, <b>olvidar —censurar—
+                        es lo mejor que te puede pasar</b> después de ver lo que ocurre bajo su magia oscura.</p>
+                </div>
+            </article>
+        </div>
+
+        <div class="lg-disenos">
+            <figure>
+                <img src="../img/tsw2027/fundadora-diseno.jpg" alt="Diseño de personaje de La Fundadora a cuerpo entero." loading="lazy">
+                <figcaption>La Fundadora · diseño</figcaption>
+            </figure>
+            <figure>
+                <img src="../img/tsw2027/censor-diseno.jpg" alt="Diseño de personaje de El Censor a cuerpo entero." loading="lazy">
+                <figcaption>El Censor · diseño</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- =========================================================== AMENAZAS -->
+    <section class="lg-seccion lg-seccion--borde">
+        <p class="lg-rotulo">A lo que te enfrentas</p>
+        <h2>Lo que quiere cubrir de negro un mundo de luz</h2>
+
+        <div class="lg-amenazas">
+            <div class="lg-amenaza">
+                <i class="fas fa-moon"></i>
+                <h3>El clan de la media luna</h3>
+                <p>Humanos que han aprendido a usar el poder de la magia <b>por egoísmo</b> y para
+                    controlar a las masas.</p>
+            </div>
+            <div class="lg-amenaza">
+                <i class="fas fa-skull"></i>
+                <h3>Las aberraciones</h3>
+                <p>Nacidas del terror de la guerra y de la violencia que La Fundadora transmitió sin
+                    querer a sus lienzos. Ahora quieren cubrir de negro un mundo que debería ser de
+                    paz y de luz.</p>
+            </div>
+            <div class="lg-amenaza">
+                <i class="fas fa-place-of-worship"></i>
+                <h3>El fanatismo</h3>
+                <p>Un mundo entero que venera a una diosa que nunca quiso serlo, y que no está
+                    preparado para oír lo que ella sabe.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================== GALERÍA -->
+    <section class="lg-seccion lg-seccion--borde">
+        <p class="lg-rotulo">Narak´Zul</p>
+        <h2>Primeras imágenes</h2>
+
+        <div class="lg-galeria">
+            <figure>
+                <img src="../img/tsw2027/catedral.jpg" alt="La Fundadora y El Censor, de espaldas, ante la catedral maldita." loading="lazy">
+                <figcaption>Ante la catedral</figcaption>
+            </figure>
+            <figure>
+                <img src="../img/tsw2027/esqueletos.jpg" alt="La Fundadora abre un libro mágico frente a esqueletos bajo la luna llena." loading="lazy">
+                <figcaption>Los esqueletos lunares</figcaption>
+            </figure>
+            <figure>
+                <img src="../img/tsw2027/censor-combate.jpg" alt="El Censor desenvaina entre raíces y criaturas en un bosque embrujado." loading="lazy">
+                <figcaption>El bosque embrujado</figcaption>
+            </figure>
+        </div>
+
+        <div class="lg-aviso">
+            <i class="fas fa-palette"></i>
+            <p>Todo lo que ves en esta página es <b>arte de preproducción</b>: diseños de personaje e
+                ilustraciones de ambiente. No representa el aspecto final del juego.</p>
+        </div>
+    </section>
+
+    <!-- ===================================================== LUGAR EN LA SAGA -->
+    <section class="lg-seccion lg-seccion--borde">
+        <p class="lg-rotulo">Dónde encaja</p>
+        <h2>Quinientos años antes de todo</h2>
+
+        <ul class="lg-linea">
+            <li class="ahora">
+                <span class="lg-cuando">Año 0 · Legends</span>
+                <b>The Shadow World Legends</b>
+                La Fundadora despierta junto a su tumba. Narak´Zul es un mundo de fanatismo y
+                aberraciones. Aquí, más adelante, se construirá Ciudad Esperanza.
+            </li>
+            <li>
+                <span class="lg-cuando">+500 años · Origin</span>
+                <b>The Shadow World Origin</b>
+                El libro mágico y la caída de Santuario. En Ciudad Esperanza conviven en paz las
+                distintas razas y especies de Narak´Zul… hasta que el poder del libro despierta.
+            </li>
+            <li>
+                <span class="lg-cuando">Después · Revival</span>
+                <b>The Shadow World Revival</b>
+                El segundo capítulo de la saga.
+            </li>
+            <li>
+                <span class="lg-cuando">Después · The Darkness Behind Humanity</span>
+                <b>The Darkness Behind Humanity</b>
+                El tercer capítulo, todavía por llegar.
+            </li>
+        </ul>
+    </section>
+
+    <!-- ============================================================= CIERRE -->
+    <section class="lg-cierre">
+        <p>Un juego de <b style="color:var(--tsw-hueso);">Imperio de los Sueños</b>, nuevo título de
+            la saga <b style="color:var(--tsw-hueso);">The Shadow World</b>.</p>
+        <p>Para los fans: aquí es donde más adelante se construirá <b style="color:var(--tsw-hueso);">Ciudad
+            Esperanza</b> y convivirán en paz las diferentes razas y especies de Narak´Zul, hasta que el
+            poder de un libro mágico despierte… Pero esa es otra historia.</p>
+
+        <div class="lg-enlaces">
+            <a href="https://discord.gg/WygZEc54A8" class="lg-btn lg-btn--principal" target="_blank" rel="noopener">
+                <i class="fab fa-discord"></i> Sigue el desarrollo en Discord
+            </a>
+            <a href="../TSW_web/index.html" class="lg-btn lg-btn--fantasma">
+                <i class="fas fa-book-open"></i> Conoce The Shadow World
+            </a>
+        </div>
+
+        <p class="lg-firma">Narak´Zul recuerda.</p>
+    </section>
+
+    <footer id="about">
+        <div class="footer-content">
+            <div class="about-us">
+                <h3>Sobre el Estudio</h3>
+                <p>Imperio de los Sueños es un estudio de desarrollo de videojuegos independiente, apasionado y dedicado a crear experiencias con atmósferas envolventes y sistemas de juego profundos.</p>
+            </div>
+            <div class="socials">
+                <a href="https://x.com/Oscar31741727" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/WygZEc54A8" aria-label="Discord" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Imperio_De_Los_Suenos" aria-label="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Imperio de los Sueños. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../menu.js"></script>
+</body>
+</html>

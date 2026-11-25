@@ -995,42 +995,23 @@ footer {
 }
 /* ============== FIN LANZAMIENTO · The Shadow World: Origin ============== */
 
-/* El boton del directo late en rojo para que se note que hay algo en marcha.
-   Para quitarlo cuando pase el evento: borra este bloque y el enlace
-   .nav-evento de la barra de cada pagina. */
-.nav-evento {
-    position: relative;
-    background: linear-gradient(45deg, #c02838, #e03a4a) !important;
-    border-color: #ff6b76 !important;
+/* El enlace de TSW 2027 va destacado en morado, el color del arte de
+   «The Shadow World Legends». Para quitarlo: borra este bloque y el
+   enlace .nav-tsw de la barra de cada pagina. */
+.nav-tsw {
+    background: linear-gradient(45deg, #5b2a8c, #8b4bc8) !important;
+    border-color: #b07be0 !important;
     color: #fff !important;
 }
 
-.nav-evento::after {
-    content: "";
-    position: absolute;
-    top: -3px;
-    right: -3px;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #ff5566;
-    border: 2px solid #07070b;
-    animation: nav-latir 1.8s ease-in-out infinite;
-}
-
-@keyframes nav-latir {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 85, 102, 0.7); }
-    60%      { box-shadow: 0 0 0 7px rgba(255, 85, 102, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .nav-evento::after { animation: none; }
+.nav-tsw:hover {
+    background: linear-gradient(45deg, #6d34a6, #a05ce0) !important;
 }
 
 /* =====================================================================
    BARRA PRINCIPAL · que no se parta
 
-   Con el boton del Directo la barra pasó a siete enlaces y se quedó sin
+   Con el septimo enlace (antes «Directo», ahora «TSW 2027») la barra se quedó sin
    sitio: el nombre del estudio partia en dos lineas y los enlaces caian
    en tres filas, dejando una barra de 121 px en vez de 80. Esto le da
    aire sin cambiar su aspecto en pantallas anchas.
