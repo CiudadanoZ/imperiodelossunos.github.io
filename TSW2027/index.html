@@ -256,6 +256,73 @@
             text-transform: uppercase;
         }
 
+        /* ------------------------------------------------- In-game */
+        .lg-ingame {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .lg-sprite {
+            padding: 2.2rem 1.6rem 1.8rem;
+            border-radius: 16px;
+            background: radial-gradient(ellipse at 50% 35%, rgba(139, 75, 200, 0.14), rgba(15, 15, 20, 0.75) 70%);
+            border: 1px solid rgba(197, 140, 245, 0.18);
+            text-align: center;
+        }
+
+        /* Los sprites son pixel art: se amplian a bloques, nunca suavizados */
+        .lg-pix {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* Cada tira son 4 cuadros de 192 px puestos en fila (768 px).
+           steps(4) salta de cuadro en cuadro, sin interpolar. */
+        .lg-andar {
+            width: 192px;
+            height: 192px;
+            margin: 0 auto;
+            background-image: var(--tira);
+            background-repeat: no-repeat;
+            background-size: 768px 192px;
+            animation: lg-andar 0.72s steps(4) infinite;
+        }
+
+        @keyframes lg-andar {
+            from { background-position: 0 0; }
+            to   { background-position: -768px 0; }
+        }
+
+        .lg-vueltas {
+            width: 100%;
+            max-width: 384px;
+            height: auto;
+            margin: 1.4rem auto 0;
+            display: block;
+            opacity: 0.85;
+        }
+
+        .lg-sprite h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: #fff;
+            margin: 1.4rem 0 0.3rem;
+        }
+
+        .lg-sprite span {
+            display: block;
+            color: #8d85a0;
+            font-size: 0.74rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 700px) {
+            .lg-ingame { grid-template-columns: 1fr; }
+        }
+
         /* ------------------------------------------------ Enemigos */
         .lg-amenazas {
             display: grid;
@@ -464,6 +531,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+            .lg-andar { animation: none; }
             .lg-ficha, .lg-galeria img, .lg-btn { transition: none; }
             .lg-ficha:hover, .lg-btn:hover { transform: none; }
             .lg-galeria figure:hover img { transform: none; }
@@ -564,6 +632,34 @@
                 <img src="../img/tsw2027/censor-diseno.jpg" alt="Diseño de personaje de El Censor a cuerpo entero." loading="lazy">
                 <figcaption>El Censor · diseño</figcaption>
             </figure>
+        </div>
+    </section>
+
+    <!-- ============================================================= IN-GAME -->
+    <section class="lg-seccion lg-seccion--borde">
+        <p class="lg-rotulo">Material in-game</p>
+        <h2>Así se ven dentro del juego</h2>
+
+        <div class="lg-texto">
+            <p>Los primeros sprites jugables, tal cual se mueven por Narak´Zul.</p>
+        </div>
+
+        <div class="lg-ingame">
+            <div class="lg-sprite">
+                <div class="lg-andar lg-pix" style="--tira: url('../img/tsw2027/fundadora-andar.png');"
+                     role="img" aria-label="Sprite de La Fundadora caminando de frente."></div>
+                <img src="../img/tsw2027/fundadora-vueltas.png" alt="La Fundadora vista de frente, de perfil a ambos lados y de espaldas." class="lg-vueltas lg-pix" loading="lazy">
+                <h3>La Fundadora</h3>
+                <span>Sprite jugable</span>
+            </div>
+
+            <div class="lg-sprite">
+                <div class="lg-andar lg-pix" style="--tira: url('../img/tsw2027/censor-andar.png');"
+                     role="img" aria-label="Sprite de El Censor caminando de frente."></div>
+                <img src="../img/tsw2027/censor-vueltas.png" alt="El Censor visto de frente, de perfil a ambos lados y de espaldas." class="lg-vueltas lg-pix" loading="lazy">
+                <h3>El Censor</h3>
+                <span>Sprite jugable</span>
+            </div>
         </div>
     </section>
 
